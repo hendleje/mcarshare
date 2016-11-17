@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="/stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/stylesheet/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="#" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<a href="signin.hjs">Login/New User</a>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="12u">
+
+									<!-- Main Content -->
+											<header>
+												<h2><font color="white">Welcome to M-CarShare!</font></h2>
+											</header>
+											<p>
+												<font color="white">The M-CarShare system enables you to rent cars from our designated locations. </font>
+											<p>
+												<font color="white">
+												It tracks the cars
+												at all times so that you can get the best experience and a fair price whilst driving. </font>
+											<p>
+												<font color="white">
+												You can 
+												have your own car preferences to choose the one that suits best your needs!</font>
+											</p>
+											
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

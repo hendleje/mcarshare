@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="#" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<h2><font color="white">Welcome Username!</font></h2>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="12u">
+
+									<!-- Main Content -->
+										<section>
+											<header>
+												<h2><font color="white">Find a car</font></h2>
+												<h3>The cars</h3>
+											</header>
+											<style>
+											table#cars {
+											    width:100%;
+											    background-color: white;
+											    text-align: right;
+											}
+											table#cars tr:nth-child(even) {
+											    background-color: #f9f9f9;
+											}
+											
+											table#cars th {
+											    background-color: black;
+											    color: white;
+											}
+											</style>
+											<table id="cars">											
+												  <tr>
+												    <th style ="text-align:"left">Picture</th>
+												    <th>Class</th>
+												    <th>Car Model</th> 
+												    <th>Distance</th>
+												    <th>Price</th>
+												    <th>Rent</th>
+												  </tr>
+												  <tr>
+												    <td><img src="images/matrix.jpg" align="left"></td>
+												    <td>Small</td> 
+												    <td>Matrix 2016</td> 
+												    <td><font size="5" color="green">350m</font></td>
+												    <td><font size="10" color="Black">3 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												  <tr>
+												    <td><img src="images/jetta.png" align="left"></td>
+												    <td>Intermediate</td> 
+												    <td>Jetta 2016</td> 
+												    <td><font size="5" color="green">350m</font></td>
+												    <td><font size="10" color="Black">5 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												   <tr>
+												    <td><img src="images/200.jpg" align="left"></td>
+												    <td>Full-size</td> 
+												    <td>Chrysler 200</td> 
+												    <td><font size="5" color="green">350m</font></td>
+												    <td><font size="10" color="Black">7 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												   <tr>
+												    <td><img src="images/passat.jpg" align="left"></td>
+												    <td>Full-size</td> 
+												    <td>Passat 2016</td> 
+												    <td><font size="5" color="green">350m</font></td>
+												    <td><font size="10" color="Black">11 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												   <tr>
+												    <td><img src="images/santa_fe.jpg" align="left"></td>
+												    <td>SUV</td> 
+												    <td>Hyundai Santa Fe 2016</td> 
+												    <td><font size="5" color="Red">1.5Km</font></td>
+												    <td><font size="10" color="Black">15 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												   <tr>
+												    <td><img src="images/grand_cherokee.jpg" align="left"></td>
+												    <td>SUV</td> 
+												    <td>Grand Cherokee Laredo 2016</td> 
+												    <td><font size="5" color="yellow">800m</font></td>
+												    <td><font size="10" color="Black">18 CAD</font> / 10Km</td>
+												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
+												  </tr>
+												</table>
+										</section>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

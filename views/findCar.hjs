@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="stylesheets/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="#" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<h2><font color="white">Welcome Username!</font></h2>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="3u 12u(mobile)">
+
+									<!-- Left Sidebar -->
+										<section>
+										</section>
+								</div>
+								<div class="6u 12u(mobile) important(mobile)">
+
+									<!-- Main Content -->
+										<section>
+											<header>
+												<h2><font color="white">Find a car</font></h2>
+											</header>
+											<fieldset>
+											<label for="brand"><font color="white">Car Brand:</font></label> 
+										<select name="carBrand"></br>
+										<option value="audi">All</option>
+											<option value="audi">Audi</option>
+											<option value="bmw">BMW</option>
+											<option value="chrysler">Chrysler</option>
+											<option value="dodge">Dodge</option>
+											<option value="fiat">Fiat</option>
+											<option value="hyndai">Hyndai</option>
+											<option value="infinity">Infinity</option>
+											<option value="jeep">Jeep</option>
+											<option value="saab">Saab</option>
+											<option value="toyota">Toyota</option>
+											<option value="volkswagen">Volkswagen</option>
+											<option value="volvo">Volvo</option></select>
+											<br/>
+											
+											<label for="brand"><font color="white">Car Year:</font></label>
+										<select name="carYear">
+											<option value="2016">2016</option>
+											<option value="2015">2015</option>
+											<option value="2014">2014</option>
+											<option value="2013">2013</option>
+											<option value="2012">2012</option>
+											<option value="2011">2011</option>											
+										</select> <br />
+										<label><font color="white">Distance:   </font></label>
+										<font color="white">0Km<input type="range" name="points" min="0" max="10">10Km</font><br/> <a href="searchResults.hjs"><img src="images/search.jpg">
+											</fieldset>	
+										</section>
+
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

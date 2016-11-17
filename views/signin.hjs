@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="index.hjs\" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<a href="signin.hjs">Login/New User</a>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="3u 12u(mobile)">
+
+									<!-- Left Sidebar -->
+										<section>
+										</section>
+								</div>
+								<div class="6u 12u(mobile) important(mobile)">
+
+									<!-- Main Content -->
+										<section>
+											<header>
+												<h2><font color="white">Sign in</font></h2>
+												<h3><font color="white">Use your M-CarShare account</font></h3>
+											</header>
+											<form action="signIn" method = "post">
+ 												<fieldset>
+												 	<input type="text"	id="username" name="username" placeholder="Enter the email:" /><br />
+													<input type="password"	id="password" name="password" placeholder="Enter the password:" /><br />
+													<input type="submit" value="submit"/>
+<!-- 												<a href="findCar.hjs"><img src="images/signIn.jpg"></a> -->
+												</fieldset>
+											</form>
+											<br />
+												<h3><font color="white">No Account?<a href="registerNewUser.hjs">Create One!</a></font></h3>
+										</section>
+
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

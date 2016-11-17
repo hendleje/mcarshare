@@ -1,0 +1,91 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="#" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<a href="signin.hjs">Login/New User</a>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="3u 12u(mobile)">
+
+									<!-- Left Sidebar -->
+										<section>
+										</section>
+								</div>
+								<div class="6u 12u(mobile) important(mobile)">
+
+									<!-- Main Content -->
+										<section>
+											<header>
+												<h2><font color="white">Create an account</font></h2>
+											</header>
+											<form action='\registerNewUser' method = 'post'>
+											<fieldset>
+												 <input type="text"	id="firstName" name="firstName" placeholder="First Name:" /><br />
+												 <input type="text"	id="lastName" name="lastName" placeholder="Last Name:" /><br />
+												 <input type="text"	id="email" name="email" placeholder="Email:" /><br />
+												 <input type="text"	id="street" name="street" placeholder="Street:" /><br />
+												 <input type="text"	id="city" name="city" placeholder="City:" /><br />
+												 <input type="text"	id="postalCode" name="postalCode" placeholder="Postal Code:" /><br />
+												 <input type="text"	id="province" name="province" placeholder="Province:" /><br />
+												 <input type="text" id="password" name="password" placeholder="Password:" /><br />
+												 <input type="submit" value="submit" />
+<!-- 												 <a href="emailSent.hjs"><img src="images/submit.jpg"> -->
+											</fieldset>
+											</form>
+										</section>
+
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+			<script src="../routes/customer.js"></script>
+
+	</body>
+</html>
