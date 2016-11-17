@@ -18,11 +18,11 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="#" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
 
 								<<!-- Nav -->
 									<nav id="nav">
-										<a href="signin.hjs">Login/New User</a>
+										<a href="signin.hjs">Login</a>
 									</nav>
 
 							</div>

@@ -39,11 +39,12 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="index.html\" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
 
 								<<!-- Nav -->
 									<nav id="nav">
 										<h2><font color="white">Welcome Username!</font></h2>
+										<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 									</nav>
 
 							</div>

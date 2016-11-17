@@ -13,7 +13,7 @@ var express = require('express')
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3343);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hjs');
 app.use(express.favicon());
@@ -22,6 +22,10 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get("/index.hjs", function(req, res) {
+	res.render("index");
+});
 
 app.get("/signin.hjs", function(req, res) {
 	res.render("signin");

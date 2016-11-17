@@ -18,12 +18,7 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="index.hjs\" id="logo">M-CarShare</a></h1>
-
-								<<!-- Nav -->
-									<nav id="nav">
-										<a href="signin.hjs">Login/New User</a>
-									</nav>
+									<h1><a href="index.hjs" id="logo">M-CarShare</a></h1>
 
 							</div>
 						</div>

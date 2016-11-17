@@ -38,13 +38,14 @@
 
 						<!-- Logo -->
 						<h1>
-							<a href="index.hjs\" id="logo">M-CarShare</a>
+							<a href="findcar.hjs" id="logo">M-CarShare</a>
 						</h1>
 
 						<!-- Nav -->
 						<nav id="nav">
 							<h2>
 								<font color="white">Welcome Username!</font>
+								<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 							</h2>
 						</nav>
 					</div>
