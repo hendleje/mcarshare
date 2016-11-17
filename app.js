@@ -35,6 +35,35 @@ app.get("/searchresults.hjs", function(req, res) {
 	res.render("searchresults");
 });
 
+app.get("/cardetails.hjs", function(req, res) {
+	res.render("cardetails");
+});
+
+app.get("/directiontocar.hjs", function(req, res) {
+	res.render("directiontocar");
+});
+
+app.get("/directiontolocation.hjs", function(req, res) {
+	res.render("directiontolocation");
+});
+
+app.get("/tripdetails.hjs", function(req, res) {
+	res.render("tripdetails");
+});
+
+app.get("/findcar.hjs", function(req, res) {
+	res.render("findcar");
+});
+
+app.get("/emailsent.hjs", function(req, res) {
+	res.render("emailsent");
+});
+
+app.get("/registernewuser.hjs", function(req, res) {
+	res.render("registernewuser");
+});
+
+
 //Checks if the username exists and if the password matches the username if
 //yes, a new customer is created.
 app.post("/signin", function(req, res) {
@@ -65,7 +94,7 @@ app.post("/signin", function(req, res) {
 //If a new user is registering, his/her data is stored in the userdata.json
 //file
 app.post("/registernewuser", function(req, res) {
-	fs.readFile(__dirname + 'public/userdata.json', 'utf8', function(err, data) {
+	fs.readFile(__dirname + '/public/userdata.json', 'utf8', function(err, data) {
 		if (err)
 			throw err;
 		var user_data = JSON.parse(data);
@@ -80,7 +109,7 @@ app.post("/registernewuser", function(req, res) {
 			password : req.body.password
 		});
 		var json = JSON.stringify(user_data);
-		fs.writeFile('./dataLayer/userdata.json', json);
+		fs.writeFile(__dirname + '/public/userdata.json', json);
 	})
 	//res.sendfile('./' + "presentationLayer/emailSent.html");
 	res.render("emailsent");

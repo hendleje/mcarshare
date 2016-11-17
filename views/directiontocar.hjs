@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>M-CarShare</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="stylesheets/main.css" />
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body class="subpage">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<header id="header" class="container">
+						<div class="row">
+							<div class="12u">
+
+								<!-- Logo -->
+									<h1><a href="#" id="logo">M-CarShare</a></h1>
+
+								<<!-- Nav -->
+									<nav id="nav">
+										<h2><font color="white">Welcome Username!</font></h2>
+									</nav>
+
+							</div>
+						</div>
+					</header>
+				</div>
+
+			<!-- Content -->
+				<div id="content-wrapper">
+					<div id="content">
+						<div class="container">
+							<div class="row">
+								<div class="12u">
+
+									<!-- Main Content -->
+										<section>
+											<header>
+												<h2><font color="white">Directions to your Car</font></h2>
+											</header>
+											<style>
+											table#cars {
+											    width:50%;
+											    background-color: white;
+											    text-align: right;
+											}
+											table#cars tr:nth-child(even) {
+											    background-color: #f9f9f9;
+											}
+											
+											table#cars th {
+											    background-color: black;
+											    color: white;
+											}
+											</style>
+											<table id="cars">											  
+												   <tr>
+												    <td><iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d1345.8461668266661!2d-52.734896491808996!3d47.57377429479564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e2!4m5!1s0x4b0ca38ee42e01af%3A0x4930ac80128f2281!2sMUN+Center%2C+St.+John&#39;s%2C+NL!3m2!1d47.57337!2d-52.735682!4m5!1s0x4b0ca38e41b32fbd%3A0x1b14f52169f29ac6!2sScience+Building+-+Memorial+University%2C+Elizabeth+Avenue%2C+St.+John&#39;s%2C+NL!3m2!1d47.572845199999996!2d-52.732159499999995!5e0!3m2!1sen!2sca!4v1476990021153" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></td>
+												  </tr>
+												</table>
+												<a href="directiontolocation.hjs"><img src="images/checkout.jpg">
+										</section>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Copyright -->
+				<div id="copyright">
+					&copy; M-CarShare. All rights reserved. | M-CarShare
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="/js/jquery.min.js"></script>
+			<script src="/js/skel.min.js"></script>
+			<script src="/js/skel-viewport.min.js"></script>
+			<script src="/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="/js/main.js"></script>
+
+	</body>
+</html>

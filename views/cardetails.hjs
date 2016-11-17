@@ -1,0 +1,132 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>M-CarShare</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+<link rel="stylesheet" href="stylesheets/main.css" />
+<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+<script src="routes/application.js"></script>
+<script src="routes/reserveCar.js"></script>
+<!-- 		<script src="../applicationLayer/test.js"></script> -->
+<script>
+	function reserveCar() {
+		document.location = "./cardetails.hjs";
+		//     	var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
+
+		//     	// If the user has paid the previous Bill then he is directed to the
+		//     	// directions page, otherwise
+		//     	// it has to pay the previous bill
+		//     	if (customer1.checkPreviousBill() == true) {
+		//             document.location="./carDetails.html";
+		//         }
+		//     	else{
+		//     		document.location='./payBill.html';
+	}
+</script>
+
+</head>
+<body class="subpage">
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<div id="header-wrapper">
+			<header id="header" class="container">
+				<div class="row">
+					<div class="12u">
+
+						<!-- Logo -->
+						<h1>
+							<a href="index.hjs\" id="logo">M-CarShare</a>
+						</h1>
+
+						<!-- Nav -->
+						<nav id="nav">
+							<h2>
+								<font color="white">Welcome Username!</font>
+							</h2>
+						</nav>
+					</div>
+				</div>
+			</header>
+		</div>
+		<!-- Content -->
+		<div id="content-wrapper">
+			<div id="content">
+				<div class="container">
+					<div class="row">
+						<div class="3u 12u(mobile)">
+
+							<!-- Sidebar -->
+							<section>
+								<header>
+									<h2>
+										<font color="white">Volkswagen Jetta 2016</font>
+									</h2>
+								</header>
+								<img src="images/jetta.png" align="left">
+							</section>
+
+						</div>
+						<div class="9u 12u(mobile) important(mobile)">
+
+							<!-- Main Content -->
+							<section>
+								<p>
+									<font color="white"><font color="white"> The
+											Jetta's has a modern, small turbocharged four-cylinder in the
+											S and SE trim levels. Every Jetta also gets a new touchscreen
+											interface, while advanced accident avoidance tech is added to
+											the options list</font> </font>
+								</p>
+								<p>
+									<font color="white"> Car: Volkswagen Jetta 2016 CE </font>
+								</p>
+								<p>
+									<font color="white"> Plate: VXG-312 </font>
+								</p>
+								<p>
+									<font color="white"> Brand: Volkswagen </font>
+								</p>
+								<p>
+									<font color="white"> Color: Black </font>
+								</p>
+								<p>
+									<font color="white"> Year: 2016 </font>
+								</p>
+								<!--<p><a href="directionToCar.hjs"><img src="images/button.jpg"></p>-->
+
+
+								<!-- 								<p id="demo">A Paragraph.</p> -->
+
+								<!-- 								<form action='/carDetails.hjs' method='post'> -->
+								<!-- 								<fieldset> -->
+								<!-- 												 <input type="text"	id="firstName" name="firstName" placeholder="First Name:" /><br /> -->
+								<!-- 									<input type="submit" value="Rent" /> -->
+								<!-- 									</fieldset> -->
+								<!-- 								</form> -->
+
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Copyright -->
+		<div id="copyright">&copy; M-CarShare. All rights reserved. |
+			M-CarShare</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/skel-viewport.min.js"></script>
+	<script src="/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="/js/main.js"></script>
+
+</body>
+</html>
