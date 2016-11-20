@@ -8,9 +8,12 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
-  , fs = require('fs');
+  , fs = require('fs')
+  , application = require('./routes/application')
+  , Customer = require('./routes/customer');
 
 var app = express();
+var userid, firstname, lastname;
 
 // all environments
 app.set('port', process.env.PORT || 3343);
@@ -35,28 +38,36 @@ app.get("/registernewuser.hjs", function(req, res) {
 	res.render("registernewuser");
 });
 
-app.get("/searchresults.hjs", function(req, res) {
-	res.render("searchresults");
+app.get("/searchresults", function(req, res) {
+	fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err, data) {
+		if (err)
+			throw err;
+		var cardata = JSON.parse(data);
+		//for (var i = 0; i < carr_data.length; ++i) {
+		res.render("searchresults", {carclass: cardata[0].carclass, model: cardata[0].model, distance: cardata[0].distance, price: cardata[0].price});
+		//}
+	})
+	res.render("searchresults", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/cardetails.hjs", function(req, res) {
-	res.render("cardetails");
+	res.render("cardetails", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/directiontocar.hjs", function(req, res) {
-	res.render("directiontocar");
+	res.render("directiontocar", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/directiontolocation.hjs", function(req, res) {
-	res.render("directiontolocation");
+	res.render("directiontolocation", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/tripdetails.hjs", function(req, res) {
-	res.render("tripdetails");
+	res.render("directiontolocation", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/findcar.hjs", function(req, res) {
-	res.render("findcar");
+	res.render("findcar", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/emailsent.hjs", function(req, res) {
@@ -83,12 +94,11 @@ app.post("/signin", function(req, res) {
 			}
 		}
 		if (chck != -1 && user_data[chck].password == req.body.password) {
-			// var currentUser = new
-			// Customer(user_data[chck].first_name,user_data[chck].last_name,user_data[chck].email_id,user_data[chck].street_name,user_data[chck].city_add,user_data[chck].postal_code,user_data[chck].province_name);
-			// var currentUser = new
-			// Customer(user_data[chck].first_name,user_data[chck].last_name,user_data[chck].email_id,user_data[chck].street_name);
-			//res.sendfile('./presentationLayer/findCar.html');
-			res.render("findCar");
+			var currentUser = new Customer(user_data[chck].first_name,user_data[chck].last_name,user_data[chck].email_id,user_data[chck].street_name);
+			firstname = user_data[chck].first_name;
+			lastname = user_data[chck].last_name;
+			userid = user_data[chck].userid;
+			res.render("findCar", {firstName: user_data[chck].first_name, lastName: user_data[chck].last_name});
 		} else {
 			res.send("Invalid Username or Password.");
 		}
@@ -115,9 +125,11 @@ app.post("/registernewuser", function(req, res) {
 		var json = JSON.stringify(user_data);
 		fs.writeFile(__dirname + '/public/userdata.json', json);
 	})
-	//res.sendfile('./' + "presentationLayer/emailSent.html");
 	res.render("emailsent");
 });
+
+
+app.post("/cardetails", application.reservecar);
 
 // development only
 if ('development' == app.get('env')) {
@@ -125,7 +137,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/users', user.list);
+app.get('/test', application.reservecar);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

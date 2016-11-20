@@ -1,3 +1,26 @@
+// Should be in app.js !!!!
+exports.reservecar = function(req, res) {
+	var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
+	
+	// If the user has paid the previous Bill then he is directed to the
+	// directions page, otherwise he has to pay the previous bill
+	if (customer1.checkPreviousBill() == true) {
+		var location1 = new Location(47.33379404, 52.42461880);
+		var car1 = new Car("A1B2", "Audi", "1998", "small", 0.4, 5, "Bob",
+				"picture", location1, "description");
+
+		var location = car1.location;
+		// Set the car status to reserved
+		car1.status = "reserved";
+
+		// Open directionToCar page with directionToCar
+		//window.location = 'directionToCar.hjs';
+		res.render('directiontocar', {bill: 'approved'});
+	} else {
+		res.render('paybill', {bill: 'not approved'});
+	}
+};
+
 // ------------ Person ------------
 // Creates a person
 function Person(firstName, lastName, email, address) {
@@ -17,14 +40,16 @@ function Customer(firstName, lastName, email, address) {
 	Person.call(this, firstName, lastName, email, address);
 	//this.status = cusStatus.SUSPENDED;
 	//this.sendConfirmationEmail();
-	module.exports = Customer;
+	//module.exports = Customer;
 }
+
+//module.exports = Customer;
 
 // Define Enumeration for customer status
 var cusStatus = {
 	ACTIVE: "active",
 	SUSPENDED: "suspended"
-}
+};
 
 // Make sure, customer inherits from person
 Customer.prototype = Object.create(Person.prototype);
@@ -130,7 +155,6 @@ function Location (latitude, longitude) {
 	this.latitude = latitude;
 	this.longitude = longitude;
 }
-
 
 // Testfunctions
 //Person.prototype.sayHello1 = function(name) {

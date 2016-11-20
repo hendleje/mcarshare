@@ -1,6 +1,6 @@
-function reserveCar() {
+exports.reservecar = function(req, res) {
 	var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
-
+	
 	// If the user has paid the previous Bill then he is directed to the
 	// directions page, otherwise he has to pay the previous bill
 	if (customer1.checkPreviousBill() == true) {
@@ -13,8 +13,9 @@ function reserveCar() {
 		car1.status = "reserved";
 
 		// Open directionToCar page with directionToCar
-		window.location = 'directionToCar.html';
+		//window.location = 'directionToCar.hjs';
+		res.render('directiontocar', {bill: 'approved'});
 	} else {
-		window.location = 'payBill.html';
+		res.render('paybill', {bill: 'not approved'});
 	}
-}
+};

@@ -22,7 +22,7 @@
 
 								<<!-- Nav -->
 									<nav id="nav">
-										<h2><font color="white">Welcome Username!</font></h2>
+										<h2><font color="white">Welcome {{firstName}} {{lastName}}!</font></h2>
 										<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 									</nav>
 
@@ -77,7 +77,7 @@
 											<option value="2011">2011</option>											
 										</select> <br />
 										<label><font color="white">Distance:   </font></label>
-										<font color="white">0Km<input type="range" name="points" min="0" max="10">10Km</font><br/> <a href="searchResults.hjs"><img src="images/search.jpg">
+										<font color="white">0Km<input type="range" name="points" min="0" max="10">10Km</font><br/> <a href="searchResults"><img src="images/search.jpg">
 											</fieldset>	
 										</section>
 

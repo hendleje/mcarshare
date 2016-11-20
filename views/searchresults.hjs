@@ -22,7 +22,7 @@
 
 								<<!-- Nav -->
 									<nav id="nav">
-										<h2><font color="white">Welcome Username!</font></h2>
+										<h2><font color="white">Welcome  {{firstName}} {{lastName}}!</font></h2>
 										<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 									</nav>
 
@@ -78,10 +78,10 @@
 												  </tr>
 												  <tr>
 												    <td><img src="images/jetta.png" align="left"></td>
-												    <td>Intermediate</td> 
-												    <td>Jetta 2016</td> 
-												    <td><font size="5" color="green">350m</font></td>
-												    <td><font size="10" color="Black">5 CAD</font> / 10Km</td>
+												    <td>{{carclass}}</td> 
+												    <td>{{model}}</td> 
+												    <td><font size="5" color="green">{{distance}}</font></td>
+												    <td><font size="10" color="Black">{{price}}</font> / 10Km</td>
 												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
 												  </tr>
 												   <tr>

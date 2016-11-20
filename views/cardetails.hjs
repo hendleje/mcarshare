@@ -44,7 +44,7 @@
 						<!-- Nav -->
 						<nav id="nav">
 							<h2>
-								<font color="white">Welcome Username!</font>
+								<font color="white">Welcome {{firstName}} {{lastName}}!</font>
 								<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 							</h2>
 						</nav>
@@ -107,8 +107,10 @@
 								<!-- 									<input type="submit" value="Rent" /> -->
 								<!-- 									</fieldset> -->
 								<!-- 								</form> -->
-
-								<a href="directiontocar.hjs"><img src="images/button.jpg"></a>
+								<form action="cardetails" method = "post">
+									<input type="submit" value="submit"/>
+								</form>
+								<!-- <a href="directiontocar.hjs"><img src="images/button.jpg"></a> -->
 							</section>
 						</div>
 					</div>
