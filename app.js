@@ -10,10 +10,10 @@ var express = require('express')
   , path = require('path')
   , fs = require('fs')
   , application = require('./routes/application')
-  , Customer = require('./routes/customer');
+  , Customer = require('./routes/application');
 
 var app = express();
-var userid, firstname, lastname;
+var userid, firstname, lastname, currentcar;
 
 // all environments
 app.set('port', process.env.PORT || 3343);
@@ -44,14 +44,24 @@ app.get("/searchresults", function(req, res) {
 			throw err;
 		var cardata = JSON.parse(data);
 		//for (var i = 0; i < carr_data.length; ++i) {
-		res.render("searchresults", {carclass: cardata[0].carclass, model: cardata[0].model, distance: cardata[0].distance, price: cardata[0].price});
+		currentcar = cardata[0].plate;
+		res.render("searchresults", {firstName: firstname, lastName: lastname, picture: cardata[0].picture, carclass: cardata[0].carclass, model: cardata[0].model, distance: cardata[0].distance, kmprice: cardata[0].kmCost, hrprice: cardata[0].timeCost});
 		//}
 	})
-	res.render("searchresults", {firstName: firstname, lastName: lastname});
 });
 
 app.get("/cardetails.hjs", function(req, res) {
-	res.render("cardetails", {firstName: firstname, lastName: lastname});
+	fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err, data) {
+		if (err)
+			throw err;
+		var cardata = JSON.parse(data);
+		var i = 0;
+//		for (var i = 0; i < cardata.length; ++i) {
+//			if (cardata[i].plate == currentcar) {
+				res.render("cardetails", {firstName: firstname, lastName: lastname, picture: cardata[i].picture, description: cardata[i].description, model: cardata[i].model, brand: cardata[i].brand, color: cardata[i].color, year: cardata[i].year});
+			//}
+		//}
+	})
 });
 
 app.get("/directiontocar.hjs", function(req, res) {
@@ -129,7 +139,7 @@ app.post("/registernewuser", function(req, res) {
 });
 
 
-app.post("/cardetails", application.reservecar);
+//app.post("/cardetails", application.reservecar);
 
 // development only
 if ('development' == app.get('env')) {
@@ -137,7 +147,7 @@ if ('development' == app.get('env')) {
 }
 
 app.get('/', routes.index);
-app.get('/test', application.reservecar);
+//app.get('/test', application.reservecar);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

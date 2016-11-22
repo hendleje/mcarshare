@@ -15,8 +15,8 @@ function Person(firstName, lastName, email, address) {
 // Creates a customer
 function Customer(firstName, lastName, email, address) {
 	Person.call(this, firstName, lastName, email, address);
-	//this.status = cusStatus.SUSPENDED;
-	//this.sendConfirmationEmail();
+	this.status = cusStatus.SUSPENDED;
+	this.sendConfirmationEmail();
 	//module.exports = Customer;
 }
 

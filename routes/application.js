@@ -43,7 +43,7 @@ function Customer(firstName, lastName, email, address) {
 	//module.exports = Customer;
 }
 
-//module.exports = Customer;
+module.exports = Customer;
 
 // Define Enumeration for customer status
 var cusStatus = {
@@ -161,9 +161,9 @@ function Location (latitude, longitude) {
 //	console.log("Hello, I'm person " +this.firstName);
 //}
 //
-	Customer.prototype.sayHello = function() {
-		return "Hello, I'm customer "  + this.firstName;
-	}
+//Customer.prototype.sayHello = function() {
+//	return "Hello, I'm customer "  + this.firstName;
+//}
 //// Testcreations
 //var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
 //console.log(customer1.sayHello());

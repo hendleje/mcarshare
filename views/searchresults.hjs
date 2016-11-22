@@ -65,55 +65,17 @@
 												    <th>Class</th>
 												    <th>Car Model</th> 
 												    <th>Distance</th>
-												    <th>Price</th>
+												    <th>Price per km</th>
+												    <th>Price per hr</th>
 												    <th>Rent</th>
 												  </tr>
 												  <tr>
-												    <td><img src="images/matrix.jpg" align="left"></td>
-												    <td>Small</td> 
-												    <td>Matrix 2016</td> 
-												    <td><font size="5" color="green">350m</font></td>
-												    <td><font size="10" color="Black">3 CAD</font> / 10Km</td>
-												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
-												  </tr>
-												  <tr>
-												    <td><img src="images/jetta.png" align="left"></td>
+												    <td><img src={{picture}} align="left"></td>
 												    <td>{{carclass}}</td> 
-												    <td>{{model}}</td> 
+												    <td>{{model}}</td>
 												    <td><font size="5" color="green">{{distance}}</font></td>
-												    <td><font size="10" color="Black">{{price}}</font> / 10Km</td>
-												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
-												  </tr>
-												   <tr>
-												    <td><img src="images/200.jpg" align="left"></td>
-												    <td>Full-size</td> 
-												    <td>Chrysler 200</td> 
-												    <td><font size="5" color="green">350m</font></td>
-												    <td><font size="10" color="Black">7 CAD</font> / 10Km</td>
-												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
-												  </tr>
-												   <tr>
-												    <td><img src="images/passat.jpg" align="left"></td>
-												    <td>Full-size</td> 
-												    <td>Passat 2016</td> 
-												    <td><font size="5" color="green">350m</font></td>
-												    <td><font size="10" color="Black">11 CAD</font> / 10Km</td>
-												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
-												  </tr>
-												   <tr>
-												    <td><img src="images/santa_fe.jpg" align="left"></td>
-												    <td>SUV</td> 
-												    <td>Hyundai Santa Fe 2016</td> 
-												    <td><font size="5" color="Red">1.5Km</font></td>
-												    <td><font size="10" color="Black">15 CAD</font> / 10Km</td>
-												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
-												  </tr>
-												   <tr>
-												    <td><img src="images/grand_cherokee.jpg" align="left"></td>
-												    <td>SUV</td> 
-												    <td>Grand Cherokee Laredo 2016</td> 
-												    <td><font size="5" color="yellow">800m</font></td>
-												    <td><font size="10" color="Black">18 CAD</font> / 10Km</td>
+												    <td><font size="10" color="Black">{{kmprice}}</font> / 1km</td>
+												    <td><font size="10" color="Black">{{hrprice}}</font> / 1h</td>
 												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
 												  </tr>
 												</table>

@@ -1,1 +1,1 @@
-[{"carid":"1", "carclass":"small","model":"matrix", "distance":"50 m", "price":"5"}]
+[{"plate":"123 MUN", "brand":"Volkswagen","model":"Jetta", "color":"black", "year":"2016", "carclass":"Small", "status":"available", "kmCost":"1.00", "timeCost":"10.00", "creator":"Jack Wolf", "picture":"images/jetta.png",  "distance":"50 m", "description":"The Jetta's has a modern, small turbocharged four-cylinder in the S and SE trim levels. Every Jetta also gets a new touchscreen interface, while advanced accident avoidance tech is added to the options list"}]

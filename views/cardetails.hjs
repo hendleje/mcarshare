@@ -10,21 +10,6 @@
 <script src="routes/application.js"></script>
 <script src="routes/reserveCar.js"></script>
 <!-- 		<script src="../applicationLayer/test.js"></script> -->
-<script>
-	function reserveCar() {
-		document.location = "./cardetails.hjs";
-		//     	var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
-
-		//     	// If the user has paid the previous Bill then he is directed to the
-		//     	// directions page, otherwise
-		//     	// it has to pay the previous bill
-		//     	if (customer1.checkPreviousBill() == true) {
-		//             document.location="./carDetails.html";
-		//         }
-		//     	else{
-		//     		document.location='./payBill.html';
-	}
-</script>
 
 </head>
 <body class="subpage">
