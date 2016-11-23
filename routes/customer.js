@@ -1,8 +1,8 @@
 // ------------ Person ------------
 // Creates a person
-function Person(firstName, lastName, email, address) {
-	this.firstName = firstName;
-	this.lastName = lastName;
+function Person(firstname, lastname, email, address) {
+	this.firstname = firstname;
+	this.lastname = lastname;
 	this.email = email;
 	this.address = address;
 	/**
@@ -13,15 +13,17 @@ function Person(firstName, lastName, email, address) {
 
 // ------------ Customer ------------
 // Creates a customer
-function Customer(firstName, lastName, email, address) {
-	Person.call(this, firstName, lastName, email, address);
-	this.status = cusStatus.SUSPENDED;
-	this.sendConfirmationEmail();
-	//module.exports = Customer;
+function Customer(firstname, lastname, email, address, location) {
+	Person.call(this, firstname, lastname, email, address);
+	this.status = cusstatus.SUSPENDED;
+	this.sendconfirmationemail();
+	this.location = location;
 }
 
+module.exports = Customer;
+
 // Define Enumeration for customer status
-var cusStatus = {
+var cusstatus = {
 	ACTIVE: "active",
 	SUSPENDED: "suspended"
 };
@@ -30,7 +32,7 @@ var cusStatus = {
 Customer.prototype = Object.create(Person.prototype);
 
 // Check, if the previous bill of the customer was paid
-Customer.prototype.checkPreviousBill = function(){
+Customer.prototype.checkpreviousbill = function(){
 	/**
 	 * TODO Implement check of previous bill
 	 */
@@ -38,7 +40,7 @@ Customer.prototype.checkPreviousBill = function(){
 }
 
 // Send a email so the customer can confirm his/her mailaddress
-Customer.prototype.sendConfirmationEmail = function() {
+Customer.prototype.sendconfirmationemail = function() {
 	/**
 	 * TODO Implement sending of confirmation mail
 	 */
@@ -47,10 +49,8 @@ Customer.prototype.sendConfirmationEmail = function() {
 }
 
 // Verifies the customer's mailadress and sets his/her status to active
-Customer.prototype.customerVerified = function() {
-	this.status = cusStatus.ACTIVE;
+Customer.prototype.customerverified = function() {
+	this.status = cusstatus.ACTIVE;
 	console.log("Customer status: " + this.status);
 	return "Customer status: " + this.status;
 }
-
-module.exports = Customer;

@@ -1,8 +1,8 @@
 // ------------ Person ------------
 // Creates a person
-function Person(firstName, lastName, email, address) {
-	this.firstName = firstName;
-	this.lastName = lastName;
+function Person(firstname, lastname, email, address) {
+	this.firstname = firstname;
+	this.lastname = lastname;
 	this.email = email;
 	this.address = address;
 	/**
@@ -13,8 +13,8 @@ function Person(firstName, lastName, email, address) {
 
 // ------------ Customer ------------
 // Creates a customer
-function Customer(firstName, lastName, email, address) {
-	Person.call(this, firstName, lastName, email, address);
+function Customer(firstname, lastname, email, address) {
+	Person.call(this, firstname, lastname, email, address);
 	//this.status = cusStatus.SUSPENDED;
 	//this.sendConfirmationEmail();
 	//module.exports = Customer;
@@ -32,7 +32,7 @@ var cusStatus = {
 Customer.prototype = Object.create(Person.prototype);
 
 // Check, if the previous bill of the customer was paid
-Customer.prototype.checkPreviousBill = function(){
+Customer.prototype.checkpreviousbill = function(){
 	/**
 	 * TODO Implement check of previous bill
 	 */
@@ -40,7 +40,7 @@ Customer.prototype.checkPreviousBill = function(){
 }
 
 // Send a email so the customer can confirm his/her mailaddress
-Customer.prototype.sendConfirmationEmail = function() {
+Customer.prototype.sendconfirmationemail = function() {
 	/**
 	 * TODO Implement sending of confirmation mail
 	 */
@@ -49,33 +49,39 @@ Customer.prototype.sendConfirmationEmail = function() {
 }
 
 // Verifies the customer's mailadress and sets his/her status to active
-Customer.prototype.customerVerified = function() {
-	this.status = cusStatus.ACTIVE;
+Customer.prototype.customerverified = function() {
+	this.status = cusstatus.ACTIVE;
 	console.log("Customer status: " + this.status);
 	return "Customer status: " + this.status;
 }
 
 // ------------ Car ------------
 // Creates a car
-function Car(plate, brand, model, color, year, category, status, kmCost, timeCost, creator, picture, location, description, category) {
+function Car(plate, brand, model, color, year, category, status, kmcost, timeCost, creator, picture, location, description, carclass) {
+	console.log(plate);
 	this.plate = plate;
 	this.brand = brand;
 	this.model = model;
 	this.color= color;
 	this.year = year;
-	this.category = category;
+	this.carclass = carclass;
 	this.status = status;
-	this.kmCost = kmCost;
-	this.timeCost = timeCost;
+	this.kmcost = kmcost;
+	this.timecost = timecost;
 	this.creator = creator;
 	this.picture = picture;
 	this.location = location;
 	this.description = description;
-	this.status = carStatus.available;
+	this.status = carstatus.available;
+}
+
+//Calculate costs for km and hours driven
+Car.prototype.getplate = function() {
+	return this.plate;
 }
 
 // Define Enumeration for car status
-var carStatus = {
+var carstatus = {
 	AVAILABLE: "available",
 	RESERVED: "reserved",
 	RENTED: "rented",
@@ -83,7 +89,7 @@ var carStatus = {
 }
 
 // Define Enumeration for car brand
-var carBrand = {
+var carbrand = {
 	AUDI: "Audi",
 	BMW: "BMW",
 	CHRYSLER: "Chrysler",
@@ -109,10 +115,10 @@ var carCategory = {
 }
 
 // Calculate costs for km and hours driven
-Car.prototype.getCosts = function(kmDriven, hoursDriven) {
-	var kmCostCur = kmDriven * this.kmCost;
-	var timeCostCur = hoursDriven * this.timeCost;
-	var costs = [kmCostCur, timeCostCur];
+Car.prototype.getCosts = function(kmdriven, hoursdriven) {
+	var kmcostcur = kmdriven * this.kmcost;
+	var timecostcur = hoursdriven * this.timecost;
+	var costs = [kmcostcur, timecostcur];
 	return costs;
 }
 
