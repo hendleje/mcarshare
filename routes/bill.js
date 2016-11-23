@@ -13,7 +13,7 @@ Bill.prototype.paybill = function() {
 }
 
 // Sends the bill via email to the customer
-Bill.prototype.sendbillviaemail = function() {
+Bill.prototype.sendbillviaemail = function(email) {
 	// TODO Send bill
 	return "Bill is sent";
 }

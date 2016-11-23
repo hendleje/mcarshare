@@ -1,6 +1,10 @@
 // ------------ Rental Agreement ------------
 // Creates a rental agreement
 function Rentalagreement(customer, car) {
+	/**
+	 * TODO create proper IDs
+	 */
+	this.id = 1;
 	this.starttime = this.getcurrenttime();
 	this.car = car;
 	this.customer = customer;
@@ -8,7 +12,6 @@ function Rentalagreement(customer, car) {
 
 // When returning the car all remaining information is calculated
 Rentalagreement.prototype.carreturned = function(kmdriven, kmcost, timecost) {
-	console.log("Car returned");
 	// Save km driven
 	this.kmdriven = kmdriven;
 	

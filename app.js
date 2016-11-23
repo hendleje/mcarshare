@@ -2,17 +2,10 @@
  * Module dependencies.
  */
 
-var express = require('express')
-  , http = require('http')
-  , path = require('path')
-  , fs = require('fs')
-  , application = require('./routes/application')
-  , Customer = require('./routes/customer')
-  , Car = require('./routes/car')
-  , Location = require('./routes/location');
+var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), application = require('./routes/application'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill');
 
 var app = express();
-var currentcar, currentuser;
+var currentcar, currentuser, rentalagreement;
 
 // all environments
 app.set('port', process.env.PORT || 3343);
@@ -40,7 +33,10 @@ app.get("/signin", function(req, res) {
 app.get("/logout", function(req, res) {
 	currentuser = undefined;
 	currentcar = undefined;
-	res.render("signin", {info: 'You are successfully logged out.\n'});
+	rentalagreement = undefined;
+	res.render("signin", {
+		info : 'You are successfully logged out.\n'
+	});
 });
 
 app.get("/registernewuser", function(req, res) {
@@ -49,7 +45,9 @@ app.get("/registernewuser", function(req, res) {
 
 app.get("/searchresults", function(req, res) {
 	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to view search results.'});
+		res.render("signin", {
+			info : 'Please sign in to view search results.'
+		});
 	} else {
 		fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err,
 				data) {
@@ -68,14 +66,16 @@ app.get("/searchresults", function(req, res) {
 				kmprice : cardata[0].kmcost,
 				hrprice : cardata[0].timecost
 			});
-			//}
+			// }
 		})
 	}
 });
 
 app.get("/cardetails", function(req, res) {
 	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to view car details.'});	
+		res.render("signin", {
+			info : 'Please sign in to view car details.'
+		});
 	} else {
 		fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err,
 				data) {
@@ -105,45 +105,126 @@ app.get("/cardetails", function(req, res) {
 				kmprice : currentcar.kmcost,
 				hrprice : currentcar.timecost
 			});
-			//				}
-			//			}
+			// }
+			// }
 		})
 	}
 });
 
 app.get("/directiontocar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to view directions to car.'});
-	}
-	else {
-		res.render("directiontocar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
-	}
-});
-
-app.get("/directiontolocation", function(req, res) {
-	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to view directions to location.'});
-	}
-	else {
-		res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+		res.render("signin", {
+			info : 'Please sign in to view directions to car.'
+		});
+	} else {
+		res.render("directiontocar", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname
+		});
 	}
 });
 
 app.get("/tripdetails", function(req, res) {
 	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to view trip details.'});
+		res.render("signin", {
+			info : 'Please sign in to view trip details.'
+		});
+	} else {
+		// Get nice representation of the start and end time
+		var starttime = rentalagreement.printdate(rentalagreement.starttime);
+		var endtime = rentalagreement.printdate(rentalagreement.endtime);
+		
+		bill = new Bill(rentalagreement.sum, currentuser.id, rentalagreement.id);
+		bill.sendbillviaemail(currentuser.email);
+		currentuser.addbill(bill);
+		
+		res.render("tripdetails", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname,
+			kmcostsum : rentalagreement.cost[0].toFixed(2),
+			timecostsum : rentalagreement.cost[1].toFixed(2),
+			kmcost : currentcar.kmcost,
+			timecost : currentcar.timecost,
+			sum : rentalagreement.sum.toFixed(2),
+			kmdriven : rentalagreement.kmdriven.toFixed(2),
+			timedriven : rentalagreement.timedriven.toFixed(2),
+			starttime : starttime,
+			endtime : endtime
+		});
 	}
-	else {
-		res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+});
+
+app.get("/carischeckedout", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {
+			info : 'Please sign in to view that page.'
+		});
+	} else {
+		// TODO set car status to "rented"
+		rentalagreement = new Rentalagreement(currentuser.id, currentcar.id);
+		res.render("carischeckedout", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname
+		});
+	}
+});
+
+app.get("/directiontolocation", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {
+			info : 'Please sign in to view directions to location.'
+		});
+	} else {
+		// DETELE THAT as soon as page between directiontocar and directiontolocation exists
+		rentalagreement = new Rentalagreement(currentuser.id, currentcar.id);
+		res.render("directiontolocation", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname
+		});
+	}
+});
+
+app.post("/tripdetails", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {
+			info : 'Please sign in to view trip details.'
+		});
+	} else {
+		if (typeof rentalagreement.endtime == 'undefined') {
+			// TODO change car status?
+			rentalagreement.carreturned(10, currentcar.kmcost, currentcar.timecost);			
+		}		
+		// Get nice representation of the start and end time
+		var starttime = rentalagreement.printdate(rentalagreement.starttime);
+		var endtime = rentalagreement.printdate(rentalagreement.endtime);
+		
+		// Go to trip details page
+		res.render("tripdetails", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname,
+			kmcostsum : rentalagreement.cost[0].toFixed(2),
+			timecostsum : rentalagreement.cost[1].toFixed(2),
+			kmcost : currentcar.kmcost,
+			timecost : currentcar.timecost,
+			sum : rentalagreement.sum.toFixed(2),
+			kmdriven : rentalagreement.kmdriven.toFixed(2),
+			timedriven : rentalagreement.timedriven.toFixed(2),
+			starttime : starttime,
+			endtime : endtime
+		});
 	}
 });
 
 app.get("/findcar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
-		res.render("signin", {info: 'Please sign in to find a car.'});
-	}
-	else {
-		res.render("findcar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+		res.render("signin", {
+			info : 'Please sign in to find a car.'
+		});
+	} else {
+		res.render("findcar", {
+			firstName : currentuser.firstname,
+			lastName : currentuser.lastname
+		});
 	}
 });
 
@@ -155,53 +236,58 @@ app.get("/registernewuser", function(req, res) {
 	res.render("registernewuser");
 });
 
-
-//Checks if the username exists and if the password matches the username if
-//yes, a new customer is created.
+// Checks if the username exists and if the password matches the username if
+// yes, a new customer is created.
 app.post("/signin", function(req, res) {
-	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err, data) {
+	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
+			data) {
 		if (err)
 			throw err;
 		var customerdata = JSON.parse(data);
 		var chck = -1;
 		for (var i = 0; i < customerdata.length; ++i) {
-			if (user_data[i].email == req.body.username) {
+			if (customerdata[i].email == req.body.username) {
 				chck = i;
 				break;
 			}
 		}
 		if (chck != -1 && customerdata[chck].password == req.body.password) {
-			currentuser = new Customer(customerdata[chck].first_name,customerdata[chck].last_name,customerdata[chck].email,customerdata[chck].street_name, 2);
-			res.render("findCar", {firstName: customerdata[chck].first_name, lastName: customerdata[chck].last_name});
+			currentuser = new Customer(customerdata[chck].first_name,
+					customerdata[chck].last_name, customerdata[chck].email,
+					customerdata[chck].street_name, 2);
+			res.render("findCar", {
+				firstName : customerdata[chck].first_name,
+				lastName : customerdata[chck].last_name
+			});
 		} else {
 			res.send("Invalid Username or Password.");
 		}
 	})
 });
 
-//If a new user is registering, his/her data is stored in the userdata.json
-//file
+// If a new user is registering, his/her data is stored in the userdata.json
+// file
 app.post("/registernewuser", function(req, res) {
-	fs.readFile(__dirname + '/public/userdata.json', 'utf8', function(err, data) {
-		if (err)
-			throw err;
-		var user_data = JSON.parse(data);
-		user_data.push({
-			first_name : req.body.firstName,
-			last_name : req.body.lastName,
-			email : req.body.email,
-			street_name : req.body.street,
-			city_add : req.body.city,
-			postal_code : req.body.postalCode,
-			province_name : req.body.province,
-			password : req.body.password
-		});
-		var json = JSON.stringify(user_data);
-		fs.writeFile(__dirname + '/public/userdata.json', json);
-	})
+	fs.readFile(__dirname + '/public/userdata.json', 'utf8',
+			function(err, data) {
+				if (err)
+					throw err;
+				var user_data = JSON.parse(data);
+				user_data.push({
+					first_name : req.body.firstName,
+					last_name : req.body.lastName,
+					email : req.body.email,
+					street_name : req.body.street,
+					city_add : req.body.city,
+					postal_code : req.body.postalCode,
+					province_name : req.body.province,
+					password : req.body.password
+				});
+				var json = JSON.stringify(user_data);
+				fs.writeFile(__dirname + '/public/userdata.json', json);
+			})
 	res.render("emailsent");
 });
-
 
 app.post("/directiontocar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
@@ -211,7 +297,6 @@ app.post("/directiontocar", function(req, res) {
 			// Get location of user and car to direct to car
 			fs.readFile(__dirname + '/public/locationdata.json', 'utf8',
 					// TODO: Set car status reserved
-					
 					function(err, data) {
 						if (err)
 							throw err;
@@ -254,9 +339,9 @@ app.post("/directiontocar", function(req, res) {
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+	app.use(express.errorHandler());
 }
 
-http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+http.createServer(app).listen(app.get('port'), function() {
+	console.log('Express server listening on port ' + app.get('port'));
 });

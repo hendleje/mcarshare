@@ -47,7 +47,7 @@
 									<!-- Main Content -->
 										<section>
 											<header>
-												<h2><font color="white">The car has been successfully returned! </font></h2>
+												<h2><font color="white">The car has been successfully returned and the bill has been sent to your email address! </font></h2>
 												<h3><font color="white">Time of car check out: {{starttime}} </font></h3>
 												<h3><font color="white">Time of car return: {{endtime}}</font></h3>
 												<h3><font color="white">Time driven: {{timedriven}} h (car costs $ {{timecost}}/h)</font></h3>
