@@ -87,8 +87,10 @@
 												   <tr>
 												    <td><iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10766.88345531469!2d-52.74083636951557!3d47.57321924334604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x4b0ca38e41b32fbd%3A0x1b14f52169f29ac6!2sScience+Building+-+Memorial+University%2C+Elizabeth+Avenue%2C+St.+John&#39;s%2C+NL!3m2!1d47.572845199999996!2d-52.732159499999995!4m5!1s0x4b0ca38ee42e01af%3A0x4930ac80128f2281!2sMUN+Center%2C+St.+John&#39;s%2C+NL!3m2!1d47.57337!2d-52.735682!5e0!3m2!1sen!2sca!4v1477001937812" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></td>
 												  </tr>
-												</table>
-												<a href="tripdetails"><img src="images/returnNow.jpg">
+											</table>
+											<form action="tripdetails" method = "post">
+												<input type="submit" value="Return car"/>
+											</form>
 										</section>
 
 								</div>

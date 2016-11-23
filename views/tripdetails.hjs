@@ -48,9 +48,13 @@
 										<section>
 											<header>
 												<h2><font color="white">The car has been successfully returned! </font></h2>
-												<h3><font color="white">Time: 6H:28M </font></h3>
-												<h3><font color="white">Distance: 430Km </font></h3>
-												<h3><font color="white">Price: CAD 21.5 </font></h3><br/>
+												<h3><font color="white">Time of car check out: {{starttime}} </font></h3>
+												<h3><font color="white">Time of car return: {{endtime}}</font></h3>
+												<h3><font color="white">Time driven: {{timedriven}} h (car costs $ {{timecost}}/h)</font></h3>
+												<h3><font color="white">Time costs: $ {{timecossumt}} </font></h3>
+												<h3><font color="white">Distance Driven: {{kmdriven}} km (car costs $ {{kmcost}}/km)</font></h3>
+												<h3><font color="white">Distance costs: $ {{kmcostsum}} </font></h3>
+												<h3><font color="white">Total costs: $ {{sum}} </font></h3><br/>
 												<a href="findcar"><img src="images/return.jpg">
 											</header>
 										</section>
