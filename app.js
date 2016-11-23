@@ -3,8 +3,6 @@
  */
 
 var express = require('express')
- // , routes = require('./routes')
-  //, user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
@@ -14,7 +12,7 @@ var express = require('express')
   , Location = require('./routes/location');
 
 var app = express();
-var /*userid, firstname, lastname,*/ currentcar, currentuser;
+var currentcar, currentuser;
 
 // all environments
 app.set('port', process.env.PORT || 3343);
@@ -42,7 +40,7 @@ app.get("/signin", function(req, res) {
 app.get("/logout", function(req, res) {
 	currentuser = undefined;
 	currentcar = undefined;
-	res.render("signin", {info: 'You are successfully logged out.'});
+	res.render("signin", {info: 'You are successfully logged out.\n'});
 });
 
 app.get("/registernewuser", function(req, res) {
@@ -67,8 +65,8 @@ app.get("/searchresults", function(req, res) {
 				carclass : cardata[0].carclass,
 				model : cardata[0].model,
 				distance : cardata[0].distance,
-				kmprice : cardata[0].kmCost,
-				hrprice : cardata[0].timeCost
+				kmprice : cardata[0].kmcost,
+				hrprice : cardata[0].timecost
 			});
 			//}
 		})
@@ -161,20 +159,20 @@ app.get("/registernewuser", function(req, res) {
 //Checks if the username exists and if the password matches the username if
 //yes, a new customer is created.
 app.post("/signin", function(req, res) {
-	fs.readFile(__dirname + '/public/userdata.json', 'utf8', function(err, data) {
+	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err, data) {
 		if (err)
 			throw err;
-		var user_data = JSON.parse(data);
+		var customerdata = JSON.parse(data);
 		var chck = -1;
-		for (var i = 0; i < user_data.length; ++i) {
-			if (user_data[i].email_id == req.body.username) {
+		for (var i = 0; i < customerdata.length; ++i) {
+			if (user_data[i].email == req.body.username) {
 				chck = i;
 				break;
 			}
 		}
-		if (chck != -1 && user_data[chck].password == req.body.password) {
-			currentuser = new Customer(user_data[chck].first_name,user_data[chck].last_name,user_data[chck].email_id,user_data[chck].street_name, 2);
-			res.render("findCar", {firstName: user_data[chck].first_name, lastName: user_data[chck].last_name});
+		if (chck != -1 && customerdata[chck].password == req.body.password) {
+			currentuser = new Customer(customerdata[chck].first_name,customerdata[chck].last_name,customerdata[chck].email,customerdata[chck].street_name, 2);
+			res.render("findCar", {firstName: customerdata[chck].first_name, lastName: customerdata[chck].last_name});
 		} else {
 			res.send("Invalid Username or Password.");
 		}
@@ -191,7 +189,7 @@ app.post("/registernewuser", function(req, res) {
 		user_data.push({
 			first_name : req.body.firstName,
 			last_name : req.body.lastName,
-			email_id : req.body.email,
+			email : req.body.email,
 			street_name : req.body.street,
 			city_add : req.body.city,
 			postal_code : req.body.postalCode,
@@ -211,8 +209,9 @@ app.post("/directiontocar", function(req, res) {
 	} else {
 		if (currentuser.checkpreviousbill() == true) {
 			// Get location of user and car to direct to car
-			fs.readFile(__dirname + '/public/location.json', 'utf8',
+			fs.readFile(__dirname + '/public/locationdata.json', 'utf8',
 					// TODO: Set car status reserved
+					
 					function(err, data) {
 						if (err)
 							throw err;
@@ -240,7 +239,6 @@ app.post("/directiontocar", function(req, res) {
 						var latuser = locationuser.latitude;
 						var longuser = locationuser.longitude;
 						res.render('directiontocar', {
-							bill : 'approved',
 							latcar : latcar,
 							longcar : longcar,
 							latuser : latuser,
@@ -248,9 +246,8 @@ app.post("/directiontocar", function(req, res) {
 						});
 					})
 		} else {
-			res.render('paybill', {
-				bill : 'not approved'
-			});
+			// TODO set customer status to 'suspended'
+			res.render('paybill');
 		}
 	}
 });

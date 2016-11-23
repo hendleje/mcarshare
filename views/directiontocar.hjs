@@ -41,8 +41,7 @@
 									<!-- Main Content -->
 										<section>
 											<header>
-												<h2><font color="white">Directions to your Car</font></h2>
-												<h2><font color="white">Bill {{bill}}</font></h2>
+												<h2><font color="white">Directions to your reserved Car</font></h2>
 											</header>
 											<style>
 											table#cars {

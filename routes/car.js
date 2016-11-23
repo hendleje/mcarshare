@@ -17,11 +17,6 @@ function Car(plate, brand, model, color, year, category, status, kmcost, timecos
 	this.status = carstatus.available;
 }
 
-//Calculate costs for km and hours driven
-Car.prototype.getplate = function() {
-	return this.plate;
-}
-
 // Define Enumeration for car status
 var carstatus = {
 	AVAILABLE: "available",
@@ -56,17 +51,8 @@ var carCategory = {
 	LUXURY: "luxury"
 }
 
-// Calculate costs for km and hours driven
-Car.prototype.getCosts = function(kmdriven, hoursdriven) {
-	var kmcostcur = kmdriven * this.kmcost;
-	var timecostcur = hoursdriven * this.timecost;
-	var costs = [kmcostcur, timecostcur];
-	return costs;
-}
-
-
 // Calculate air distance of car from given point via latitude and longitude
-Car.prototype.calculateDistance = function(latitude, longitude) {
+Car.prototype.calculatedistance = function(latitude, longitude) {
 	var disLat = Math.pow(this.location.latitude - latitude, 2);
 	var disLon = Math.pow(this.location.longitude - longitude, 2);
 	var dis = Math.sqrt(disLat + disLon);

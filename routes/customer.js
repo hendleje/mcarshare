@@ -33,10 +33,27 @@ Customer.prototype = Object.create(Person.prototype);
 
 // Check, if the previous bill of the customer was paid
 Customer.prototype.checkpreviousbill = function(){
+	if (this.status == cusstatus.SUSPENDED) {
+		return false;
+	}
+	else {
+		/**
+		 * TODO Implement check of previous bill
+		 */
+		return true;
+	}
+}
+
+// Set the customer's status to active again, if all the bills are payed
+Customer.prototype.billpayed = function(bill) {
 	/**
-	 * TODO Implement check of previous bill
+	 * TODO Check, if any other bills are not payed, if not, set the status to active again
 	 */
-	return true;
+}
+
+// Add a new bill to the current list of bills
+Customer.prototype.addbill = function(bill) {
+	this.bills.add(bill);
 }
 
 // Send a email so the customer can confirm his/her mailaddress
@@ -44,7 +61,6 @@ Customer.prototype.sendconfirmationemail = function() {
 	/**
 	 * TODO Implement sending of confirmation mail
 	 */
-	//console.log("Send mail to: " + this.email);
 	return "Send mail to: " + this.email;
 }
 

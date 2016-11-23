@@ -43,6 +43,9 @@
 				<div class="container">
 					<div class="row">
 						<div class="3u 12u(mobile)">
+						<h2>
+										<font color="white">Car Details</font>
+									</h2>
 
 							<!-- Sidebar -->
 							<section>
@@ -56,7 +59,7 @@
 									<font color="white">Price per km: $ {{kmprice}}</font>
 								</h2>
 								<h2>
-									<font color="white">Price per hr: $ {{hrprice}}</font>
+									<font color="white">Price per h: $ {{hrprice}}</font>
 								</h2>
 							</section>
 
@@ -84,7 +87,7 @@
 									<font color="white"> Year: {{year}} </font>
 								</p>
 								<form action="directiontocar" method = "post">
-									<input type="submit" value="Reserve Car"/>
+									<input type="submit" value="Reserve this car"/>
 								</form>
 								<!-- <a href="directiontocar"><img src="images/button.jpg"></a> -->
 							</section>
