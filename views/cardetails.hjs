@@ -48,10 +48,16 @@
 							<section>
 								<header>
 									<h2>
-										<font color="white">Volkswagen Jetta 2016</font>
+										<font color="white">{{brand}} {{model}}</font>
 									</h2>
 								</header>
-								<img src="images/jetta.png" align="left">
+								<img src={{picture}} align="left">
+								<h2>
+									<font color="white">Price per km: $ {{kmprice}}</font>
+								</h2>
+								<h2>
+									<font color="white">Price per hr: $ {{hrprice}}</font>
+								</h2>
 							</section>
 
 						</div>
@@ -60,40 +66,25 @@
 							<!-- Main Content -->
 							<section>
 								<p>
-									<font color="white"><font color="white"> The
-											Jetta's has a modern, small turbocharged four-cylinder in the
-											S and SE trim levels. Every Jetta also gets a new touchscreen
-											interface, while advanced accident avoidance tech is added to
-											the options list</font> </font>
+									<font color="white"><font color="white"> {{description}}</font> </font>
 								</p>
 								<p>
-									<font color="white"> Car: Volkswagen Jetta 2016 CE </font>
+									<font color="white"> Brand: {{brand}} </font>
 								</p>
 								<p>
-									<font color="white"> Plate: VXG-312 </font>
+									<font color="white"> Model: {{model}} </font>
 								</p>
 								<p>
-									<font color="white"> Brand: Volkswagen </font>
+									<font color="white"> Plate: {{plate}} </font>
 								</p>
 								<p>
-									<font color="white"> Color: Black </font>
+									<font color="white"> Color: {{color}} </font>
 								</p>
 								<p>
-									<font color="white"> Year: 2016 </font>
+									<font color="white"> Year: {{year}} </font>
 								</p>
-								<!--<p><a href="directionToCar.hjs"><img src="images/button.jpg"></p>-->
-
-
-								<!-- 								<p id="demo">A Paragraph.</p> -->
-
-								<!-- 								<form action='/carDetails.hjs' method='post'> -->
-								<!-- 								<fieldset> -->
-								<!-- 												 <input type="text"	id="firstName" name="firstName" placeholder="First Name:" /><br /> -->
-								<!-- 									<input type="submit" value="Rent" /> -->
-								<!-- 									</fieldset> -->
-								<!-- 								</form> -->
-								<form action="cardetails" method = "post">
-									<input type="submit" value="submit"/>
+								<form action="directiontocar" method = "post">
+									<input type="submit" value="Reserve Car"/>
 								</form>
 								<!-- <a href="directiontocar.hjs"><img src="images/button.jpg"></a> -->
 							</section>

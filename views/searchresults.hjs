@@ -74,8 +74,8 @@
 												    <td>{{carclass}}</td> 
 												    <td>{{model}}</td>
 												    <td><font size="5" color="green">{{distance}}</font></td>
-												    <td><font size="10" color="Black">{{kmprice}}</font> / 1km</td>
-												    <td><font size="10" color="Black">{{hrprice}}</font> / 1h</td>
+												    <td><font size="10" color="Black">$ {{kmprice}}</font> / 1km</td>
+												    <td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>
 												    <td><a href="carDetails.hjs"><img src="images/button.jpg"></td>
 												  </tr>
 												</table>

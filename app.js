@@ -58,7 +58,7 @@ app.get("/cardetails.hjs", function(req, res) {
 		var i = 0;
 //		for (var i = 0; i < cardata.length; ++i) {
 //			if (cardata[i].plate == currentcar) {
-				res.render("cardetails", {firstName: firstname, lastName: lastname, picture: cardata[i].picture, description: cardata[i].description, model: cardata[i].model, brand: cardata[i].brand, color: cardata[i].color, year: cardata[i].year});
+				res.render("cardetails", {firstName: firstname, lastName: lastname, picture: cardata[i].picture, description: cardata[i].description, model: cardata[i].model, brand: cardata[i].brand, color: cardata[i].color, year: cardata[i].year, plate: cardata[i].plate, kmprice: cardata[i].kmCost, hrprice: cardata[i].timeCost});
 			//}
 		//}
 	})
@@ -139,7 +139,25 @@ app.post("/registernewuser", function(req, res) {
 });
 
 
-//app.post("/cardetails", application.reservecar);
+app.post("/directiontocar", function(req, res) {
+	fs.readFile(__dirname + '/public/userdata.json', 'utf8', function(err, data) {
+		if (err)
+			throw err;
+		var user_data = JSON.parse(data);
+		var chck = -1;
+		for (var i = 0; i < user_data.length; ++i) {
+			if (user_data[i].id == userid) {
+				var currentUser = new Customer(user_data[i].first_name,user_data[i].last_name,user_data[i].email_id,user_data[i].street_name);
+				if (currentUser.checkPreviousBill() == true) {
+					res.render('directiontocar', {bill: 'approved'});
+				}
+				else {
+					res.render('paybill', {bill: 'not approved'});
+				}
+			}
+		}
+	})
+});
 
 // development only
 if ('development' == app.get('env')) {
