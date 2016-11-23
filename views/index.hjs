@@ -22,7 +22,7 @@
 
 								<<!-- Nav -->
 									<nav id="nav">
-										<a href="signin.hjs">Login/New User</a>
+										<a href="signin">Login/New User</a>
 									</nav>
 
 							</div>

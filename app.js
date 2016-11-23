@@ -1,11 +1,10 @@
-
 /**
  * Module dependencies.
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
+ // , routes = require('./routes')
+  //, user = require('./routes/user')
   , http = require('http')
   , path = require('path')
   , fs = require('fs')
@@ -28,67 +27,133 @@ app.use(express.methodOverride());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get("/index.hjs", function(req, res) {
+app.get("/index", function(req, res) {
 	res.render("index");
 });
 
-app.get("/signin.hjs", function(req, res) {
+app.get('/', function(req, res) {
+	res.render("index");
+});
+
+app.get("/signin", function(req, res) {
 	res.render("signin");
 });
 
-app.get("/registernewuser.hjs", function(req, res) {
+app.get("/logout", function(req, res) {
+	currentuser = undefined;
+	currentcar = undefined;
+	res.render("signin", {info: 'You are successfully logged out.'});
+});
+
+app.get("/registernewuser", function(req, res) {
 	res.render("registernewuser");
 });
 
 app.get("/searchresults", function(req, res) {
-	fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err, data) {
-		if (err)
-			throw err;
-		var cardata = JSON.parse(data);
-		//for (var i = 0; i < carr_data.length; ++i) {
-		currentcar = cardata[0].plate;
-		res.render("searchresults", {firstName: currentuser.firstname, lastName: currentuser.lastname, picture: cardata[0].picture, carclass: cardata[0].carclass, model: cardata[0].model, distance: cardata[0].distance, kmprice: cardata[0].kmCost, hrprice: cardata[0].timeCost});
-		//}
-	})
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to view search results.'});
+	} else {
+		fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err,
+				data) {
+			if (err)
+				throw err;
+			var cardata = JSON.parse(data);
+			// for (var i = 0; i < carr_data.length; ++i) {
+			currentcar = cardata[0].plate;
+			res.render("searchresults", {
+				firstName : currentuser.firstname,
+				lastName : currentuser.lastname,
+				picture : cardata[0].picture,
+				carclass : cardata[0].carclass,
+				model : cardata[0].model,
+				distance : cardata[0].distance,
+				kmprice : cardata[0].kmCost,
+				hrprice : cardata[0].timeCost
+			});
+			//}
+		})
+	}
 });
 
-app.get("/cardetails.hjs", function(req, res) {
-	fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err, data) {
-		if (err)
-			throw err;
-		var cardata = JSON.parse(data);
-		var i = 0;
-//		for (var i = 0; i < cardata.length; ++i) {
-//			if (cardata[i].plate == currentcar) {
-				currentcar = new Car(cardata[i].plate, cardata[i].brand, cardata[i].model, cardata[i].color, cardata[i].year, cardata[i].category, cardata[i].status, cardata[i].kmcost, cardata[i].timecost, cardata[i].creator, cardata[i].picture, cardata[i].location, cardata[i].description, cardata[i].carclass);
-				console.log(currentcar.plate);
-				res.render("cardetails", {firstName: currentuser.firstname, lastName: currentuser.lastname, picture: currentcar.picture, description: currentcar.description, model: currentcar.model, brand: currentcar.brand, color: currentcar.color, year: currentcar.year, plate: currentcar.plate, kmprice: currentcar.kmcost, hrprice: currentcar.timecost});
-//			}
-//		}
-	})
+app.get("/cardetails", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to view car details.'});	
+	} else {
+		fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err,
+				data) {
+			if (err)
+				throw err;
+			var cardata = JSON.parse(data);
+			var i = 0;
+			// for (var i = 0; i < cardata.length; ++i) {
+			// if (cardata[i].id == idfromcarchosen) {
+			currentcar = new Car(cardata[i].plate, cardata[i].brand,
+					cardata[i].model, cardata[i].color, cardata[i].year,
+					cardata[i].category, cardata[i].status, cardata[i].kmcost,
+					cardata[i].timecost, cardata[i].creator,
+					cardata[i].picture, cardata[i].location,
+					cardata[i].description, cardata[i].carclass);
+			console.log(currentcar.plate);
+			res.render("cardetails", {
+				firstName : currentuser.firstname,
+				lastName : currentuser.lastname,
+				picture : currentcar.picture,
+				description : currentcar.description,
+				model : currentcar.model,
+				brand : currentcar.brand,
+				color : currentcar.color,
+				year : currentcar.year,
+				plate : currentcar.plate,
+				kmprice : currentcar.kmcost,
+				hrprice : currentcar.timecost
+			});
+			//				}
+			//			}
+		})
+	}
 });
 
-app.get("/directiontocar.hjs", function(req, res) {
-	res.render("directiontocar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+app.get("/directiontocar", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to view directions to car.'});
+	}
+	else {
+		res.render("directiontocar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+	}
 });
 
-app.get("/directiontolocation.hjs", function(req, res) {
-	res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+app.get("/directiontolocation", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to view directions to location.'});
+	}
+	else {
+		res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+	}
 });
 
-app.get("/tripdetails.hjs", function(req, res) {
-	res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+app.get("/tripdetails", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to view trip details.'});
+	}
+	else {
+		res.render("directiontolocation", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+	}
 });
 
-app.get("/findcar.hjs", function(req, res) {
-	res.render("findcar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+app.get("/findcar", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {info: 'Please sign in to find a car.'});
+	}
+	else {
+		res.render("findcar", {firstName: currentuser.firstname, lastName: currentuser.lastname});
+	}
 });
 
-app.get("/emailsent.hjs", function(req, res) {
+app.get("/emailsent", function(req, res) {
 	res.render("emailsent");
 });
 
-app.get("/registernewuser.hjs", function(req, res) {
+app.get("/registernewuser", function(req, res) {
 	res.render("registernewuser");
 });
 
@@ -141,43 +206,52 @@ app.post("/registernewuser", function(req, res) {
 
 
 app.post("/directiontocar", function(req, res) {
-	if (currentuser.checkpreviousbill() == true) {
-		// Get location of user and car to direct to car
-		fs.readFile(__dirname + '/public/location.json', 'utf8', function(err,
-				data) {
-			if (err)
-				throw err;
-			var locationdata = JSON.parse(data);
-			var chck = -1;
-			var locationcar, locationuser;
-			for (var i = 0; i < locationdata.length; ++i) {
-				if (locationdata[i].id == currentcar.location) {
-					locationcar = new Location(locationdata[i].latitude,
-							locationdata[i].longitude);
-				}
-				if (locationdata[i].id == currentuser.location) {
-					locationuser = new Location(locationdata[i].latitude,
-							locationdata[i].longitude);
-				}
-			}
-			console.log(locationcar.latitude + " " + locationcar.longitude);
-			console.log(locationuser.latitude + " " + locationuser.longitude);
-			var latcar = locationcar.latitude;
-			var longcar = locationcar.longitude;
-			var latuser = locationuser.latitude;
-			var longuser = locationuser.longitude;
-			res.render('directiontocar', {
-				bill : 'approved',
-				latcar : latcar,
-				longcar : longcar,
-				latuser : latuser,
-				longuser : longuser
-			});
-		})
+	if (typeof currentuser == 'undefined') {
+		res.render("signin");
 	} else {
-		res.render('paybill', {
-			bill : 'not approved'
-		});
+		if (currentuser.checkpreviousbill() == true) {
+			// Get location of user and car to direct to car
+			fs.readFile(__dirname + '/public/location.json', 'utf8',
+					// TODO: Set car status reserved
+					function(err, data) {
+						if (err)
+							throw err;
+						var locationdata = JSON.parse(data);
+						var chck = -1;
+						var locationcar, locationuser;
+						for (var i = 0; i < locationdata.length; ++i) {
+							if (locationdata[i].id == currentcar.location) {
+								locationcar = new Location(
+										locationdata[i].latitude,
+										locationdata[i].longitude);
+							}
+							if (locationdata[i].id == currentuser.location) {
+								locationuser = new Location(
+										locationdata[i].latitude,
+										locationdata[i].longitude);
+							}
+						}
+						console.log(locationcar.latitude + " "
+								+ locationcar.longitude);
+						console.log(locationuser.latitude + " "
+								+ locationuser.longitude);
+						var latcar = locationcar.latitude;
+						var longcar = locationcar.longitude;
+						var latuser = locationuser.latitude;
+						var longuser = locationuser.longitude;
+						res.render('directiontocar', {
+							bill : 'approved',
+							latcar : latcar,
+							longcar : longcar,
+							latuser : latuser,
+							longuser : longuser
+						});
+					})
+		} else {
+			res.render('paybill', {
+				bill : 'not approved'
+			});
+		}
 	}
 });
 
@@ -185,9 +259,6 @@ app.post("/directiontocar", function(req, res) {
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-app.get('/', routes.index);
-//app.get('/test', application.reservecar);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

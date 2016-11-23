@@ -18,12 +18,12 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar" id="logo">M-CarShare</a></h1>
 
 								<<!-- Nav -->
 									<nav id="nav">
 										<h2><font color="white">Welcome {{firstName}} {{lastName}}!</font></h2>
-										<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
+										<h3><font color="white"><a href="logout">Logout</a></font></h3>
 									</nav>
 
 							</div>
@@ -51,7 +51,7 @@
 												<h3><font color="white">Time: 6H:28M </font></h3>
 												<h3><font color="white">Distance: 430Km </font></h3>
 												<h3><font color="white">Price: CAD 21.5 </font></h3><br/>
-												<a href="findcar.hjs"><img src="images/return.jpg">
+												<a href="findcar"><img src="images/return.jpg">
 											</header>
 										</section>
 

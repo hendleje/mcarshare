@@ -18,11 +18,11 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar" id="logo">M-CarShare</a></h1>
 
 								<<!-- Nav -->
 									<nav id="nav">
-										<a href="signin.hjs">Login</a>
+										<a href="signin">Login</a>
 									</nav>
 
 							</div>
@@ -59,7 +59,7 @@
 												 <input type="text"	id="province" name="province" placeholder="Province:" /><br />
 												 <input type="text" id="password" name="password" placeholder="Password:" /><br />
 												 <input type="submit" value="submit" />
-<!-- 												 <a href="emailSent.hjs"><img src="images/submit.jpg"> -->
+<!-- 												 <a href="emailSent"><img src="images/submit.jpg"> -->
 											</fieldset>
 											</form>
 										</section>
