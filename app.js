@@ -134,10 +134,6 @@ app.get("/tripdetails", function(req, res) {
 		var starttime = rentalagreement.printdate(rentalagreement.starttime);
 		var endtime = rentalagreement.printdate(rentalagreement.endtime);
 		
-		bill = new Bill(rentalagreement.sum, currentuser.id, rentalagreement.id);
-		bill.sendbillviaemail(currentuser.email);
-		currentuser.addbill(bill);
-		
 		res.render("tripdetails", {
 			firstName : currentuser.firstname,
 			lastName : currentuser.lastname,
@@ -175,8 +171,10 @@ app.get("/directiontolocation", function(req, res) {
 			info : 'Please sign in to view directions to location.'
 		});
 	} else {
-		// DETELE THAT as soon as page between directiontocar and directiontolocation exists
+		// DETELE THAT as soon as page between directiontocar and
+		// directiontolocation exists
 		rentalagreement = new Rentalagreement(currentuser.id, currentcar.id);
+		
 		res.render("directiontolocation", {
 			firstName : currentuser.firstname,
 			lastName : currentuser.lastname
@@ -190,28 +188,82 @@ app.post("/tripdetails", function(req, res) {
 			info : 'Please sign in to view trip details.'
 		});
 	} else {
-		if (typeof rentalagreement.endtime == 'undefined') {
-			// TODO change car status?
-			rentalagreement.carreturned(10, currentcar.kmcost, currentcar.timecost);			
-		}		
-		// Get nice representation of the start and end time
-		var starttime = rentalagreement.printdate(rentalagreement.starttime);
-		var endtime = rentalagreement.printdate(rentalagreement.endtime);
-		
-		// Go to trip details page
-		res.render("tripdetails", {
-			firstName : currentuser.firstname,
-			lastName : currentuser.lastname,
-			kmcostsum : rentalagreement.cost[0].toFixed(2),
-			timecostsum : rentalagreement.cost[1].toFixed(2),
-			kmcost : currentcar.kmcost,
-			timecost : currentcar.timecost,
-			sum : rentalagreement.sum.toFixed(2),
-			kmdriven : rentalagreement.kmdriven.toFixed(2),
-			timedriven : rentalagreement.timedriven.toFixed(2),
-			starttime : starttime,
-			endtime : endtime
-		});
+		// Check, if user at one of the designated locations
+		// TODO get correct userlocation
+		var userlat = -47.54;
+		var userlong = 52.73;
+		var atlocation;
+		var mindist = 100000;
+		var closestlong = 0;
+		var closestlat = 0;
+		fs.readFile(__dirname + '/public/locationdata.json', 'utf8', function(err,
+				data) {
+			if (err)
+				throw err;
+			var locationdata = JSON.parse(data);
+			// Calculate distances from designated locations
+			for (var i = 0; i < locationdata.length; ++i) {
+				current = new Location (locationdata[i].latitude, locationdata[i].longitude);
+				var distance = current.calculatedistance(userlat, userlong);
+				if (distance < 10) {
+					atlocation = true;
+					console.log(atlocation);
+					// break;
+				}
+				else {
+					atlocation = false;
+				}
+				if(distance < mindist) {
+					closestlong = current.longitude;
+					closeslat = current.latitude;
+				}
+			}
+			
+			// If user is at valid location, return car	
+			if (atlocation) {
+				if (typeof rentalagreement.endtime == 'undefined') {
+					// TODO change car status
+					rentalagreement.carreturned(10, currentcar.kmcost, currentcar.timecost);			
+				}
+				
+				// Create bill and send it to the user
+				bill = new Bill(rentalagreement.sum, currentuser.id, rentalagreement.id);
+				bill.sendbillviaemail(currentuser.email);
+				currentuser.addbill(bill);
+				// TODO save bill in file
+				
+				// Get nice representation of the start and end time
+				var starttime = rentalagreement.printdate(rentalagreement.starttime);
+				var endtime = rentalagreement.printdate(rentalagreement.endtime);
+				
+				// Go to trip details page
+				res.render("tripdetails", {
+					firstName : currentuser.firstname,
+					lastName : currentuser.lastname,
+					kmcostsum : rentalagreement.cost[0].toFixed(2),
+					timecostsum : rentalagreement.cost[1].toFixed(2),
+					kmcost : currentcar.kmcost,
+					timecost : currentcar.timecost,
+					sum : rentalagreement.sum.toFixed(2),
+					kmdriven : rentalagreement.kmdriven.toFixed(2),
+					timedriven : rentalagreement.timedriven.toFixed(2),
+					starttime : starttime,
+					endtime : endtime
+				});
+			}
+			// If user is not at valid location, give directions to location
+			else {
+				console.log("Too far : atlocation = " +atlocation);
+				res.render('directiontolocation', {
+					info : "Please drive to the closest designated location shown in the map to return the car",
+					latfrom : userlat,
+					longfrom : userlong,
+					latto : closestlat,
+					longto : closestlong
+				})
+			}
+		})
+		console.log("Location: " +atlocation);	
 	}
 });
 
@@ -324,10 +376,10 @@ app.post("/directiontocar", function(req, res) {
 						var latuser = locationuser.latitude;
 						var longuser = locationuser.longitude;
 						res.render('directiontocar', {
-							latcar : latcar,
-							longcar : longcar,
-							latuser : latuser,
-							longuser : longuser
+							latfrom : latuser,
+							longfrom : longuser,
+							latto : latcar,
+							longto : longcar
 						});
 					})
 		} else {

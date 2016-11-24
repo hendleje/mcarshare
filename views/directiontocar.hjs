@@ -42,6 +42,7 @@
 										<section>
 											<header>
 												<h2><font color="white">Directions to your reserved Car</font></h2>
+												<h2><font color="white">Direction from {{latfrom}}, {{longfrom}} to {{latto}}, {{longto}}</font></h2>
 											</header>
 											<style>
 											table#cars {

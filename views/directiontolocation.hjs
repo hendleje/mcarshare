@@ -62,8 +62,7 @@
 									<!-- Main Content -->
 										<section>
 											<header>
-												<h2><font color="white">Current Trip Information</font></h2>
-
+												<h2><font color="white">{{info}}</font></h2>
 												<h3><font color="white"><font color="white">
 												Start Time: <div id="txt"></div></font>
 											</font></h3>
