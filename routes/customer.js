@@ -37,7 +37,7 @@ Customer.prototype = Object.create(Person.prototype);
 // Check, if the previous bill of the customer was paid
 Customer.prototype.checkpreviousbill = function(){
 	if (this.status == cusstatus.SUSPENDED || this.unpaidbills.length > 0) {
-		console.log("UNpaidbills length: " + this.unpaidbills.length);
+		console.log("Unpaidbills length: " + this.unpaidbills.length);
 		return false;
 	}
 	else {

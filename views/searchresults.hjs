@@ -76,7 +76,9 @@
 												    <td><font size="5" color="green">{{distance}}</font></td>
 												    <td><font size="10" color="Black">$ {{kmprice}}</font> / 1km</td>
 												    <td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>
-												    <td><a href="carDetails"><img src="images/button.jpg"></td>
+												    <td><form action="cardetails" method = "get">
+														<input type="submit" value="View details/ Reserve car"/>
+													</form></td>
 												  </tr>
 												</table>
 										</section>

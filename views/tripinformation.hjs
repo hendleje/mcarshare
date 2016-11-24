@@ -7,29 +7,8 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="stylesheets/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-		<script type="text/javascript">
-		function startTime()
-		{
-		var today=new Date();
-		var h=today.getHours();
-		var m=today.getMinutes();
-		var s=today.getSeconds();
-		// add a zero in front of numbers<10
-		m=checkTime(m);
-		s=checkTime(s);
-		document.getElementById('txt').innerHTML=h+":"+m+":"+s;
-		}
-		function checkTime(i)
-		{
-		if (i<10)
-		{
-		i="0" + i;
-		}
-		return i;
-		}
-		</script>
 	</head>
-	<body class="subpage" onload="startTime()">
+	<body class="subpage">
 		<div id="page-wrapper">
 
 			<!-- Header -->
@@ -39,12 +18,12 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="findcar" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
 
-								<<!-- Nav -->
+									<<!-- Nav -->
 									<nav id="nav">
 										<h2><font color="white">Welcome {{firstName}} {{lastName}}!</font></h2>
-										<h3><font color="white"><a href="logout">Logout</a></font></h3>
+										<h3><font color="white"><a href="signin.hjs">Logout</a></font></h3>
 									</nav>
 
 							</div>
@@ -62,8 +41,10 @@
 									<!-- Main Content -->
 										<section>
 											<header>
-												<h2><font color="white">{{info}}</font></h2>
-											</font></h3>
+												<h2><font color="white">Enjoy your trip!</font></h2>
+												<h3><font color="white">Start time: {{starttime}}</font></h3>
+												<h3><font color="white">Cost per hour: $ {{timecost}}</font></h3>
+												<h3><font color="white">Cost per km: $ {{kmcost}}</font></h3>
 											</header>
 											<style>
 											table#cars {
@@ -80,15 +61,47 @@
 											    color: white;
 											}
 											</style>
-											<table id="cars">											  
-												   <tr>
-												    <td><iframe src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d10766.88345531469!2d-52.74083636951557!3d47.57321924334604!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e0!4m5!1s0x4b0ca38e41b32fbd%3A0x1b14f52169f29ac6!2sScience+Building+-+Memorial+University%2C+Elizabeth+Avenue%2C+St.+John&#39;s%2C+NL!3m2!1d47.572845199999996!2d-52.732159499999995!4m5!1s0x4b0ca38ee42e01af%3A0x4930ac80128f2281!2sMUN+Center%2C+St.+John&#39;s%2C+NL!3m2!1d47.57337!2d-52.735682!5e0!3m2!1sen!2sca!4v1477001937812" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe></td>
-												  </tr>
+											<table id="cars">
 											</table>
-											<form action="tripdetails" method = "post">
+												<form action="tripdetails" method = "post">
 												<input type="submit" value="Return car"/>
 											</form>
 										</section>
+<p id="demo"></p>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else { 
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude + 
+    "<br>Longitude: " + position.coords.longitude;
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+</script>
 
 								</div>
 							</div>

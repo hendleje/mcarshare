@@ -5,7 +5,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="stylesheet/main.css" />
+		<link rel="stylesheet" href="stylesheets/main.css" />
 		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
 	</head>
 	<body class="subpage">
@@ -18,7 +18,7 @@
 							<div class="12u">
 
 								<!-- Logo -->
-									<h1><a href="findcar" id="logo">M-CarShare</a></h1>
+									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
 
 								<<!-- Nav -->
 									<nav id="nav">
@@ -47,13 +47,9 @@
 									<!-- Main Content -->
 										<section>
 											<header>
-												<h2><font color="white">Billing </font></h2>
-												<h3><font color="white">The last trip number: 817381 has not been paid yet. To be able to rent another car, please 
-												cover the trip's expense as soon as possible: </font></h3>
-												<h3><font color="white">Time: 6H:28M </font></h3>
-												<h3><font color="white">Distance: 430Km </font></h3>
-												<h3><font color="white">Price: CAD 21.5 </font></h3><br/>
+												<h2><font color="white">Unpaid bill!</font></h2>
 											</header>
+											<h3><font color="white">Please pay your last bill in order to be able to rent a car.</font></h3>
 										</section>
 
 								</div>

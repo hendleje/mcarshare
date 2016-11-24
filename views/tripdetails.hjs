@@ -51,11 +51,13 @@
 												<h3><font color="white">Time of car check out: {{starttime}} </font></h3>
 												<h3><font color="white">Time of car return: {{endtime}}</font></h3>
 												<h3><font color="white">Time driven: {{timedriven}} h (car costs $ {{timecost}}/h)</font></h3>
-												<h3><font color="white">Time costs: $ {{timecossumt}} </font></h3>
+												<h3><font color="white">Time costs: $ {{timecostsum}} </font></h3>
 												<h3><font color="white">Distance Driven: {{kmdriven}} km (car costs $ {{kmcost}}/km)</font></h3>
 												<h3><font color="white">Distance costs: $ {{kmcostsum}} </font></h3>
 												<h3><font color="white">Total costs: $ {{sum}} </font></h3><br/>
-												<a href="findcar"><img src="images/return.jpg">
+												<form action="findcar" method = "get">
+													<input type="submit" value="Find new car"/>
+												</form>
 											</header>
 										</section>
 
