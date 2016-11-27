@@ -4,6 +4,25 @@
 
 var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), application = require('./routes/application'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill');
 
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport('smtps://mcarshare4%40gmail.com:stutter1@smtp.gmail.com');
+
+var mailOptions = {
+    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
+    to: '', // list of receivers
+    subject: 'Hello', // Subject line
+    text: 'To verify your account, please follow the ', // plaintext body
+    html: '<b>To verify your account, please follow the </b> <a href = "http://localhost:3343/verification"> link</a>' // html body
+};
+//var mail_Options = {
+	    //from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
+	    //to: 'ezekwesilisandraonyinye@gmail.com', // list of receivers
+	    //subject: 'Current Bill', // Subject line
+	    //text: 'Your current bill is as follows: ', // plaintext body
+	    //html: '<b> Your current bill is as follows:</b>' // html body
+	//};
+
 var app = express();
 var currentcar, currentuser, rentalagreement;
 var count = 0;
@@ -276,7 +295,14 @@ app
 														.printdate(rentalagreement.starttime);
 												var endtime = rentalagreement
 														.printdate(rentalagreement.endtime);
-
+ 
+												//mail_Options.to = req.body.email;
+												//transporter.sendMail(mail_Options, function(error, info){
+												    //if(error){
+												        //return console.log(error);
+												    //}
+												   // console.log('Message sent: ' + info.response);
+												//});
 												// Go to trip details page
 												res
 														.render(
@@ -408,7 +434,17 @@ app.post("/registernewuser", function(req, res) {
 		var json = JSON.stringify(user_data);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
 	})
+	// send mail with defined transport object
+	mailOptions.to = req.body.email;
+	transporter.sendMail(mailOptions, function(error, info){
+	    if(error){
+	        return console.log(error);
+	    }
+	    console.log('Message sent: ' + info.response);
+	});
 	res.render("emailsent");
+	
+	
 });
 
 app.post("/directiontocar", function(req, res) {
@@ -463,6 +499,9 @@ app.post("/directiontocar", function(req, res) {
 			});
 		}
 	}
+});
+app.get ("/verification", function (req, res){
+	res.render("emailverification");
 });
 
 // development only
