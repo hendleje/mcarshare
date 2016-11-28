@@ -1,6 +1,10 @@
 // ------------ Car ------------
+var fs = require('fs');
+
 // Creates a car
-function Car(plate, brand, model, color, year, category, status, kmcost, timecost, creator, picture, location, description, carclass) {
+function Car(id, plate, brand, model, color, year, category, status, kmcost, timecost, creator, picture, location, description, carclass) {
+	this.id = id;
+	console.log(this.id);
 	this.plate = plate;
 	this.brand = brand;
 	this.model = model;
@@ -51,12 +55,99 @@ var carCategory = {
 	LUXURY: "luxury"
 }
 
-// Calculate air distance of car from given point via latitude and longitude
-Car.prototype.calculatedistance = function(latitude, longitude) {
-	var disLat = Math.pow(this.location.latitude - latitude, 2);
-	var disLon = Math.pow(this.location.longitude - longitude, 2);
-	var dis = Math.sqrt(disLat + disLon);
-	return dis;
+// Set status for the car and save change in json file
+Car.prototype.changestatus = function(newstatus) {
+	this.status = newstatus;
+	var id = this.id;
+	
+	// Save new status in json file
+	fs.readFile('./public/cardata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var cardata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < cardata.length; ++i) {
+			if (cardata[i].id == id) {
+				cardata[i].status = newstatus;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(cardata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
+			if (err)
+				throw err;
+		}*/);
+	});
 }
+
+// Change status and location for the car and save change in json file
+Car.prototype.changeStatusAndLocation = function(newstatus, newlocation) {
+	this.location = newlocation;
+	this.status = newstatus
+	var id = this.id;
+	
+	// Save new status in json file
+	fs.readFile('./public/cardata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var cardata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < cardata.length; ++i) {
+			if (cardata[i].id == id) {
+				cardata[i].location = newlocation;
+				cardata[i].status = newstatus;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(cardata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
+			if (err)
+				throw err;
+		}*/);
+	});
+}
+
+//Change location for the car and save change in json file
+Car.prototype.changelocation = function(newlocation) {
+	this.location = newlocation;
+	var id = this.id;
+	
+	// Save new status in json file
+	fs.readFile('./public/cardata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var cardata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < cardata.length; ++i) {
+			if (cardata[i].id == id) {
+				cardata[i].location = newlocation;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(cardata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
+			if (err)
+				throw err;
+		}*/);
+	});
+}
+
+
+//Calculate air distance of car from given point via latitude and longitude
+//Car.prototype.calculatedistance = function(latitude, longitude) {
+//	var disLat = Math.pow(this.location.latitude - latitude, 2);
+//	var disLon = Math.pow(this.location.longitude - longitude, 2);
+//	var dis = Math.sqrt(disLat + disLon);
+//	return dis;
+//}
 
 module.exports = Car;

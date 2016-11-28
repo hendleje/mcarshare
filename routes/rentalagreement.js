@@ -1,16 +1,47 @@
 // ------------ Rental Agreement ------------
+var fs = require('fs');
+
 // Creates a rental agreement
 function Rentalagreement(customer, car) {
 	/**
 	 * TODO create proper IDs
 	 */
-	this.id = 1;
+	this.id = guid();
 	this.starttime = this.getcurrenttime();
 	this.car = car;
 	this.customer = customer;
 }
 
-// When returning the car all remaining information is calculated
+//Save the rentalagreement in the json file
+Rentalagreement.prototype.save = function() {
+	var start = this.starttime;
+	var end = this.endtime;
+	var kmdriven = this.kmdriven;
+	var cost = this.cost;
+	var car = this.car;
+	var customer = this.customer;
+	var id = this.id;
+	fs.readFile('./public/rentalagreementdata.json', 'utf8', function(err,
+			data) {
+		if (err)
+			throw err;
+		var radata = JSON.parse(data);
+		//id = radata.length+1;
+		radata.push({
+			id : id,
+			starttime : start,
+			endtime : end,
+			kmdriven : kmdriven,
+			cost : cost,
+			car : car,
+			customer : customer
+		});
+		var json = JSON.stringify(radata);
+		fs.writeFile('./public/rentalagreementdata.json', json);
+	})
+}
+
+//When returning the car all remaining information is calculated
 Rentalagreement.prototype.carreturned = function(kmdriven, kmcost, timecost) {
 	// Save km driven
 	this.kmdriven = kmdriven;
@@ -24,6 +55,34 @@ Rentalagreement.prototype.carreturned = function(kmdriven, kmcost, timecost) {
 	// Calculate costs
 	this.cost = this.calculatecosts(kmcost, timecost);
 	this.sum = this.cost[0] + this.cost[1];
+	
+	// Save changes in json file
+	var id = this.id;
+	var endtime = this.endtime;
+	var cost = this.cost;
+	var sum = this.sum;
+	console.log(id);
+	fs.readFile('./public/rentalagreementdata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var radata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < radata.length; ++i) {
+			if (radata[i].id == id) {
+				console.log("found");
+				console.log(endtime);
+				radata[i].endtime = endtime;
+				radata[i].cost = cost;
+				radata[i].sum = sum;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(radata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/rentalagreementdata.json', newobj);
+	});
 }
 
 //Calculate costs for km and hours driven
@@ -37,13 +96,6 @@ Rentalagreement.prototype.calculatecosts = function(kmcost, timecost) {
 //Gets the current time
 Rentalagreement.prototype.getcurrenttime = function() {
 	var currentdate = new Date(); 
-//	var datetime = "Last Sync: " + currentdate.getDate() + "/"
-//	                + (currentdate.getMonth()+1)  + "/" 
-//	                + currentdate.getFullYear() + " @ "  
-//	                + currentdate.getHours() + ":"  
-//	                + currentdate.getMinutes() + ":" 
-//	                + currentdate.getSeconds();
-//	console.log(datetime);
 	return currentdate;
 }
 
@@ -69,6 +121,16 @@ Rentalagreement.prototype.printdate = function(date) {
 	}
 	var nicedate = "" + hours + ":" + min + ":" + sec + " (" + day + "/" + month + "/" + year + ")";
 	return nicedate;
+}
+
+function guid() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	  }
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	    s4() + '-' + s4() + s4() + s4();
 }
 
 module.exports = Rentalagreement;
