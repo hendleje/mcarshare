@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), application = require('./routes/application'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill');
+var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), application = require('./routes/application'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill'), Datamanagement = require('./routes/datamanagement');
 
 var nodemailer = require('nodemailer');
 
@@ -87,6 +87,9 @@ app.get("/searchresults", function(req, res) {
 					hrprice : cardata[0].timecost
 				});
 			}
+			else {
+				res.render("searchresults");
+			}
 			// }
 		})
 	}
@@ -106,13 +109,12 @@ app.get("/cardetails", function(req, res) {
 			var i = 0;
 			// for (var i = 0; i < cardata.length; ++i) {
 			// if (cardata[i].id == idfromcarchosen) {
-			currentcar = new Car(cardata[i].plate, cardata[i].brand,
+			currentcar = new Car(cardata[i].id, cardata[i].plate, cardata[i].brand,
 					cardata[i].model, cardata[i].color, cardata[i].year,
 					cardata[i].category, cardata[i].status, cardata[i].kmcost,
 					cardata[i].timecost, cardata[i].creator,
 					cardata[i].picture, cardata[i].location,
 					cardata[i].description, cardata[i].carclass);
-			console.log(currentcar.plate);
 			res.render("cardetails", {
 				firstName : currentuser.firstname,
 				lastName : currentuser.lastname,
@@ -179,9 +181,13 @@ app.get("/tripinformation",
 				});
 			} else {
 				if (typeof rentalagreement == 'undefined') {
-					// TODO set car status to "rented"
+					// Set car status to "rented"
+					currentcar.changestatus("rented");
+					
+					// Create rental agreement
 					rentalagreement = new Rentalagreement(currentuser.id,
 							currentcar.id);
+					rentalagreement.save();
 				}
 
 				// Get nice representation of the start and end time
@@ -211,144 +217,115 @@ app.get("/directiontolocation", function(req, res) {
 	}
 });
 
-app
-		.post(
-				"/tripdetails",
-				function(req, res) {
-					if (typeof currentuser == 'undefined') {
-						res.render("signin", {
-							info : 'Please sign in to view trip details.'
-						});
-					} else {
-						// Check, if user at one of the designated locations
-						// TODO get correct userlocation
-						var userlat, userlong;
-						if (count == 0) {
-							userlat = -50, 34;
-							userlong = 30.33;
-							count++;
-						} else {
-							userlat = -47.54;
-							userlong = 52.73;
-						}
-						var atlocation;
-						var mindist = 100000;
-						var closestlong = 0;
-						var closestlat = 0;
-						fs
-								.readFile(
-										__dirname + '/public/locationdata.json',
-										'utf8',
-										function(err, data) {
-											if (err)
-												throw err;
-											var locationdata = JSON.parse(data);
-											// Calculate distances from
-											// designated locations
-											for (var i = 0; i < locationdata.length; ++i) {
-												current = new Location(
-														locationdata[i].latitude,
-														locationdata[i].longitude);
-												var distance = current
-														.calculatedistance(
-																userlat,
-																userlong);
-												if (distance < 10) {
-													atlocation = true;
-													console.log(atlocation);
-													// break;
-												} else {
-													atlocation = false;
-												}
-												if (distance < mindist) {
-													closestlong = current.longitude;
-													closeslat = current.latitude;
-												}
-											}
+app.post("/tripdetails", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {
+			info : 'Please sign in to view trip details.'
+		});
+	} 
+	else {
+		// Check, if user at one of the designated locations
+		// TODO get correct userlocation
+		var userlat, userlong;
+		if (count == 0) {
+			userlat = -50, 34;
+			userlong = 30.33;
+			count++;
+		} else {
+			userlat = 47.564036;
+			userlong = -52.708167;
+		}
+		var atlocation;
+		var mindist = (Number.MAX_VALUE) * 2;
+		var closestlong = 0;
+		var closestlat = 0;
+		var closestloc, closestlocname;
+		fs.readFile(__dirname + '/public/locationdata.json', 'utf8', function(err, data) {
+			if (err)
+				throw err;
+			var locationdata = JSON.parse(data);
+			
+			// Calculate distances from designated locations
+			for (var i = 0; i < locationdata.length; ++i) {
+				current = new Location(locationdata[i].latitude, locationdata[i].longitude);
+				var distance = current.distanceto(userlat, userlong);
+				if (distance < 10) {
+					atlocation = true;
+				} else {
+					atlocation = false;
+				}
+				if (distance < mindist) {
+					closestlong = current.longitude;
+					closestlat = current.latitude;
+					closestloc = i;
+					closestlocname = locationdata[i].name; 
+				}
+			}
 
-											// If user is at valid location,
-											// return car
-											if (atlocation) {
-												if (typeof rentalagreement.endtime == 'undefined') {
-													// TODO change car status
-													rentalagreement
-															.carreturned(
-																	10,
-																	currentcar.kmcost,
-																	currentcar.timecost);
-												}
+			// If user is at valid location, return car
+			if (atlocation) {
+				if (typeof rentalagreement.endtime == 'undefined') {	
+					// Finish rental agreement
+					rentalagreement.carreturned(10,	currentcar.kmcost, currentcar.timecost);
+				}
+				// Change car status to available
+				currentcar.changestatus("available");
+				currentcar.changelocation(closestloc);
 
-												// Create bill and send it to
-												// the user
-												bill = new Bill(
-														rentalagreement.sum,
-														currentuser.id,
-														rentalagreement.id);
-												bill
-														.sendbillviaemail(currentuser.email);
-												currentuser.addbill(bill);
-												// TODO save bill in file
+				// Create bill and send it to the user
+				bill = new Bill(
+						rentalagreement.sum,
+						currentuser.id,
+						rentalagreement.id);
+				bill.sendbillviaemail(currentuser.email);
+				currentuser.addbill(bill);
+				// TODO save bill in file
+							
 
-												// Get nice representation of
-												// the start and end time
-												var starttime = rentalagreement
-														.printdate(rentalagreement.starttime);
-												var endtime = rentalagreement
-														.printdate(rentalagreement.endtime);
- 
-												//mail_Options.to = req.body.email;
-												//transporter.sendMail(mail_Options, function(error, info){
-												    //if(error){
-												        //return console.log(error);
-												    //}
-												   // console.log('Message sent: ' + info.response);
-												//});
-												// Go to trip details page
-												res
-														.render(
-																"tripdetails",
-																{
-																	firstName : currentuser.firstname,
-																	lastName : currentuser.lastname,
-																	kmcostsum : rentalagreement.cost[0]
-																			.toFixed(2),
-																	timecostsum : rentalagreement.cost[1]
-																			.toFixed(2),
-																	kmcost : currentcar.kmcost,
-																	timecost : currentcar.timecost,
-																	sum : rentalagreement.sum
-																			.toFixed(2),
-																	kmdriven : rentalagreement.kmdriven
-																			.toFixed(2),
-																	timedriven : rentalagreement.timedriven
-																			.toFixed(2),
-																	starttime : starttime,
-																	endtime : endtime
-																});
-											}
-											// If user is not at valid location,
-											// give directions to location
-											else {
-												console
-														.log("Too far : atlocation = "
-																+ atlocation);
-												res
-														.render(
-																'directiontolocation',
-																{
-																	info : "Please drive to the closest designated location shown in the map to return the car",
-																	latfrom : userlat,
-																	longfrom : userlong,
-																	latto : closestlat,
-																	longto : closestlong,
-																	firstName : currentuser.firstname,
-																	lastName : currentuser.lastname
-																})
-											}
-										})
-						console.log("Location: " + atlocation);
-					}
+				// Get nice representation of
+				// the start and end time
+				var starttime = rentalagreement.printdate(rentalagreement.starttime);
+				var endtime = rentalagreement.printdate(rentalagreement.endtime);
+				
+				//mail_Options.to = req.body.email;
+				//transporter.sendMail(mail_Options, function(error, info){
+				    //if(error){
+				        //return console.log(error);
+				    //}
+				   // console.log('Message sent: ' + info.response);
+				//});
+
+				// Go to trip details page
+				res.render("tripdetails", {
+							firstName : currentuser.firstname,
+							lastName : currentuser.lastname,
+							kmcostsum : rentalagreement.cost[0].toFixed(2),
+							timecostsum : rentalagreement.cost[1].toFixed(2),
+							kmcost : currentcar.kmcost,
+							timecost : currentcar.timecost,
+							sum : rentalagreement.sum.toFixed(2),
+							kmdriven : rentalagreement.kmdriven.toFixed(2),
+							timedriven : rentalagreement.timedriven.toFixed(2),
+							starttime : starttime,
+							endtime : endtime
 				});
+			}
+			// If user is not at valid location,
+			// give directions to location
+			else {
+				res.render('directiontolocation', {
+						info : "Please drive to the closest designated location shown in the map to return the car (" +closestlocname+ ")",
+						latfrom : userlat,
+						longfrom : userlong,
+						latto : closestlat,
+						longto : closestlong,
+						firstName : currentuser.firstname,
+						lastName : currentuser.lastname
+				})
+			}
+		})
+	}
+});
 
 app.get("/findcar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
@@ -387,6 +364,17 @@ app.get("/registernewuser", function(req, res) {
 // Checks if the username exists and if the password matches the username if
 // yes, a new customer is created.
 app.post("/signin", function(req, res) {
+//	dm = new Datamanagement();
+//	if (typeof dm.findcustomer(req.body.username, req.body.password) == 'undefined') {
+//		res.send("Invalid Username or Password.");
+//	}
+//	else {
+//		currentuser = getuser;
+//		res.render("findCar", {
+//			firstName : currentuser.firstname,
+//			lastName : currentuser.last_name
+//		});
+//	}
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
 			data) {
 		if (err)
@@ -420,8 +408,10 @@ app.post("/registernewuser", function(req, res) {
 			data) {
 		if (err)
 			throw err;
-		var user_data = JSON.parse(data);
-		user_data.push({
+		var userdata = JSON.parse(data);
+		var id = userdata.length+1;
+		userdata.push({
+			id : id,
 			first_name : req.body.firstName,
 			last_name : req.body.lastName,
 			email : req.body.email,
@@ -431,9 +421,10 @@ app.post("/registernewuser", function(req, res) {
 			province_name : req.body.province,
 			password : req.body.password
 		});
-		var json = JSON.stringify(user_data);
+		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
 	})
+	
 	// send mail with defined transport object
 	mailOptions.to = req.body.email;
 	transporter.sendMail(mailOptions, function(error, info){
@@ -442,9 +433,8 @@ app.post("/registernewuser", function(req, res) {
 	    }
 	    console.log('Message sent: ' + info.response);
 	});
+	
 	res.render("emailsent");
-	
-	
 });
 
 app.post("/directiontocar", function(req, res) {
@@ -452,38 +442,41 @@ app.post("/directiontocar", function(req, res) {
 		res.render("signin");
 	} else {
 		if (currentuser.checkpreviousbill() == true) {
+			// Change car status to reserved
+			currentcar.changestatus("reserved");
+			
 			// Get location of user and car to direct to car
-			fs.readFile(__dirname + '/public/locationdata.json', 'utf8',
-					// TODO: Set car status reserved
+			fs.readFile(__dirname + '/public/locationdata.json', 'utf8',					
 					function(err, data) {
 						if (err)
 							throw err;
 						var locationdata = JSON.parse(data);
 						var chck = -1;
-						var locationcar, locationuser;
+						var locationcar
+//						, locationuser;
 						for (var i = 0; i < locationdata.length; ++i) {
 							if (locationdata[i].id == currentcar.location) {
 								locationcar = new Location(
 										locationdata[i].latitude,
 										locationdata[i].longitude);
 							}
-							if (locationdata[i].id == currentuser.location) {
-								locationuser = new Location(
-										locationdata[i].latitude,
-										locationdata[i].longitude);
-							}
+//							if (locationdata[i].id == currentuser.location) {
+//								locationuser = new Location(
+//										locationdata[i].latitude,
+//										locationdata[i].longitude);
+//							}
 						}
-						console.log(locationcar.latitude + " "
-								+ locationcar.longitude);
-						console.log(locationuser.latitude + " "
-								+ locationuser.longitude);
+//						console.log(locationcar.latitude + " "
+//								+ locationcar.longitude);
+//						console.log(locationuser.latitude + " "
+//								+ locationuser.longitude);
 						var latcar = locationcar.latitude;
 						var longcar = locationcar.longitude;
-						var latuser = locationuser.latitude;
-						var longuser = locationuser.longitude;
+//						var latuser = locationuser.latitude;
+//						var longuser = locationuser.longitude;
 						res.render('directiontocar', {
-							latfrom : latuser,
-							longfrom : longuser,
+							latfrom : currentuser.latitude,
+							longfrom : currentuser.longitude,
 							latto : latcar,
 							longto : longcar,
 							firstName : currentuser.firstname,
@@ -500,6 +493,7 @@ app.post("/directiontocar", function(req, res) {
 		}
 	}
 });
+
 app.get ("/verification", function (req, res){
 	res.render("emailverification");
 });
