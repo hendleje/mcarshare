@@ -49,7 +49,7 @@
 											<header>
 												<h2><font color="white">Unpaid bill!</font></h2>
 											</header>
-											<h3><font color="white">Please pay your last bill in order to be able to rent a car.</font></h3>
+											<h3><font color="white">Please pay your bill of $ {{amount}} from the {{date}} in order to be able to rent a car.</font></h3>
 										</section>
 
 								</div>

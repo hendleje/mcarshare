@@ -37,52 +37,29 @@ Customer.prototype = Object.create(Person.prototype);
 
 // Check, if the previous bill of the customer was paid
 Customer.prototype.checkpreviousbill = function(){
-	return true;
-//	var cusid = this.id;
-//	console.log("Suche nach: " + cusid);
-//	var paid;
-//	console.log("1 " +paid);
-//	
-//	fs.readFileSync('./public/billdata.json', 'utf8', function(err, data) {
-//		if (err)
-//			throw err;
-//		var billdata = JSON.parse(data);
-//		for (var i = 0; i < billdata.length; ++i) {
-//			if (billdata[i].customer == cusid && !billdata[i].billpaid) {
-////				var bill = new Bill(billdata[i].sumtopay, billdata[i].customer, billdata[i].rentalagreement);
-////				if (billdata[i].billpaid) {
-////					console.log("add paid");
-////					this.paidbills.push(bill);
-////				}
-////				else {
-//				console.log("Return false");
-//				paid = false;
-////				}
-//			}
-//		}
-//		if (paid != false) {
-//			paid = true;
-//		}
-//	})
-//	console.log("4 " +paid);
-}
-
-Customer.prototype.test = function() {
-	var content;
-	//First I want to read the file
-	fs.readFile('./Index.html', function read(err, data) {
-	 if (err) {
-	     throw err;
-	 }
-	 content = data;
-
-	 // Invoke the next step here however you like
-	 console.log(content);   // Put all of the code here (not the best solution)
-	 processFile();          // Or put the next step in a function and invoke it
-	});
+	// return true;
+	var cusid = this.id;
+	console.log("Suche nach: " + cusid);
 	
-	function processFile() {
-	 console.log(content);
+	var data = fs.readFileSync('./public/billdata.json', 'utf8');
+	var billdata = JSON.parse(data);
+	for (var i = 0; i < billdata.length; i++) {
+		if (billdata[i].customer == cusid) {
+			var bill = new Bill(billdata[i].sumtopay, billdata[i].customer, billdata[i].rentalagreement);
+			if (billdata[i].billpaid) {
+				this.paidbills.push(bill);
+			}
+			else {
+				this.unpaidbills.push(bill);
+			}
+		}
+	}
+
+	if (this.status == cusstatus.SUSPENDED || this.unpaidbills.length > 0) {
+		return false;
+	}
+	else {
+		return true;
 	}
 }
 
@@ -144,34 +121,36 @@ Customer.prototype.changestatus = function(newstatus){
 		var newobj = JSON.stringify(customerdata);
 
 		// Write the modified obj to the file
-		fs.writeFileSync('./public/customerdata.json', newobj/*, function(err) {
-			if (err)
-				throw err;
-		}*/);
+		fs.writeFileSync('./public/customerdata.json', newobj/*
+																 * ,
+																 * function(err) {
+																 * if (err)
+																 * throw err; }
+																 */);
 	});
 }
 
-//Tests
-//var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
-//console.log(customer1.status);
-//console.log(customer1.checkpreviousbill());
-//customer1.addbill(1);
-//customer1.addbill(2);
-//customer1.addbill(3);
-//console.log("All " + customer1.unpaidbills.length + " bills added:");
-//for (var i=0; i<customer1.unpaidbills.length; i++) {
-//	console.log(customer1.unpaidbills[i]);
-//}
-//console.log(customer1.checkpreviousbill());
-//customer1.billpaid(2);
-//customer1.billpaid(1);
-//customer1.billpaid(3);
-//console.log("Bill 2 paid:");
-//for (var i=0; i<customer1.unpaidbills.length; i++) {
-//	console.log("unpaid: " + customer1.unpaidbills[i]);
-//}
-//for (var i=0; i<customer1.paidbills.length; i++) {
-//	console.log("paid: " + customer1.paidbills[i]);
-//}
-//console.log(customer1.status);
-//console.log(customer1.checkpreviousbill());
+// Tests
+// var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
+// console.log(customer1.status);
+// console.log(customer1.checkpreviousbill());
+// customer1.addbill(1);
+// customer1.addbill(2);
+// customer1.addbill(3);
+// console.log("All " + customer1.unpaidbills.length + " bills added:");
+// for (var i=0; i<customer1.unpaidbills.length; i++) {
+// console.log(customer1.unpaidbills[i]);
+// }
+// console.log(customer1.checkpreviousbill());
+// customer1.billpaid(2);
+// customer1.billpaid(1);
+// customer1.billpaid(3);
+// console.log("Bill 2 paid:");
+// for (var i=0; i<customer1.unpaidbills.length; i++) {
+// console.log("unpaid: " + customer1.unpaidbills[i]);
+// }
+// for (var i=0; i<customer1.paidbills.length; i++) {
+// console.log("paid: " + customer1.paidbills[i]);
+// }
+// console.log(customer1.status);
+// console.log(customer1.checkpreviousbill());

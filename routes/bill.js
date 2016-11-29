@@ -8,6 +8,7 @@ function Bill(sumtopay, customer, rentalagreement) {
 	this.rentalagreement = rentalagreement;
 	this.customer = customer;
 	this.billpaid = false;
+	this.date = new Date();
 }
 
 // Change billpaid as the bill is paid
@@ -28,6 +29,7 @@ Bill.prototype.savebill = function() {
 	var rentalagreement = this.rentalagreement;
 	var customer = this.customer;
 	var billpaid = this.billpaid;
+	var date = this.date;
 	
 	fs.readFile('./public/billdata.json', 'utf8', function(err,
 			data) {
@@ -40,11 +42,36 @@ Bill.prototype.savebill = function() {
 			sumtopay : sumtopay,
 			rentalagreement : rentalagreement,
 			customer : customer,
-			billpaid : billpaid
+			billpaid : billpaid,
+			date : date
 		});
 		var json = JSON.stringify(billdata);
 		fs.writeFile('./public/billdata.json', json);
 	})
+}
+
+//Print date
+Bill.prototype.printdate = function(date) {
+	var day = date.getDate();
+	var month = date.getMonth() + 1;
+	if (month < 10) {
+		month = "0" + month;
+	}
+	var year = date.getFullYear();
+	var hours = date.getHours();
+	if (hours < 10) {
+		hours = "0" + hours;
+	}
+	var min = date.getMinutes();
+	if (min < 10) {
+		min = "0" + min;
+	}
+	var sec = date.getSeconds();
+	if (sec < 10) {
+		sec = "0" + sec;
+	}
+	var nicedate = "" + day + "/" + month + "/" + year + " (" + hours + ":" + min + ":" + sec + ")";
+	return nicedate;
 }
 
 function guid() {

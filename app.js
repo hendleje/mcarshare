@@ -52,8 +52,10 @@ app.get("/signin", function(req, res) {
 
 app.get("/logout", function(req, res) {
 	// Delete reservation of car
-	if (currentcar.status = "reserved") {
-		currentcar.changestatus("available");
+	if (typeof currentcar != "undefined") {
+		if (currentcar.status = "reserved") {
+			currentcar.changestatus("available");
+		}
 	}
 	
 	currentuser = undefined;
@@ -501,12 +503,13 @@ app.post("/directiontocar", function(req, res) {
 			// Set customer status to 'suspended'
 			currentuser.changestatus("suspended");
 			
-			// TODO get unpaid bill(s) information and display it
-			
+			bill = currentuser.unpaidbills[0];
 			
 			res.render("paybill", {
 				firstName : currentuser.firstname,
-				lastName : currentuser.lastname
+				lastName : currentuser.lastname,
+				amount : bill.sumtopay,
+				date : bill.printdate(bill.date)
 			});
 		}
 	}
