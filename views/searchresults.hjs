@@ -62,36 +62,40 @@
 											<script>
 	var table = '<table id="cars"><tr><th style ="text-align:"left">Picture</th><th>Class</th>';
     table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
-	var rows = 2;
-	var cols = 6;
+	var rows = 1;
+	var cols = 7;
 	for (var r = 0; r < rows; r++) {
 		table += '<tr>';
-			for (var c = 1; c < cols; c++)
+			for (var c = 1; c <= cols; c++)
 			{
-				if (col == 1)
+				if (c == 1)
+				{
+					table += '<td><img src={{picture}} align="left"></td>';
+				}
+				if (c == 2)
 					{
-						table += 'td>{{carclass}}</td>';
+						table += '<td>{{carclass}}</td>';
 					}
-				else if(col == 2)
+				else if(c == 3)
 					{
 						table += '<td>{{model}}</td>';
 					}
-				else if(col ==3)
+				else if(c ==4)
 					{
 						table += '<td><font size="5" color="green">{{distance}}</font></td>';
 					}
-				else if(col==4)
+				else if(c==5)
 					{
 						table += '<td><font size="10" color="Black">$ {{kmprice}}</font> / km</td>';
 					}
-				else if(col ==5)
+				else if(c ==6)
 					{
 					table += '<td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>';
 					}
-				else if(col ==5)
-				{
-				table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></td>';
-				}
+				else if(c ==7)
+					{
+					table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></form></td>';
+					}
 			}
 		table += '</tr>';
 	document.write(table + '</table>');
