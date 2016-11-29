@@ -68,7 +68,30 @@
 		table += '<tr>';
 			for (var c = 1; c < cols; c++)
 			{
-				table += '<td>' + c + '</td>';
+				if (col == 1)
+					{
+						table += 'td>{{carclass}}</td>';
+					}
+				else if(col == 2)
+					{
+						table += '<td>{{model}}</td>';
+					}
+				else if(col ==3)
+					{
+						table += '<td><font size="5" color="green">{{distance}}</font></td>';
+					}
+				else if(col==4)
+					{
+						table += '<td><font size="10" color="Black">$ {{kmprice}}</font> / km</td>';
+					}
+				else if(col ==5)
+					{
+					table += '<td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>';
+					}
+				else if(col ==5)
+				{
+				table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></td>';
+				}
 			}
 		table += '</tr>';
 	document.write(table + '</table>');
