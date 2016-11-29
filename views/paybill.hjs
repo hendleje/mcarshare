@@ -1,78 +1,94 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>M-CarShare</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="stylesheets/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	</head>
-	<body class="subpage">
-		<div id="page-wrapper">
+<head>
+<title>M-CarShare</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+<link rel="stylesheet" href="stylesheets/main.css" />
+<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+</head>
+<body class="subpage">
+	<div id="page-wrapper">
 
-			<!-- Header -->
-				<div id="header-wrapper">
-					<header id="header" class="container">
-						<div class="row">
-							<div class="12u">
+		<!-- Header -->
+		<div id="header-wrapper">
+			<header id="header" class="container">
+				<div class="row">
+					<div class="12u">
 
-								<!-- Logo -->
-									<h1><a href="findcar.hjs" id="logo">M-CarShare</a></h1>
+						<!-- Logo -->
+						<h1>
+							<a href="findcar.hjs" id="logo">M-CarShare</a>
+						</h1>
 
-								<<!-- Nav -->
-									<nav id="nav">
-										<h2><font color="white">Welcome {{firstName}} {{lastName}}!</font></h2>
-										<h3><font color="white"><a href="logout">Logout</a></font></h3>
-									</nav>
+						<
+						<!-- Nav -->
+						<nav id="nav">
+							<h2>
+								<font color="white">Welcome {{firstName}} {{lastName}}!</font>
+							</h2>
+							<h3>
+								<font color="white"><a href="logout">Logout</a></font>
+							</h3>
+						</nav>
 
-							</div>
-						</div>
-					</header>
-				</div>
-
-			<!-- Content -->
-				<div id="content-wrapper">
-					<div id="content">
-						<div class="container">
-							<div class="row">
-								<div class="3u 12u(mobile)">
-
-									<!-- Left Sidebar -->
-										<section>
-										</section>
-								</div>
-								<div class="6u 12u(mobile) important(mobile)">
-
-									<!-- Main Content -->
-										<section>
-											<header>
-												<h2><font color="white">Unpaid bill!</font></h2>
-											</header>
-											<h3><font color="white">Please pay your bill of $ {{amount}} from the {{date}} in order to be able to rent a car.</font></h3>
-										</section>
-
-								</div>
-								
-							</div>
-						</div>
 					</div>
 				</div>
-
-			<!-- Copyright -->
-				<div id="copyright">
-					&copy; M-CarShare. All rights reserved. | M-CarShare
-				</div>
-
+			</header>
 		</div>
 
-		<!-- Scripts -->
-			<script src="/js/jquery.min.js"></script>
-			<script src="/js/skel.min.js"></script>
-			<script src="/js/skel-viewport.min.js"></script>
-			<script src="/js/util.js"></script>
-			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="/js/main.js"></script>
+		<!-- Navigation -->
+		<ul>
+			<li><a href="findcar">Find Car</a></li>
+			<li><a href="tripinformation">My Current Trip</a></li>
+		</ul>
 
-	</body>
+		<!-- Content -->
+		<div id="content-wrapper">
+			<div id="content">
+				<div class="container">
+					<div class="row">
+						<div class="3u 12u(mobile)">
+
+							<!-- Left Sidebar -->
+							<section></section>
+						</div>
+						<div class="6u 12u(mobile) important(mobile)">
+
+							<!-- Main Content -->
+							<section>
+								<header>
+									<h2>
+										<font color="white">Unpaid bill!</font>
+									</h2>
+								</header>
+								<h3>
+									<font color="white">Please pay your bill of $ {{amount}}
+										from the {{date}} in order to be able to rent a car.</font>
+								</h3>
+							</section>
+
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Copyright -->
+		<div id="copyright">&copy; M-CarShare. All rights reserved. |
+			M-CarShare</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/skel-viewport.min.js"></script>
+	<script src="/js/util.js"></script>
+	<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+	<script src="/js/main.js"></script>
+
+</body>
 </html>

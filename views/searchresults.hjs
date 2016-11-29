@@ -1,150 +1,152 @@
 <!DOCTYPE HTML>
 <html>
-	<head>
-		<title>M-CarShare</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="stylesheets/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
-	</head>
-	<body class="subpage">
-		<div id="page-wrapper">
+<head>
+<title>M-CarShare</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+<link rel="stylesheet" href="stylesheets/main.css" />
+<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+</head>
+<body class="subpage">
+	<div id="page-wrapper">
 
-			<!-- Header -->
-				<div id="header-wrapper">
-					<header id="header" class="container">
-						<div class="row">
-							<div class="12u">
+		<!-- Header -->
+		<div id="header-wrapper">
+			<header id="header" class="container">
+				<div class="row">
+					<div class="12u">
 
-								<!-- Logo -->
-									<h1><a href="findcar" id="logo">M-CarShare</a></h1>
+						<!-- Logo -->
+						<h1>
+							<a href="findcar" id="logo">M-CarShare</a>
+						</h1>
 
-								<<!-- Nav -->
-									<nav id="nav">
-										<h2><font color="white">Welcome  {{firstName}} {{lastName}}!</font></h2>
-										<h3><font color="white"><a href="logout">Logout</a></font></h3>
-									</nav>
+						<
+						<!-- Nav -->
+						<nav id="nav">
+							<h2>
+								<font color="white">Welcome {{firstName}} {{lastName}}!</font>
+							</h2>
+							<h3>
+								<font color="white"><a href="logout">Logout</a></font>
+							</h3>
+						</nav>
 
-							</div>
-						</div>
-					</header>
+					</div>
 				</div>
+			</header>
+		</div>
 
-			<!-- Content -->
-				<div id="content-wrapper">
-					<div id="content">
-						<div class="container">
-							<div class="row">
-								<div class="12u">
+		<!-- Navigation -->
+		<ul>
+			<li><a href="findcar">Find Car</a></li>
+			<li><a href="tripinformation">My Current Trip</a></li>
+		</ul>
 
-									<!-- Main Content -->
-										<section>
-											<header>
-												<h2><font color="white">Search Results</font></h2>
-												<h3>The cars</h3>
-											</header>
-											<style>
-											table#cars {
-											    width:100%;
-											    background-color: white;
-											    text-align: right;
-											}
-											table#cars tr:nth-child(even) {
-											    background-color: #f9f9f9;
-											}
-											
-											table#cars th {
-											    background-color: black;
-											    color: white;
-											}
-											</style>
-											<script>
-	var table = '<table id="cars"><tr><th style ="text-align:"left">Picture</th><th>Class</th>';
-    table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
-	var rows = 5;
-	var cols = 7;
-	for (var r = 0; r < rows; r++) {
-		table += '<tr>';
-			for (var c = 1; c <= cols; c++)
-			{
-				if (c == 1)
-				{
-					table += '<td><img src={{picture}} align="left"></td>';
-				}
-				if (c == 2)
-					{
-						table += '<td>{{carclass}}</td>';
-					}
-				else if(c == 3)
-					{
-						table += '<td>{{model}}</td>';
-					}
-				else if(c ==4)
-					{
-						table += '<td><font size="5" color="green">{{distance}}</font></td>';
-					}
-				else if(c==5)
-					{
-						table += '<td><font size="10" color="Black">$ {{kmprice}}</font> / km</td>';
-					}
-				else if(c ==6)
-					{
-					table += '<td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>';
-					}
-				else if(c ==7)
-					{
-					table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></form></td>';
-					}
-			}
-		table += '</tr>';
-	}
-	document.write(table + '</table>');
-</script>
-<!-- 											<table id="cars">											 -->
-<!-- 												  <tr> -->
-<!-- 												    <th style ="text-align:"left">Picture</th> -->
-<!-- 												    <th>Class</th> -->
-<!-- 												    <th>Car Model</th>  -->
-<!-- 												    <th>Distance</th> -->
-<!-- 												    <th>Price per km</th> -->
-<!-- 												    <th>Price per hr</th> -->
-<!-- 												    <th>Rent</th> -->
-<!-- 												  </tr> -->
-<!-- 												  <tr> -->
-<!-- 												    <td><img src={{picture}} align="left"></td> -->
-<!-- 												    <td>{{carclass}}</td>  -->
-<!-- 												    <td>{{model}}</td> -->
-<!-- 												    <td><font size="5" color="green">{{distance}}</font></td> -->
-<!-- 												    <td><font size="10" color="Black">$ {{kmprice}}</font> / 1km</td> -->
-<!-- 												    <td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td> -->
-<!-- 												    <td><form action="cardetails" method = "get"> -->
-<!-- 														<input type="submit" value="View details/ Reserve car"/> -->
-<!-- 													</form></td> -->
-<!-- 												  </tr> -->
-<!-- 											</table> -->
-										</section>
+		<!-- Content -->
+		<div id="content-wrapper">
+			<div id="content">
+				<div class="container">
+					<div class="row">
+						<div class="12u">
 
-								</div>
-							</div>
+							<!-- Main Content -->
+							<section>
+								<header>
+									<h2>
+										<font color="white">Search Results</font>
+									</h2>
+									<h3>The cars</h3>
+								</header>
+								<style>
+table#cars {
+	width: 100%;
+	background-color: white;
+	text-align: right;
+}
+
+table#cars tr:nth-child(even) {
+	background-color: #f9f9f9;
+}
+
+table#cars th {
+	background-color: black;
+	color: white;
+}
+</style>
+								<script>
+									var table = '<table id="cars"><tr><th style ="text-align:"left">Picture</th><th>Class</th>';
+									table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
+									var rows = 5;
+									var cols = 7;
+									for (var r = 0; r < rows; r++) {
+										table += '<tr>';
+										for (var c = 1; c <= cols; c++) {
+											if (c == 1) {
+												table += '<td><img src={{picture}} align="left"></td>';
+											}
+											if (c == 2) {
+												table += '<td>{{carclass}}</td>';
+											} else if (c == 3) {
+												table += '<td>{{model}}</td>';
+											} else if (c == 4) {
+												table += '<td><font size="5" color="green">{{distance}}</font></td>';
+											} else if (c == 5) {
+												table += '<td><font size="10" color="Black">$ {{kmprice}}</font> / km</td>';
+											} else if (c == 6) {
+												table += '<td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td>';
+											} else if (c == 7) {
+												table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></form></td>';
+											}
+										}
+										table += '</tr>';
+									}
+									document.write(table + '</table>');
+								</script>
+								<!-- 											<table id="cars">											 -->
+								<!-- 												  <tr> -->
+								<!-- 												    <th style ="text-align:"left">Picture</th> -->
+								<!-- 												    <th>Class</th> -->
+								<!-- 												    <th>Car Model</th>  -->
+								<!-- 												    <th>Distance</th> -->
+								<!-- 												    <th>Price per km</th> -->
+								<!-- 												    <th>Price per hr</th> -->
+								<!-- 												    <th>Rent</th> -->
+								<!-- 												  </tr> -->
+								<!-- 												  <tr> -->
+								<!-- 												    <td><img src={{picture}} align="left"></td> -->
+								<!-- 												    <td>{{carclass}}</td>  -->
+								<!-- 												    <td>{{model}}</td> -->
+								<!-- 												    <td><font size="5" color="green">{{distance}}</font></td> -->
+								<!-- 												    <td><font size="10" color="Black">$ {{kmprice}}</font> / 1km</td> -->
+								<!-- 												    <td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td> -->
+								<!-- 												    <td><form action="cardetails" method = "get"> -->
+								<!-- 														<input type="submit" value="View details/ Reserve car"/> -->
+								<!-- 													</form></td> -->
+								<!-- 												  </tr> -->
+								<!-- 											</table> -->
+							</section>
+
 						</div>
 					</div>
 				</div>
-
-			<!-- Copyright -->
-				<div id="copyright">
-					&copy; M-CarShare. All rights reserved. | M-CarShare
-				</div>
-
+			</div>
 		</div>
 
-		<!-- Scripts -->
-			<script src="/js/jquery.min.js"></script>
-			<script src="/js/skel.min.js"></script>
-			<script src="/js/skel-viewport.min.js"></script>
-			<script src="/js/util.js"></script>
-			<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
-			<script src="/js/main.js"></script>
+		<!-- Copyright -->
+		<div id="copyright">&copy; M-CarShare. All rights reserved. |
+			M-CarShare</div>
 
-	</body>
+	</div>
+
+	<!-- Scripts -->
+	<script src="/js/jquery.min.js"></script>
+	<script src="/js/skel.min.js"></script>
+	<script src="/js/skel-viewport.min.js"></script>
+	<script src="/js/util.js"></script>
+	<!--[if lte IE 8]><script src="/js/ie/respond.min.js"></script><![endif]-->
+	<script src="/js/main.js"></script>
+
+</body>
 </html>

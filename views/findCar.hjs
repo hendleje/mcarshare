@@ -38,6 +38,12 @@
 			</header>
 		</div>
 
+		<!-- Navigation -->
+		<ul>
+			<li><a class="active" href="findcar">Find Car</a></li>
+			<li><a href="tripinformation">My Current Trip</a></li>
+		</ul>
+
 		<!-- Content -->
 		<div id="content-wrapper">
 			<div id="content">
@@ -72,8 +78,9 @@
 										<option value="saab">Saab</option>
 										<option value="toyota">Toyota</option>
 										<option value="volkswagen">Volkswagen</option>
-										<option value="volvo">Volvo</option></select> <br /> <label for="brand"><font
-										color="white">Car Year:</font></label> <select name="carYear">
+										<option value="volvo">Volvo</option></select> <br /> <label
+										for="brand"><font color="white">Car Year:</font></label> <select
+										name="carYear">
 										<option value="2016">2016</option>
 										<option value="2015">2015</option>
 										<option value="2014">2014</option>
@@ -83,9 +90,9 @@
 									</select> <br /> <label><font color="white">Distance: </font></label> <font
 										color="white">0Km<input type="range" name="points"
 										min="0" max="10">10Km
-									</font><br /> 
-									<form action="searchresults" method = "get">
-										<input type="submit" value="Search for car"/>
+									</font><br />
+									<form action="searchresults" method="get">
+										<input type="submit" value="Search for car" />
 									</form>
 								</fieldset>
 							</section>

@@ -30,6 +30,12 @@
 						</div>
 					</header>
 				</div>
+			
+			<!-- Navigation -->
+			<ul>
+				<li><a href="findcar">Find Car</a></li>
+				<li><a href="tripinformation">My Current Trip</a></li>
+			</ul>
 
 			<!-- Content -->
 				<div id="content-wrapper">
