@@ -3,9 +3,6 @@ var fs = require('fs');
 
 // Creates a rental agreement
 function Rentalagreement(customer, car) {
-	/**
-	 * TODO create proper IDs
-	 */
 	this.id = guid();
 	this.starttime = this.getcurrenttime();
 	this.car = car;

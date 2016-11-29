@@ -51,6 +51,11 @@ app.get("/signin", function(req, res) {
 });
 
 app.get("/logout", function(req, res) {
+	// Delete reservation of car
+	if (currentcar.status = "reserved") {
+		currentcar.changestatus("available");
+	}
+	
 	currentuser = undefined;
 	currentcar = undefined;
 	rentalagreement = undefined;
@@ -279,8 +284,8 @@ app.post("/tripdetails", function(req, res) {
 						rentalagreement.id);
 				bill.sendbillviaemail(currentuser.email);
 				currentuser.addbill(bill);
-				// TODO save bill in file
-							
+				// Save bill in file
+				bill.savebill();
 
 				// Get nice representation of
 				// the start and end time
@@ -388,9 +393,12 @@ app.post("/signin", function(req, res) {
 			}
 		}
 		if (chck != -1 && customerdata[chck].password == req.body.password) {
-			currentuser = new Customer(customerdata[chck].first_name,
+			currentuser = new Customer(customerdata[chck].id,
+					customerdata[chck].first_name,
 					customerdata[chck].last_name, customerdata[chck].email,
-					customerdata[chck].street_name, 2);
+					customerdata[chck].street_name, customerdata[chck].status,
+					customerdata[chck].latitude, customerdata[chck].longitude,
+					customerdata[chck].currentra);
 			res.render("findCar", {
 				firstName : customerdata[chck].first_name,
 				lastName : customerdata[chck].last_name
@@ -419,7 +427,11 @@ app.post("/registernewuser", function(req, res) {
 			city_add : req.body.city,
 			postal_code : req.body.postalCode,
 			province_name : req.body.province,
-			password : req.body.password
+			password : req.body.password,
+			status : "suspended",
+			latitude : 1,
+			longitude : 1,
+			currentra : ""
 		});
 		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
@@ -441,6 +453,8 @@ app.post("/directiontocar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
 		res.render("signin");
 	} else {
+		
+		// Check previous bill		
 		if (currentuser.checkpreviousbill() == true) {
 			// Change car status to reserved
 			currentcar.changestatus("reserved");
@@ -484,8 +498,12 @@ app.post("/directiontocar", function(req, res) {
 						});
 					})
 		} else {
-			// TODO set customer status to 'suspended'
+			// Set customer status to 'suspended'
+			currentuser.changestatus("suspended");
+			
 			// TODO get unpaid bill(s) information and display it
+			
+			
 			res.render("paybill", {
 				firstName : currentuser.firstname,
 				lastName : currentuser.lastname

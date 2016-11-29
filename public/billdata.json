@@ -1,1 +1,1 @@
-[{"id":"1", "sumtopay":"52.73", "billpaid":"true", "customer":"1", "rentalagreement":"1"}, {"id":"2", "sumtopay":"60.00", "billpaid":"false", "customer":"1", "rentalagreement":"2"}]
+[{"id":1,"sumtopay":10,"rentalagreement":"9306e1c5-0918-b66d-3356-c5249b975b1e","customer":"1","billpaid":true}]

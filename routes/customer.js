@@ -1,26 +1,27 @@
 // ------------ Person ------------
+var fs = require('fs');
+var Bill = require(__dirname + '/bill');
+
 // Creates a person
-function Person(firstname, lastname, email, address) {
+function Person(id, firstname, lastname, email, address) {
 	this.firstname = firstname;
 	this.lastname = lastname;
 	this.email = email;
 	this.address = address;
-	/**
-	 * TODO create proper ID automatically
-	 */
-	this.id = 1;
+	this.id = id;
 	this.unpaidbills = new Array();
 	this.paidbills = new Array();
 }
 
 // ------------ Customer ------------
 // Creates a customer
-function Customer(firstname, lastname, email, address, location) {
-	Person.call(this, firstname, lastname, email, address);
-	// TODO: Once confirmation mail is sent, set status initially to suspended
-	this.status = cusstatus.ACTIVE;
+function Customer(id, firstname, lastname, email, address, status, latitude, longitude, currentra) {
+	Person.call(this, id, firstname, lastname, email, address);
+	this.status = status;
 	this.sendconfirmationemail();
-	this.location = location;
+	this.latitude = latitude;
+	this.longitude = longitude;
+	this.currentra = currentra;
 }
 
 module.exports = Customer;
@@ -36,17 +37,57 @@ Customer.prototype = Object.create(Person.prototype);
 
 // Check, if the previous bill of the customer was paid
 Customer.prototype.checkpreviousbill = function(){
-	if (this.status == cusstatus.SUSPENDED || this.unpaidbills.length > 0) {
-		console.log("Unpaidbills length: " + this.unpaidbills.length);
-		return false;
-	}
-	else {
-		return true;
+	return true;
+//	var cusid = this.id;
+//	console.log("Suche nach: " + cusid);
+//	var paid;
+//	console.log("1 " +paid);
+//	
+//	fs.readFileSync('./public/billdata.json', 'utf8', function(err, data) {
+//		if (err)
+//			throw err;
+//		var billdata = JSON.parse(data);
+//		for (var i = 0; i < billdata.length; ++i) {
+//			if (billdata[i].customer == cusid && !billdata[i].billpaid) {
+////				var bill = new Bill(billdata[i].sumtopay, billdata[i].customer, billdata[i].rentalagreement);
+////				if (billdata[i].billpaid) {
+////					console.log("add paid");
+////					this.paidbills.push(bill);
+////				}
+////				else {
+//				console.log("Return false");
+//				paid = false;
+////				}
+//			}
+//		}
+//		if (paid != false) {
+//			paid = true;
+//		}
+//	})
+//	console.log("4 " +paid);
+}
+
+Customer.prototype.test = function() {
+	var content;
+	//First I want to read the file
+	fs.readFile('./Index.html', function read(err, data) {
+	 if (err) {
+	     throw err;
+	 }
+	 content = data;
+
+	 // Invoke the next step here however you like
+	 console.log(content);   // Put all of the code here (not the best solution)
+	 processFile();          // Or put the next step in a function and invoke it
+	});
+	
+	function processFile() {
+	 console.log(content);
 	}
 }
 
 // Set the customer's status to active again, if all the bills are paid
-Customer.prototype.billpaid = function(bill) {
+Customer.prototype.billpaid = function(bill) {	
 	// Remove bill from unpaid bills list
 	var index = this.unpaidbills.indexOf(bill);
 	if (index > -1) {
@@ -80,6 +121,34 @@ Customer.prototype.customerverified = function() {
 	this.status = cusstatus.ACTIVE;
 	console.log("Customer status: " + this.status);
 	return "Customer status: " + this.status;
+}
+
+// Change customer status
+Customer.prototype.changestatus = function(newstatus){
+	this.status = newstatus;
+	var id = this.id;
+	
+	// Save new status in json file
+	fs.readFile('./public/customerdata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var customerdata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < customerdata.length; ++i) {
+			if (customerdata[i].id == id) {
+				customerdata[i].status = newstatus;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(customerdata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/customerdata.json', newobj/*, function(err) {
+			if (err)
+				throw err;
+		}*/);
+	});
 }
 
 //Tests
