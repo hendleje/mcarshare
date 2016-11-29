@@ -92,6 +92,7 @@
 				{
 				table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></td>';
 				}
+				
 			}
 		table += '</tr>';
 	document.write(table + '</table>');
