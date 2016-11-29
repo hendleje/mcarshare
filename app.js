@@ -8,13 +8,6 @@ var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport('smtps://mcarshare4%40gmail.com:stutter1@smtp.gmail.com');
 
-var mailOptions = {
-    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
-    to: '', // list of receivers
-    subject: 'Hello', // Subject line
-    text: 'To verify your account, please follow the ', // plaintext body
-    html: '<b>To verify your account, please follow the </b> <a href = "http://localhost:3343/verification"> link</a>' // html body
-};
 //var mail_Options = {
 	    //from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 	    //to: 'ezekwesilisandraonyinye@gmail.com', // list of receivers
@@ -180,7 +173,37 @@ app.get("/tripdetails", function(req, res) {
 	}
 });
 
-app.get("/tripinformation",
+app.get("/tripinformation", function(req, res) {
+	if (typeof currentuser == 'undefined') {
+		res.render("signin", {
+			info: "Please sign in to view your trip information."
+		})
+	}
+	else {
+		console.log("RA: " + currentuser.currentra);
+		console.log(currentuser.currentra == "");
+		if (currentuser.currentra == "" || typeof currentuser.currentra == 'undefined') {
+			res.render("nocurrenttrip", {
+				firstname: currentuser.firstname,
+				lastname : currentuser.lastname
+			});
+		}
+		else {
+			// TODO Load Rental agreement and current car
+			var starttime, timecost, kmcost;
+			
+			res.render("tripinformation", {
+				firstName : currentuser.firstname,
+				lastName : currentuser.lastname, 
+				starttime : starttime,
+				timecost : currentcar.timecost,
+				kmcost : currentcar.kmcost
+			});
+		}
+	}
+})
+
+app.post("/tripinformation",
 		function(req, res) {
 			if (typeof currentuser == 'undefined') {
 				res.render("signin", {
@@ -341,8 +364,8 @@ app.get("/findcar", function(req, res) {
 		});
 	} else {
 		res.render("findcar", {
-			firstName : currentuser.firstname,
-			lastName : currentuser.lastname
+			firstname : currentuser.firstname,
+			lastname : currentuser.lastname
 		});
 	}
 });
@@ -378,8 +401,8 @@ app.post("/signin", function(req, res) {
 //	else {
 //		currentuser = getuser;
 //		res.render("findCar", {
-//			firstName : currentuser.firstname,
-//			lastName : currentuser.last_name
+//			firstname : currentuser.firstname,
+//			lastname : currentuser.last_name
 //		});
 //	}
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
@@ -402,8 +425,8 @@ app.post("/signin", function(req, res) {
 					customerdata[chck].latitude, customerdata[chck].longitude,
 					customerdata[chck].currentra);
 			res.render("findCar", {
-				firstName : customerdata[chck].first_name,
-				lastName : customerdata[chck].last_name
+				firstname : customerdata[chck].first_name,
+				lastname : customerdata[chck].last_name
 			});
 		} else {
 			res.send("Invalid Username or Password.");
@@ -438,6 +461,14 @@ app.post("/registernewuser", function(req, res) {
 		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
 	})
+	
+	var mailOptions = {
+		from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
+		to: '', // list of receivers
+		subject: 'Verification for your MCarShare account', // Subject line
+		text: 'Hello ' + req.body.firstname + " " + req.body.lastname + ', \n to verify your account, please follow the ', // plaintext body
+		html: '<b>To verify your account, please follow the </b> <a href = "http://localhost:3343/verification"> link</a>' // html body
+	};
 	
 	// send mail with defined transport object
 	mailOptions.to = req.body.email;
