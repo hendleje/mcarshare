@@ -62,7 +62,7 @@
 											<script>
 	var table = '<table id="cars"><tr><th style ="text-align:"left">Picture</th><th>Class</th>';
     table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
-	var rows = 1;
+	var rows = 5;
 	var cols = 7;
 	for (var r = 0; r < rows; r++) {
 		table += '<tr>';
@@ -98,8 +98,8 @@
 					}
 			}
 		table += '</tr>';
-	document.write(table + '</table>');
 	}
+	document.write(table + '</table>');
 </script>
 <!-- 											<table id="cars">											 -->
 <!-- 												  <tr> -->
