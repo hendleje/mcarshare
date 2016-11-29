@@ -26,7 +26,7 @@
 						<!-- Nav -->
 						<nav id="nav">
 							<h2>
-								<font color="white">Welcome {{firstName}} {{lastName}}!</font>
+								<font color="white">Welcome {{firstname}} {{lastname}}!</font>
 							</h2>
 							<h3>
 								<font color="white"><a href="logout">Logout</a></font>
