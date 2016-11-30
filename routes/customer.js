@@ -33,9 +33,23 @@ var cusstatus = {
 // Make sure, customer inherits from person
 Customer.prototype = Object.create(Person.prototype);
 
+// Check, if the customer has a current rental agreement
+Customer.prototype.checkcurrentra = function() {
+	var cusid = this.id;
+	var hascurrentra = false;
+	
+	var data = fs.readFileSync('./public/rentalagreementdata.json', 'utf8');
+	var radata = JSON.parse(data);
+	for (var i = 0; i < radata.length; i++) {
+		if (radata[i].customer == cusid && typeof radata[i].endtime == 'undefined') {
+			hascurrentra = true;
+		}
+	}
+	return hascurrentra;
+}
+
 // Check, if the previous bill of the customer was paid
 Customer.prototype.checkpreviousbill = function(){
-	// return true;
 	var cusid = this.id;
 	
 	var data = fs.readFileSync('./public/billdata.json', 'utf8');

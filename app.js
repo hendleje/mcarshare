@@ -343,6 +343,8 @@ app.post("/tripdetails", function(req, res) {
 				// the start and end time
 				var starttime = rentalagreement.printdate(rentalagreement.starttime);
 				var endtime = rentalagreement.printdate(rentalagreement.endtime);
+				
+				// Send E-Mail with bill
 				var mail_Options = {
 					    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 					    to: ' ', // list of receivers
@@ -507,50 +509,57 @@ app.post("/directiontocar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
 		res.render("signin");
 	} else {
-		// TODO Check, if the user has currently rented a car
-		
-		// Check previous bill		
-		if (currentuser.checkpreviousbill() == true) {
-			// Change car status to reserved
-			currentcar.changestatus("reserved");
-			
-			// Get location of user and car to direct to car
-			fs.readFile(__dirname + '/public/locationdata.json', 'utf8',					
-					function(err, data) {
-						if (err)
-							throw err;
-						var locationdata = JSON.parse(data);
-						var chck = -1;
-						var locationcar;
-						for (var i = 0; i < locationdata.length; ++i) {
-							if (locationdata[i].id == currentcar.location) {
-								locationcar = new Location(
-										locationdata[i].latitude,
-										locationdata[i].longitude);
+		// Check, if the user has currently rented a car
+		if (currentuser.checkcurrentra() == true) {
+			res.render("onlyonetrip", {
+				firstname: currentuser.firstname,
+				lastname : currentuser.lastname
+			})
+		}
+		else {
+			// Check previous bill		
+			if (currentuser.checkpreviousbill() == true) {
+				// Change car status to reserved
+				currentcar.changestatus("reserved");
+				
+				// Get location of user and car to direct to car
+				fs.readFile(__dirname + '/public/locationdata.json', 'utf8',					
+						function(err, data) {
+							if (err)
+								throw err;
+							var locationdata = JSON.parse(data);
+							var chck = -1;
+							var locationcar;
+							for (var i = 0; i < locationdata.length; ++i) {
+								if (locationdata[i].id == currentcar.location) {
+									locationcar = new Location(
+											locationdata[i].latitude,
+											locationdata[i].longitude);
+								}
 							}
-						}
-						var latcar = locationcar.latitude;
-						var longcar = locationcar.longitude;
+							var latcar = locationcar.latitude;
+							var longcar = locationcar.longitude;
 
-						res.render('directiontocar', {
-							latfrom : currentuser.latitude,
-							longfrom : currentuser.longitude,
-							latto : latcar,
-							longto : longcar,
-							firstName : currentuser.firstname,
-							lastName : currentuser.lastname
-						});
-					})
-		} else {
-			// Get last unpaid bill			
-			bill = currentuser.unpaidbills[0];
-			
-			res.render("paybill", {
-				firstName : currentuser.firstname,
-				lastName : currentuser.lastname,
-				amount : bill.sumtopay,
-				date : bill.printdate(bill.date)
-			});
+							res.render('directiontocar', {
+								latfrom : currentuser.latitude,
+								longfrom : currentuser.longitude,
+								latto : latcar,
+								longto : longcar,
+								firstName : currentuser.firstname,
+								lastName : currentuser.lastname
+							});
+						})
+			} else {
+				// Get last unpaid bill			
+				bill = currentuser.unpaidbills[0];
+				
+				res.render("paybill", {
+					firstName : currentuser.firstname,
+					lastName : currentuser.lastname,
+					amount : bill.sumtopay,
+					date : bill.printdate(bill.date)
+				});
+			}
 		}
 	}
 });
