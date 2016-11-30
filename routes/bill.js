@@ -36,7 +36,6 @@ Bill.prototype.savebill = function() {
 		if (err)
 			throw err;
 		var billdata = JSON.parse(data);
-		var id = billdata.length+1;
 		billdata.push({
 			id : id,
 			sumtopay : sumtopay,

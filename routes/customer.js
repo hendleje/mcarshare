@@ -4,11 +4,11 @@ var Bill = require(__dirname + '/bill');
 
 // Creates a person
 function Person(id, firstname, lastname, email, address) {
+	this.id = id;
 	this.firstname = firstname;
 	this.lastname = lastname;
 	this.email = email;
 	this.address = address;
-	this.id = id;
 	this.unpaidbills = new Array();
 	this.paidbills = new Array();
 }
@@ -158,6 +158,16 @@ Customer.prototype.changera = function(newra){
 		// Write the modified obj to the file
 		fs.writeFileSync('./public/customerdata.json', newobj);
 	});
+}
+
+function guid() {
+	  function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	  }
+	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	    s4() + '-' + s4() + s4() + s4();
 }
 
 // Tests

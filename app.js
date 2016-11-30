@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), application = require('./routes/application'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill'), Datamanagement = require('./routes/datamanagement');
+var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill'), Datamanagement = require('./routes/datamanagement');
 
 var nodemailer = require('nodemailer');
 
@@ -381,16 +381,15 @@ app.post("/tripdetails", function(req, res) {
 					    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 					    to: ' ', // list of receivers
 					    subject: 'Current Bill', // Subject line
-					    text: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/bill"> link</a>', // html body
+					    text: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/billpaid"> link</a>', // html body
 					    //html: '<b> Your current bill is as follows:</b>' // html body
-					    html: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/bill"> link</a>' // html body
+					    html: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/billpaid/' +bill.id +'"> link</a>' // html body
 				};
 				mail_Options.to = currentuser.email;
 				transporter.sendMail(mail_Options, function(error, info){
 				    if(error){
 				        return console.log(error);
 				    }
-				    console.log('Message sent: ' + info.response);
 				});
 
 				// Go to trip details page
@@ -503,20 +502,22 @@ app.post("/signin", function(req, res) {
 
 // If a new user is registering, his/her data is stored in the userdata.json
 // file
-app.post("/registernewuser", function(req, res) {
-	// Create random 16 character token for the verification link
-	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var token = '';
-    for (var i = 16; i > 0; --i) {
-      token += chars[Math.round(Math.random() * (chars.length - 1))];
-    }
-    
+app.post("/registernewuser", function(req, res) {   
+	// Create id
+	function s4() {
+	    return Math.floor((1 + Math.random()) * 0x10000)
+	      .toString(16)
+	      .substring(1);
+	}
+	var id =  s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+    s4() + '-' + s4() + s4() + s4();
+	
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
 			data) {
 		if (err)
 			throw err;
 		var userdata = JSON.parse(data);
-		var id = userdata.length+1;
+		
 		userdata.push({
 			id : id,
 			first_name : req.body.firstName,
@@ -528,8 +529,7 @@ app.post("/registernewuser", function(req, res) {
 			province_name : req.body.province,
 			password : req.body.password,
 			status : "suspended",
-			currentra : "",
-			token : token
+			currentra : ""
 		});
 		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
@@ -540,7 +540,7 @@ app.post("/registernewuser", function(req, res) {
 		to: '', // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
 		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this ', // plaintext body
-		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this <a href = "http://localhost:3343/verification/' + token + '"> link</a>' // html body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this <a href = "http://localhost:3343/verification/' + id + '"> link</a>' // html body
 	};
 	
 	mailOptions.to = req.body.email;
@@ -573,23 +573,23 @@ app.post("/directiontocar", function(req, res) {
 				// Change car status to reserved
 				currentcar.changestatus("reserved");
 				
-				// Get location of user and car to direct to car
+				// Get location of car to direct to car
 				fs.readFile(__dirname + '/public/locationdata.json', 'utf8',					
 						function(err, data) {
 							if (err)
 								throw err;
 							var locationdata = JSON.parse(data);
 							var chck = -1;
-							var locationcar;
+							var locationcar, latcar, longcar;
 							for (var i = 0; i < locationdata.length; ++i) {
 								if (locationdata[i].id == currentcar.location) {
 									locationcar = new Location(
 											locationdata[i].latitude,
 											locationdata[i].longitude);
+									latcar = locatiodata[i].latitude;
+									longcar = locationdata[i].longitude;
 								}
 							}
-							var latcar = locationcar.latitude;
-							var longcar = locationcar.longitude;
 
 							res.render('directiontocar', {
 								latfrom : currentuser.latitude,
@@ -617,15 +617,15 @@ app.post("/directiontocar", function(req, res) {
 
 app.get ("/verification*", function (req, res){
 	var url = req.url;
-	var token = url.substr(14);
+	var customerid = url.substr(14);
 	
-	// Set customer status with that token to 'active'
+	// Set customer status with that id to 'active'
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err, data) {
 		if (err)
 			throw err;
 		var customerdata = JSON.parse(data);
 		for (var i = 0; i < customerdata.length; ++i) {
-			if (customerdata[i].token == token) {
+			if (customerdata[i].id == customerid) {
 				customerdata[i].status = "active";
 			}
 		}
@@ -638,6 +638,32 @@ app.get ("/verification*", function (req, res){
 	
 	res.render("showmessage", {
 		message1 : "Your account has been verified, you can now log in"
+	});
+});
+
+app.get ("/billpaid*", function (req, res){
+	var url = req.url;
+	var billid = url.substr(10);
+	
+	// Set customer status with that id to 'active'
+	fs.readFile(__dirname + '/public/billdata.json', 'utf8', function(err, data) {
+		if (err)
+			throw err;
+		var billdata = JSON.parse(data);
+		for (var i = 0; i < billdata.length; ++i) {
+			if (billdata[i].id == billid) {
+				billdata[i].billpaid = true;
+			}
+		}
+		// var fileObj = obj;
+		var newobj = JSON.stringify(billdata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/billdata.json', newobj);
+	})
+	
+	res.render("showmessage", {
+		message1 : "Thank you for paying your bill."
 	});
 });
 
