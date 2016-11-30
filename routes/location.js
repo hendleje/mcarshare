@@ -38,10 +38,3 @@ Location.prototype.toRadians = function(number) {
 }
 
 module.exports = Location;
-
-// Test
-//loc = new Location(47.574058, -52.732927);
-//var dist = loc.distancebetween(47.574058, -52.732927, 47.560040, -52.752949);
-//console.log(dist);
-//var dist2 = loc.distanceto(47.560040, -52.752949);
-//console.log(dist2);

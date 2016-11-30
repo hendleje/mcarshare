@@ -75,7 +75,6 @@ Rentalagreement.prototype.carreturned = function(kmdriven, kmcost, timecost) {
 	var endtime = this.endtime;
 	var cost = this.cost;
 	var sum = this.sum;
-	console.log(id);
 	fs.readFile('./public/rentalagreementdata.json', 'utf-8', function(err, obj) {
 		// Using another variable to prevent confusion.
 		var radata = JSON.parse(obj);
@@ -83,8 +82,6 @@ Rentalagreement.prototype.carreturned = function(kmdriven, kmcost, timecost) {
 		// Modify the status at the appropriate id
 		for (var i = 0; i < radata.length; ++i) {
 			if (radata[i].id == id) {
-				console.log("found");
-				console.log(endtime);
 				radata[i].endtime = endtime;
 				radata[i].cost = cost;
 				radata[i].sum = sum;
@@ -172,10 +169,3 @@ function guid() {
 }
 
 module.exports = Rentalagreement;
-
-// Test
-//ra = new Rentalagreement(1, 2);
-//console.log(ra.starttime);
-//ra.carreturned(10);
-//var nice = ra.printdate(ra.starttime);
-//console.log(nice);

@@ -107,7 +107,6 @@ Customer.prototype.sendconfirmationemail = function() {
 // Verifies the customer's mailadress and sets his/her status to active
 Customer.prototype.customerverified = function() {
 	this.status = cusstatus.ACTIVE;
-	console.log("Customer status: " + this.status);
 	return "Customer status: " + this.status;
 }
 
@@ -169,28 +168,3 @@ function guid() {
 	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
 	    s4() + '-' + s4() + s4() + s4();
 }
-
-// Tests
-// var customer1 = new Customer("Jenny", "Hendler", "bla", "bla");
-// console.log(customer1.status);
-// console.log(customer1.checkpreviousbill());
-// customer1.addbill(1);
-// customer1.addbill(2);
-// customer1.addbill(3);
-// console.log("All " + customer1.unpaidbills.length + " bills added:");
-// for (var i=0; i<customer1.unpaidbills.length; i++) {
-// console.log(customer1.unpaidbills[i]);
-// }
-// console.log(customer1.checkpreviousbill());
-// customer1.billpaid(2);
-// customer1.billpaid(1);
-// customer1.billpaid(3);
-// console.log("Bill 2 paid:");
-// for (var i=0; i<customer1.unpaidbills.length; i++) {
-// console.log("unpaid: " + customer1.unpaidbills[i]);
-// }
-// for (var i=0; i<customer1.paidbills.length; i++) {
-// console.log("paid: " + customer1.paidbills[i]);
-// }
-// console.log(customer1.status);
-// console.log(customer1.checkpreviousbill());

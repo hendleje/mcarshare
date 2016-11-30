@@ -376,14 +376,29 @@ app.post("/tripdetails", function(req, res) {
 				var starttime = rentalagreement.printdate(rentalagreement.starttime);
 				var endtime = rentalagreement.printdate(rentalagreement.endtime);
 				
+				console.log(currentuser.firstname);
+				
+				var textformail = "Hello " + currentuser.firstname + " " + currentuser.lastname + ",<br><br>";
+				textformail += "Please pay the bill of your last trip by clicking on this ";
+				textformail += '<a href = "http://localhost:3343/billpaid/' +bill.id +'"> Link</a><br><br>';
+				textformail += "Time of car check out: " + starttime + "<br>";
+				textformail += "Time of car return: " + endtime + "<br>";
+				textformail += "Time driven: " + rentalagreement.timedriven.toFixed(2) + "h<br>";
+				textformail += "Time costs: $" + rentalagreement.cost[0].toFixed(2) + "<br>";
+				textformail += "Distance driven: " + rentalagreement.kmdriven.toFixed(2) + "km<br>";
+				textformail += "Distance costs: $" + rentalagreement.cost[0].toFixed(2) + "<br>";
+				textformail += "Total costs: $" + rentalagreement.sum.toFixed(2) + "<br>";
+				textformail += "<br>Thank you,<br>";
+				textformail += "the MCarShare-Team"
+
+				
 				// Send E-Mail with bill
 				var mail_Options = {
 					    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 					    to: ' ', // list of receivers
 					    subject: 'Current Bill', // Subject line
-					    text: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/billpaid"> link</a>', // html body
-					    //html: '<b> Your current bill is as follows:</b>' // html body
-					    html: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/billpaid/' +bill.id +'"> link</a>' // html body
+					    text: textformail, // html body
+					    html: textformail // html body
 				};
 				mail_Options.to = currentuser.email;
 				transporter.sendMail(mail_Options, function(error, info){
@@ -539,8 +554,8 @@ app.post("/registernewuser", function(req, res) {
 		from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 		to: '', // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
-		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this ', // plaintext body
-		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this <a href = "http://localhost:3343/verification/' + id + '"> link</a>' // html body
+		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this ', // plaintext body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this <a href = "http://localhost:3343/verification/' + id + '"> Link</a>.' // html body
 	};
 	
 	mailOptions.to = req.body.email;
@@ -586,7 +601,7 @@ app.post("/directiontocar", function(req, res) {
 									locationcar = new Location(
 											locationdata[i].latitude,
 											locationdata[i].longitude);
-									latcar = locatiodata[i].latitude;
+									latcar = locationdata[i].latitude;
 									longcar = locationdata[i].longitude;
 								}
 							}
