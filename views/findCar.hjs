@@ -65,7 +65,7 @@
 								</header>
 								<fieldset>
 									<label for="brand"><font color="white">Car
-											Brand:</font></label> <select name="carBrand"></br>
+										Brand:</font></label> <select name="carBrand"></br>
 										<option value="audi">All</option>
 										<option value="audi">Audi</option>
 										<option value="bmw">BMW</option>
@@ -78,15 +78,16 @@
 										<option value="saab">Saab</option>
 										<option value="toyota">Toyota</option>
 										<option value="volkswagen">Volkswagen</option>
-										<option value="volvo">Volvo</option></select> <br /> <label
-										for="brand"><font color="white">Car Year:</font></label> <select
-										name="carYear">
+										<option value="volvo">Volvo</option></select><br/>
+										<label for="brand"><font color="white">Car Year:</font></label>
+										<select	name="carYear">
 										<option value="2016">2016</option>
 										<option value="2015">2015</option>
 										<option value="2014">2014</option>
 										<option value="2013">2013</option>
 										<option value="2012">2012</option>
 										<option value="2011">2011</option>
+										</select><br/>
 									<form action="searchresults" method="get">
 										<input type="submit" value="Search for car" />
 									</form>

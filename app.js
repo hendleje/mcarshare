@@ -57,37 +57,69 @@ app.get("/registernewuser", function(req, res) {
 	res.render("registernewuser");
 });
 
-app.get("/searchresults", function(req, res) {
-	if (typeof currentuser == 'undefined') {
+app.get("/searchresults", function(req, res) 
+	{
+	if (typeof currentuser == 'undefined') 
+	{
 		res.render("signin", {
 			info : 'Please sign in to view search results.'
 		});
-	} else {
+	} 
+	else 
+	{
 		fs.readFile(__dirname + '/public/cardata.json', 'utf8', function(err,
-				data) {
-			if (err)
-				throw err;
-			var cardata = JSON.parse(data);
-			// for (var i = 0; i < carr_data.length; ++i) {
-			if (cardata[0].status == 'available') {
-				res.render("searchresults", {
-					firstName : currentuser.firstname,
-					lastName : currentuser.lastname,
-					picture : cardata[0].picture,
-					carclass : cardata[0].carclass,
-					model : cardata[0].model,
-					distance : cardata[0].distance,
-					kmprice : cardata[0].kmcost,
-					hrprice : cardata[0].timecost
-				});
-			}
-			else {
-				res.render("searchresults");
-			}
-			// }
-		})
+				data) 
+			{
+				if (err)
+					throw err;
+				var cardata = JSON.parse(data);
+				var table = '<table id="cars"><tr><th style ="text-align:"left">Picture</th><th>Class</th>';
+				table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
+				var rows = cardata.length;
+				var cols = 7;		 				 
+//				for (var r = 0; r < rows; r++) {
+//					table += '<tr>';
+//					for (var c = 1; c <= cols; c++) {
+//						if (c == 1) {
+//							table += '<td><img src='+cardata[r].picture+'<align="left"></td>';
+//						}
+//						if (c == 2) {
+//							table += '<td>'+ cardata[r].carclass+'</td>';
+//						} else if (c == 3) {
+//							table += '<td>'+ cardata[r].carmodel+'</td>';
+//						} else if (c == 4) {
+//							table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
+//						} else if (c == 5) {
+//							table += '<td><font size="10" color="Black">$ '+ cardata[r].kmprice+'</font> / km</td>';
+//						} else if (c == 6) {
+//							table += '<td><font size="10" color="Black">$ '+ cardata[r].hrprice+'</font> / 1h</td>';
+//						} else if (c == 7) {
+//							table += '<td><form action="cardetails" method = "get"><input type="submit" value="View details/ Reserve car"/></form></td>';
+//						}
+//					}
+					table += '</table>';
+//				}
+				if (cardata[0].status == 'available') 
+				{
+					res.render("searchresults", {
+	//					firstName : currentuser.firstname,
+	//					lastName : currentuser.lastname,
+	//					picture : cardata[0].picture,
+	//					carclass : cardata[0].carclass,
+	//					model : cardata[0].model,
+	//					distance : cardata[0].distance,
+	//					kmprice : cardata[0].kmcost,
+	//					hrprice : cardata[0].timecost
+						table
+					});
+				}
+				else 
+				{
+					res.render("searchresults");
+				}
+			})
 	}
-});
+	});
 
 app.get("/cardetails", function(req, res) {
 	if (typeof currentuser == 'undefined') {
