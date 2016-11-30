@@ -192,13 +192,24 @@ app.get("/tripinformation", function(req, res) {
 			// TODO Load Rental agreement and current car
 			var starttime, timecost, kmcost;
 			
-			res.render("tripinformation", {
-				firstName : currentuser.firstname,
-				lastName : currentuser.lastname, 
-				starttime : starttime,
-				timecost : currentcar.timecost,
-				kmcost : currentcar.kmcost
-			});
+//			fs.readFile(__dirname + '/public/rentalagreementdata.json', 'utf8', function(err,
+//					data) {
+//				if (err)
+//					throw err;
+//				var rentalagreementdata = JSON.parse(data);
+//				for (var i = 0; i < rentalagreementdata.length; ++i) {
+//					if (rentalagreementdata[i].customer == currentuser.id) {
+//						rentalagreement = new Rentalagreement()
+//					}
+//				}
+				res.render("tripinformation", {
+					firstName : currentuser.firstname,
+					lastName : currentuser.lastname, 
+					starttime : starttime,
+					timecost : currentcar.timecost,
+					kmcost : currentcar.kmcost
+				});
+//			})
 		}
 	}
 })
@@ -218,6 +229,10 @@ app.post("/tripinformation",
 					rentalagreement = new Rentalagreement(currentuser.id,
 							currentcar.id);
 					rentalagreement.save();
+					
+					// Save rental agreement in customer file
+					currentuser.currentra = rentalagreement.id;
+					currentuser.changera(rentalagreement.id);
 				}
 
 				// Get nice representation of the start and end time
@@ -422,7 +437,6 @@ app.post("/signin", function(req, res) {
 					customerdata[chck].first_name,
 					customerdata[chck].last_name, customerdata[chck].email,
 					customerdata[chck].street_name, customerdata[chck].status,
-					customerdata[chck].latitude, customerdata[chck].longitude,
 					customerdata[chck].currentra);
 			res.render("findCar", {
 				firstname : customerdata[chck].first_name,
@@ -532,7 +546,7 @@ app.post("/directiontocar", function(req, res) {
 					})
 		} else {
 			// Set customer status to 'suspended'
-			currentuser.changestatus("suspended");
+			//currentuser.changestatus("suspended");
 			
 			bill = currentuser.unpaidbills[0];
 			

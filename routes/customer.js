@@ -15,12 +15,10 @@ function Person(id, firstname, lastname, email, address) {
 
 // ------------ Customer ------------
 // Creates a customer
-function Customer(id, firstname, lastname, email, address, status, latitude, longitude, currentra) {
+function Customer(id, firstname, lastname, email, address, status, currentra) {
 	Person.call(this, id, firstname, lastname, email, address);
 	this.status = status;
 	this.sendconfirmationemail();
-	this.latitude = latitude;
-	this.longitude = longitude;
 	this.currentra = currentra;
 }
 
@@ -121,12 +119,31 @@ Customer.prototype.changestatus = function(newstatus){
 		var newobj = JSON.stringify(customerdata);
 
 		// Write the modified obj to the file
-		fs.writeFileSync('./public/customerdata.json', newobj/*
-																 * ,
-																 * function(err) {
-																 * if (err)
-																 * throw err; }
-																 */);
+		fs.writeFileSync('./public/customerdata.json', newobj);
+	});
+}
+
+//Change current rental agreement of customer
+Customer.prototype.changera = function(newra){
+	var id = this.id;
+	
+	// Save new status in json file
+	fs.readFile('./public/customerdata.json', 'utf-8', function(err, obj) {
+		// Using another variable to prevent confusion.
+		var customerdata = JSON.parse(obj);
+				
+		// Modify the status at the appropriate id
+		for (var i = 0; i < customerdata.length; ++i) {
+			if (customerdata[i].id == id) {
+				customerdata[i].currentra = newra;
+			}
+		}
+
+		// var fileObj = obj;
+		var newobj = JSON.stringify(customerdata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/customerdata.json', newobj);
 	});
 }
 
