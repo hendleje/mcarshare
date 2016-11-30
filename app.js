@@ -452,7 +452,10 @@ app.get("/paybill", function(req, res) {
 });
 
 app.get("/emailsent", function(req, res) {
-	res.render("emailsent");
+	res.render("showmessage", {
+		message1 : "Confirmation email sent!",
+		message2 : "Please check you email and follow the confirmation link to verify your account."
+	});
 });
 
 app.get("/registernewuser", function(req, res) {
@@ -470,6 +473,12 @@ app.post("/signin", function(req, res) {
 		var chck = -1;
 		for (var i = 0; i < customerdata.length; ++i) {
 			if (customerdata[i].email == req.body.username) {
+				if (customerdata[i].status != "active") {
+					res.render("showmessage", {
+						message1 : "Your account has not been verified.",
+						message2 : "Please verify your account with the verification link sent to you by email before logging in."
+					})
+				}
 				chck = i;
 				break;
 			}
@@ -485,7 +494,9 @@ app.post("/signin", function(req, res) {
 				lastname : customerdata[chck].last_name
 			});
 		} else {
-			res.send("Invalid Username or Password.");
+			res.render("showmessage", {
+				message1 : "Invalid username or password"
+			})
 		}
 	})
 });
@@ -493,6 +504,13 @@ app.post("/signin", function(req, res) {
 // If a new user is registering, his/her data is stored in the userdata.json
 // file
 app.post("/registernewuser", function(req, res) {
+	// Create random 16 character token for the verification link
+	var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    var token = '';
+    for (var i = 16; i > 0; --i) {
+      token += chars[Math.round(Math.random() * (chars.length - 1))];
+    }
+    
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
 			data) {
 		if (err)
@@ -510,9 +528,8 @@ app.post("/registernewuser", function(req, res) {
 			province_name : req.body.province,
 			password : req.body.password,
 			status : "suspended",
-			latitude : 1,
-			longitude : 1,
-			currentra : ""
+			currentra : "",
+			token : token
 		});
 		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
@@ -522,8 +539,8 @@ app.post("/registernewuser", function(req, res) {
 		from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 		to: '', // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
-		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow the ', // plaintext body
-		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow the <a href = "http://localhost:3343/verification"> link</a>' // html body
+		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this ', // plaintext body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow this <a href = "http://localhost:3343/verification/' + token + '"> link</a>' // html body
 	};
 	
 	mailOptions.to = req.body.email;
@@ -531,10 +548,12 @@ app.post("/registernewuser", function(req, res) {
 	    if(error){
 	        return console.log(error);
 	    }
-	    console.log('Message sent: ' + info.response);
 	});
 	
-	res.render("emailsent");
+	res.render("showmessage", {
+		message1 : "Confirmation email sent!",
+		message2 : "Please check you email and follow the confirmation link to verify your account."
+	});
 });
 
 app.post("/directiontocar", function(req, res) {
@@ -596,8 +615,30 @@ app.post("/directiontocar", function(req, res) {
 	}
 });
 
-app.get ("/verification", function (req, res){
-	res.render("emailverification");
+app.get ("/verification*", function (req, res){
+	var url = req.url;
+	var token = url.substr(14);
+	
+	// Set customer status with that token to 'active'
+	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err, data) {
+		if (err)
+			throw err;
+		var customerdata = JSON.parse(data);
+		for (var i = 0; i < customerdata.length; ++i) {
+			if (customerdata[i].token == token) {
+				customerdata[i].status = "active";
+			}
+		}
+		// var fileObj = obj;
+		var newobj = JSON.stringify(customerdata);
+
+		// Write the modified obj to the file
+		fs.writeFileSync('./public/customerdata.json', newobj);
+	})
+	
+	res.render("showmessage", {
+		message1 : "Your account has been verified, you can now log in"
+	});
 });
 
 app.get ("/bill", function (req, res){
