@@ -321,9 +321,9 @@ app.post("/tripdetails", function(req, res) {
 					// Finish rental agreement
 					rentalagreement.carreturned(10,	currentcar.kmcost, currentcar.timecost);
 				}
-				// Change car status to available
-				currentcar.changestatus("available");
-				currentcar.changelocation(closestloc);
+				
+				// Change car status to available and update location of car
+				currentcar.changestatusandlocation ("available, closestloc");
 				
 				// Remove rentalagreement from customer
 				currentuser.changera("");

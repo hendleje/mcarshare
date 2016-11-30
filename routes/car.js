@@ -4,7 +4,6 @@ var fs = require('fs');
 // Creates a car
 function Car(id, plate, brand, model, color, year, category, status, kmcost, timecost, creator, picture, location, description, carclass) {
 	this.id = id;
-	console.log(this.id);
 	this.plate = plate;
 	this.brand = brand;
 	this.model = model;
@@ -76,15 +75,12 @@ Car.prototype.changestatus = function(newstatus) {
 		var newobj = JSON.stringify(cardata);
 
 		// Write the modified obj to the file
-		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
-			if (err)
-				throw err;
-		}*/);
+		fs.writeFileSync('./public/cardata.json', newobj);
 	});
 }
 
 // Change status and location for the car and save change in json file
-Car.prototype.changeStatusAndLocation = function(newstatus, newlocation) {
+Car.prototype.changestatusandlocation = function(newstatus, newlocation) {
 	this.location = newlocation;
 	this.status = newstatus
 	var id = this.id;
@@ -106,10 +102,7 @@ Car.prototype.changeStatusAndLocation = function(newstatus, newlocation) {
 		var newobj = JSON.stringify(cardata);
 
 		// Write the modified obj to the file
-		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
-			if (err)
-				throw err;
-		}*/);
+		fs.writeFileSync('./public/cardata.json', newobj);
 	});
 }
 
@@ -134,10 +127,7 @@ Car.prototype.changelocation = function(newlocation) {
 		var newobj = JSON.stringify(cardata);
 
 		// Write the modified obj to the file
-		fs.writeFileSync('./public/cardata.json', newobj/*, function(err) {
-			if (err)
-				throw err;
-		}*/);
+		fs.writeFileSync('./public/cardata.json', newobj);
 	});
 }
 
