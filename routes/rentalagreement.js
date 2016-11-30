@@ -9,6 +9,23 @@ function Rentalagreement(customer, car) {
 	this.customer = customer;
 }
 
+function Rentalagreement(car, customer, id, starttime) {
+	if (typeof id == 'undefined' || id == "undefined") {
+		this.id = guid();
+	}
+	else {
+		this.id = id;
+	}
+	if (typeof starttime == 'undefined' || starttime == "undefined") {
+		this.starttime = this.getcurrenttime();
+	}
+	else {
+		this.starttime = new Date (starttime);
+	}
+	this.car = car;
+	this.customer = customer;
+}
+
 //Save the rentalagreement in the json file
 Rentalagreement.prototype.save = function() {
 	var start = this.starttime;
@@ -97,7 +114,7 @@ Rentalagreement.prototype.getcurrenttime = function() {
 }
 
 // Print date
-Rentalagreement.prototype.printdate = function(date) {
+Rentalagreement.prototype.printdate = function(date) {	
 	var day = date.getDate();
 	var month = date.getMonth() + 1;
 	if (month < 10) {
@@ -113,6 +130,30 @@ Rentalagreement.prototype.printdate = function(date) {
 		min = "0" + min;
 	}
 	var sec = date.getSeconds();
+	if (sec < 10) {
+		sec = "0" + sec;
+	}
+	var nicedate = "" + hours + ":" + min + ":" + sec + " (" + day + "/" + month + "/" + year + ")";
+	return nicedate;
+}
+
+//Print starttime
+Rentalagreement.prototype.printstart = function() {	
+	var day = this.starttime.getDate();
+	var month = this.starttime.getMonth() + 1;
+	if (month < 10) {
+		month = "0" + month;
+	}
+	var year = this.starttime.getFullYear();
+	var hours = this.starttime.getHours();
+	if (hours < 10) {
+		hours = "0" + hours;
+	}
+	var min = this.starttime.getMinutes();
+	if (min < 10) {
+		min = "0" + min;
+	}
+	var sec = this.starttime.getSeconds();
 	if (sec < 10) {
 		sec = "0" + sec;
 	}

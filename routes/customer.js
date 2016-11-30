@@ -37,7 +37,6 @@ Customer.prototype = Object.create(Person.prototype);
 Customer.prototype.checkpreviousbill = function(){
 	// return true;
 	var cusid = this.id;
-	console.log("Suche nach: " + cusid);
 	
 	var data = fs.readFileSync('./public/billdata.json', 'utf8');
 	var billdata = JSON.parse(data);

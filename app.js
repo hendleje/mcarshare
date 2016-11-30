@@ -180,8 +180,6 @@ app.get("/tripinformation", function(req, res) {
 		})
 	}
 	else {
-		console.log("RA: " + currentuser.currentra);
-		console.log(currentuser.currentra == "");
 		if (currentuser.currentra == "" || typeof currentuser.currentra == 'undefined') {
 			res.render("nocurrenttrip", {
 				firstname: currentuser.firstname,
@@ -189,27 +187,43 @@ app.get("/tripinformation", function(req, res) {
 			});
 		}
 		else {
-			// TODO Load Rental agreement and current car
-			var starttime, timecost, kmcost;
+			// Load Rental agreement and current car
+			var carid;
 			
-//			fs.readFile(__dirname + '/public/rentalagreementdata.json', 'utf8', function(err,
-//					data) {
-//				if (err)
-//					throw err;
-//				var rentalagreementdata = JSON.parse(data);
-//				for (var i = 0; i < rentalagreementdata.length; ++i) {
-//					if (rentalagreementdata[i].customer == currentuser.id) {
-//						rentalagreement = new Rentalagreement()
-//					}
-//				}
-				res.render("tripinformation", {
-					firstName : currentuser.firstname,
-					lastName : currentuser.lastname, 
-					starttime : starttime,
-					timecost : currentcar.timecost,
-					kmcost : currentcar.kmcost
-				});
-//			})
+			// Load rental agreement
+			var data1 = fs.readFileSync(__dirname + '/public/rentalagreementdata.json', 'utf8')
+			var radata = JSON.parse(data1);
+			for (var i = 0; i < radata.length; ++i) {
+				if (radata[i].customer == currentuser.id && typeof radata[i].endtime == 'undefined') {
+					rentalagreement = new Rentalagreement(radata[i].car,
+							radata[i].customer, radata[i].id,
+							radata[i].starttime);
+					carid = radata[i].car;
+				}
+			}
+			
+			// Load current car
+			var data = fs.readFileSync(__dirname + '/public/cardata.json', 'utf8')
+			var cardata = JSON.parse(data);
+			for (var i = 0; i < cardata.length; ++i) {
+				if (cardata[i].id == carid) {
+					currentcar = new Car(cardata[i].id, cardata[i].plate,
+							cardata[i].brand, cardata[i].model,
+							cardata[i].color, cardata[i].year,
+							cardata[i].category, cardata[i].status,
+							cardata[i].kmcost, cardata[i].timecost,
+							cardata[i].creator, cardata[i].picture,
+							cardata[i].location, cardata[i].description,
+							cardata[i].carclass);
+				}
+			}
+			res.render("tripinformation", {
+				firstName : currentuser.firstname,
+				lastName : currentuser.lastname,
+				starttime : rentalagreement.printstart(),
+				timecost : currentcar.timecost,
+				kmcost : currentcar.kmcost
+			});
 		}
 	}
 })
@@ -316,6 +330,10 @@ app.post("/tripdetails", function(req, res) {
 				// Change car status to available
 				currentcar.changestatus("available");
 				currentcar.changelocation(closestloc);
+				
+				// Remove rentalagreement from customer
+				currentuser.changera("");
+				currentuser.currentra = undefined;
 
 				// Create bill and send it to the user
 				bill = new Bill(
@@ -409,17 +427,6 @@ app.get("/registernewuser", function(req, res) {
 // Checks if the username exists and if the password matches the username if
 // yes, a new customer is created.
 app.post("/signin", function(req, res) {
-//	dm = new Datamanagement();
-//	if (typeof dm.findcustomer(req.body.username, req.body.password) == 'undefined') {
-//		res.send("Invalid Username or Password.");
-//	}
-//	else {
-//		currentuser = getuser;
-//		res.render("findCar", {
-//			firstname : currentuser.firstname,
-//			lastname : currentuser.last_name
-//		});
-//	}
 	fs.readFile(__dirname + '/public/customerdata.json', 'utf8', function(err,
 			data) {
 		if (err)
@@ -500,6 +507,7 @@ app.post("/directiontocar", function(req, res) {
 	if (typeof currentuser == 'undefined') {
 		res.render("signin");
 	} else {
+		// TODO Check, if the user has currently rented a car
 		
 		// Check previous bill		
 		if (currentuser.checkpreviousbill() == true) {
@@ -513,28 +521,17 @@ app.post("/directiontocar", function(req, res) {
 							throw err;
 						var locationdata = JSON.parse(data);
 						var chck = -1;
-						var locationcar
-//						, locationuser;
+						var locationcar;
 						for (var i = 0; i < locationdata.length; ++i) {
 							if (locationdata[i].id == currentcar.location) {
 								locationcar = new Location(
 										locationdata[i].latitude,
 										locationdata[i].longitude);
 							}
-//							if (locationdata[i].id == currentuser.location) {
-//								locationuser = new Location(
-//										locationdata[i].latitude,
-//										locationdata[i].longitude);
-//							}
 						}
-//						console.log(locationcar.latitude + " "
-//								+ locationcar.longitude);
-//						console.log(locationuser.latitude + " "
-//								+ locationuser.longitude);
 						var latcar = locationcar.latitude;
 						var longcar = locationcar.longitude;
-//						var latuser = locationuser.latitude;
-//						var longuser = locationuser.longitude;
+
 						res.render('directiontocar', {
 							latfrom : currentuser.latitude,
 							longfrom : currentuser.longitude,
@@ -545,9 +542,7 @@ app.post("/directiontocar", function(req, res) {
 						});
 					})
 		} else {
-			// Set customer status to 'suspended'
-			//currentuser.changestatus("suspended");
-			
+			// Get last unpaid bill			
 			bill = currentuser.unpaidbills[0];
 			
 			res.render("paybill", {
