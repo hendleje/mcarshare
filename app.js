@@ -8,13 +8,7 @@ var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport('smtps://mcarshare4%40gmail.com:stutter1@smtp.gmail.com');
 
-//var mail_Options = {
-	    //from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
-	    //to: 'ezekwesilisandraonyinye@gmail.com', // list of receivers
-	    //subject: 'Current Bill', // Subject line
-	    //text: 'Your current bill is as follows: ', // plaintext body
-	    //html: '<b> Your current bill is as follows:</b>' // html body
-	//};
+
 
 var app = express();
 var currentcar, currentuser, rentalagreement;
@@ -349,14 +343,21 @@ app.post("/tripdetails", function(req, res) {
 				// the start and end time
 				var starttime = rentalagreement.printdate(rentalagreement.starttime);
 				var endtime = rentalagreement.printdate(rentalagreement.endtime);
-				
-				//mail_Options.to = req.body.email;
-				//transporter.sendMail(mail_Options, function(error, info){
-				    //if(error){
-				        //return console.log(error);
-				    //}
-				   // console.log('Message sent: ' + info.response);
-				//});
+				var mail_Options = {
+					    from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
+					    to: ' ', // list of receivers
+					    subject: 'Current Bill', // Subject line
+					    text: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/bill"> link</a>', // html body
+					    //html: '<b> Your current bill is as follows:</b>' // html body
+					    html: 'Hello ' + currentuser.firstname + " " + currentuser.lastname + "," + " " + 'Your current bill is:'+ bill.sumtopay + '. \n To pay your bill, please follow the <a href = "http://localhost:3343/bill"> link</a>' // html body
+				};
+				mail_Options.to = currentuser.email;
+				transporter.sendMail(mail_Options, function(error, info){
+				    if(error){
+				        return console.log(error);
+				    }
+				    console.log('Message sent: ' + info.response);
+				});
 
 				// Go to trip details page
 				res.render("tripdetails", {
@@ -487,11 +488,10 @@ app.post("/registernewuser", function(req, res) {
 		from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
 		to: '', // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
-		text: 'Hello ' + req.body.firstname + " " + req.body.lastname + ', \n to verify your account, please follow the ', // plaintext body
-		html: '<b>To verify your account, please follow the </b> <a href = "http://localhost:3343/verification"> link</a>' // html body
+		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow the ', // plaintext body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', \n To verify your account, please follow the <a href = "http://localhost:3343/verification"> link</a>' // html body
 	};
 	
-	// send mail with defined transport object
 	mailOptions.to = req.body.email;
 	transporter.sendMail(mailOptions, function(error, info){
 	    if(error){
@@ -557,6 +557,10 @@ app.post("/directiontocar", function(req, res) {
 
 app.get ("/verification", function (req, res){
 	res.render("emailverification");
+});
+
+app.get ("/bill", function (req, res){
+	res.render("billpayment");
 });
 
 // development only
