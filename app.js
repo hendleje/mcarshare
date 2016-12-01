@@ -170,6 +170,20 @@ app.get("/directiontocar", function(req, res) {
 			info : 'Please sign in to view directions to car.'
 		});
 	} else {
+		fs.readFile(__dirname + '/public/locationdata.json', 'utf8', function(err,
+				data) {
+			if (err)
+				throw err;
+			var cardata = JSON.parse(data);
+			var i = req.body.carid -1;
+			// for (var i = 0; i < cardata.length; ++i) {
+			// if (cardata[i].id == idfromcarchosen) {
+			currentcar = new Car(cardata[i].id, cardata[i].plate, cardata[i].brand,
+					cardata[i].model, cardata[i].color, cardata[i].year,
+					cardata[i].category, cardata[i].status, cardata[i].kmcost,
+					cardata[i].timecost, cardata[i].creator,
+					cardata[i].picture, cardata[i].location,
+					cardata[i].description, cardata[i].carclass);
 		res.render("directiontocar", {
 			firstName : currentuser.firstname,
 			lastName : currentuser.lastname
