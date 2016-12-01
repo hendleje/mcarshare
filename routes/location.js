@@ -33,6 +33,7 @@ Location.prototype.distancebetween = function (lat1, lng1, lat2, lng2) {
     return dist;
 }
 
+// Changes from degree to radians
 Location.prototype.toRadians = function(number) {
     return number * Math.PI / 180;
 }

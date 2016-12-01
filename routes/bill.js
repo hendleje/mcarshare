@@ -73,6 +73,7 @@ Bill.prototype.printdate = function(date) {
 	return nicedate;
 }
 
+// Creates a random ID
 function guid() {
 	  function s4() {
 	    return Math.floor((1 + Math.random()) * 0x10000)
