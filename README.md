@@ -38,7 +38,7 @@ The System creates a bill and send it to the customer's email address once the c
 For this version the bill is paid by clicking on the link in the email sent.
 
 Use Case FindCar:
-The customer can input preferences and the system will show all cars available at the moment (choosing date and time is not possible, it will always be the cars available NOW).
+Once the customer clicks on the button, all available cars at the current point of time will be shown in the searchresults page.
 Once the user clicks on a car displayed in the search results, it will see the details of that car and can click the button to reserve that car now.
 
 Use Case ReserveCar:
