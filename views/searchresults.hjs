@@ -75,32 +75,19 @@ table#cars th {
 	color: white;
 }
 </style>
+								<div id="test" style="display: none;">{{table}}</div>
+								<table id="cars">
 								<script>
-									document.write('{{table}}');
+								var table = document.getElementById("test").innerHTML;
+
+							    table = table.replace(/&lt;/g, '<');
+							    table = table.replace(/&gt;/g, '>');
+							    
+							    table = table.replace(/&quot;/g, '"');
+							    table = table.replace(/&apos;/g, "'");
+							    table = table.replace(/&amp;/g, '&');
+							    document.getElementById("cars").innerHTML = table;								
 								</script>
-								<!-- 											<table id="cars">											 -->
-								<!-- 												  <tr> -->
-								<!-- 												    <th style ="text-align:"left">Picture</th> -->
-								<!-- 												    <th>Class</th> -->
-								<!-- 												    <th>Car Model</th>  -->
-								<!-- 												    <th>Distance</th> -->
-								<!-- 												    <th>Price per km</th> -->
-								<!-- 												    <th>Price per hr</th> -->
-								<!-- 												    <th>Rent</th> -->
-								<!-- 												  </tr> -->
-								<!-- 												  <tr> -->
-								<!-- 												    <td><img src={{picture}} align="left"></td> -->
-								<!-- 												    <td>{{carclass}}</td>  -->
-								<!-- 												    <td>{{model}}</td> -->
-								<!-- 												    <td><font size="5" color="green">{{distance}}</font></td> -->
-								<!-- 												    <td><font size="10" color="Black">$ {{kmprice}}</font> / 1km</td> -->
-								<!-- 												    <td><font size="10" color="Black">$ {{hrprice}}</font> / 1h</td> -->
-								<!-- 												    <td><form action="cardetails" method = "get"> -->
-								<!-- 														<input type="submit" value="View details/ Reserve car"/> -->
-								<!-- 													</form></td> -->
-								<!-- 												  </tr> -->
-								<!-- 											</table> -->
-							</section>
 
 						</div>
 					</div>
