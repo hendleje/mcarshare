@@ -59,7 +59,7 @@ app.get("/registernewuser", function(req, res) {
 	res.render("registernewuser");
 });
 
-app.get("/searchresults", function(req, res) 
+app.post("/searchresults", function(req, res) 
 		{
 			if (typeof currentuser == 'undefined') 
 			{
@@ -75,38 +75,103 @@ app.get("/searchresults", function(req, res)
 						if (err)
 							throw err;
 						var cardata = JSON.parse(data);
-						var table = '<tr><th style ="text-align:"left">Picture</th><th>Class</th>';
+						var table = '<tr><th style ="text-align:"left">Picture</th><th>Class</th><th>Brand</th>';
 						table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
 						var rows = cardata.length;
-						var cols = 7;		 				 
+						var cols = 8;		 				 
 						for (var r = 0; r < rows; r++) 
 						{
 							
 							if (cardata[r].status == 'available')
-							{
-								table += '<tr>';
-								for (var c = 1; c <= cols; c++) 
+							{		
+								console.log(req.body.brand);
+								if (cardata[r].brand=="Toyota")
 								{
-									if (c == 1) {
-										table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+									table += '<tr>';
+									for (var c = 1; c <= cols; c++) 									
+									{
+										
+										if (c == 1) {
+											table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+										}
+										if (c == 2) {
+											table += '<td>'+ cardata[r].carclass+'</td>';
+										} else if (c == 3) {
+											table += '<td>'+ cardata[r].brand+'</td>';
+										} else if (c == 4) {
+											table += '<td>'+ cardata[r].model+'</td>';
+										} else if (c == 5) {
+											table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
+										} else if (c == 6) {
+											table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
+										} else if (c == 7) {
+											table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
+										} else if (c == 8) {
+											table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
+											table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
+											table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
+										}
+										
 									}
-									if (c == 2) {
-										table += '<td>'+ cardata[r].carclass+'</td>';
-									} else if (c == 3) {
-										table += '<td>'+ cardata[r].model+'</td>';
-									} else if (c == 4) {
-										table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
-									} else if (c == 5) {
-										table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
-									} else if (c == 6) {
-										table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
-									} else if (c == 7) {
-										table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
-										table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
-										table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
-									}
-									
 								}
+								else if (cardata[r].brand=="Volkswagen")
+								{
+									table += '<tr>';
+									for (var c = 1; c <= cols; c++) 									
+									{
+										
+										if (c == 1) {
+											table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+										}
+										if (c == 2) {
+											table += '<td>'+ cardata[r].carclass+'</td>';
+										} else if (c == 3) {
+											table += '<td>'+ cardata[r].brand+'</td>';
+										} else if (c == 4) {
+											table += '<td>'+ cardata[r].model+'</td>';
+										} else if (c == 5) {
+											table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
+										} else if (c == 6) {
+											table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
+										} else if (c == 7) {
+											table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
+										} else if (c == 8) {
+											table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
+											table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
+											table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
+										}
+										
+									}
+								}
+//								else 
+//								{
+//									table += '<tr>';
+//									for (var c = 1; c <= cols; c++) 									
+//									{
+//										
+//										if (c == 1) {
+//											table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+//										}
+//										if (c == 2) {
+//											table += '<td>'+ cardata[r].carclass+'</td>';
+//										} else if (c == 3) {
+//											table += '<td>'+ cardata[r].brand+'</td>';
+//										} else if (c == 4) {
+//											table += '<td>'+ cardata[r].model+'</td>';
+//										} else if (c == 5) {
+//											table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
+//										} else if (c == 6) {
+//											table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
+//										} else if (c == 7) {
+//											table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
+//										} else if (c == 8) {
+//											table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
+//											table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
+//											table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
+//										}
+//										
+//									}
+//								}
 								table += '</table>';
 							}
 							

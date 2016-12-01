@@ -63,35 +63,36 @@
 										<font color="white">Find a car</font>
 									</h2>
 								</header>
-								<fieldset>
-									<label for="brand"><font color="white">Car
-										Brand:</font></label> <select name="carBrand"></br>
-										<option value="audi">All</option>
-										<option value="audi">Audi</option>
-										<option value="bmw">BMW</option>
-										<option value="chrysler">Chrysler</option>
-										<option value="dodge">Dodge</option>
-										<option value="fiat">Fiat</option>
-										<option value="hyndai">Hyndai</option>
-										<option value="infinity">Infinity</option>
-										<option value="jeep">Jeep</option>
-										<option value="saab">Saab</option>
-										<option value="toyota">Toyota</option>
-										<option value="volkswagen">Volkswagen</option>
-										<option value="volvo">Volvo</option></select><br/>
-										<label for="brand"><font color="white">Car Year:</font></label>
-										<select	name="carYear">
-										<option value="2016">2016</option>
-										<option value="2015">2015</option>
-										<option value="2014">2014</option>
-										<option value="2013">2013</option>
-										<option value="2012">2012</option>
-										<option value="2011">2011</option>
-										</select><br/>
-									<form action="searchresults" method="get">
-										<input type="submit" value="Search for car" />
-									</form>
-								</fieldset>
+								<form action="searchresults" method="post">
+									<fieldset>
+											<label for="brand"><font color="white">Car Brand:</font></label> 
+												<select name ="brand"></br>
+													<option value="all">All</option>
+													<option value="audi">Audi</option>
+													<option value="bmw">BMW</option>
+													<option value="chrysler">Chrysler</option>
+													<option value="dodge">Dodge</option>
+													<option value="fiat">Fiat</option>
+													<option value="hyndai">Hyndai</option>
+													<option value="infinity">Infinity</option>
+													<option value="jeep">Jeep</option>
+													<option value="saab">Saab</option>
+													<option value="toyota">Toyota</option>
+													<option value="volkswagen">Volkswagen</option>
+													<option value="volvo">Volvo</option>
+												</select><br/>
+											<label for="year"><font color="white">Car Year:</font></label>
+												<select	name="year">
+													<option value="2016">2016</option>
+													<option value="2015">2015</option>
+													<option value="2014">2014</option>
+													<option value="2013">2013</option>
+													<option value="2012">2012</option>
+													<option value="2011">2011</option>
+												</select><br/>										
+											<input type="submit" value="Search for car" />										
+									</fieldset>
+								</form>
 							</section>
 
 						</div>
