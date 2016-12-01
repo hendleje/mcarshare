@@ -188,6 +188,7 @@ app.get("/directiontocar", function(req, res) {
 			firstName : currentuser.firstname,
 			lastName : currentuser.lastname
 		});
+		});
 	}
 });
 
