@@ -561,13 +561,15 @@ app.post("/registernewuser", function(req, res) {
 		var json = JSON.stringify(userdata);
 		fs.writeFile(__dirname + '/public/customerdata.json', json);
 	})
-	
+	var host = req.get('host');
+	var host = "http://" + host;
+	var link = require
 	var mailOptions = {
 		from: '"MCarshare" <mcarshare4@gmail.com>', // sender address
-		to: '', // list of receivers
+		to: req.body.email, // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
 		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this ', // plaintext body
-		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this <a href = "' + link + '/verification/' + id + '"> Link</a>.' // html body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this <a href = "' + host + '/verification/' + id + '"> Link</a>.' // html body
 	};
 	
 	mailOptions.to = req.body.email;
