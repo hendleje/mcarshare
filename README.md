@@ -1,8 +1,10 @@
 # mcarshare
+After downloading the GITHUB project, import it as a new node.js express project and as a hogan.js.
+to run locally, run the app.js located in the root folder as a node.js application.  
 
 ## Usage
 Please create an own user with a valid email address to use the system.
-Short description how to run our application
+You will receive an email with the verification link. Follow it to have access to the system.
 
 ## Structure of documentation
 All the use cases, sequence diagrams and other documentation can be found in the assignments 1, 2 and 3.
