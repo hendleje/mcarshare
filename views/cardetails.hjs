@@ -130,7 +130,6 @@ function showError(error) {
 </script>
 								<form action="directiontocar" method = "post">
 								<fieldset>
-									<input type="text" 'id="location" name="location" value="" ;/>
 									<input type="submit" value="Reserve this car"/>
 								<fieldset>
 								</form>
