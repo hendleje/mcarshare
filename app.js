@@ -396,7 +396,7 @@ app.post("/tripdetails", function(req, res) {
 				textformail += "Time of car check out: " + starttime + "<br>";
 				textformail += "Time of car return: " + endtime + "<br>";
 				textformail += "Time driven: " + rentalagreement.timedriven.toFixed(2) + "h<br>";
-				textformail += "Time costs: $" + rentalagreement.cost[0].toFixed(2) + "<br>";
+				textformail += "Time costs: $" + rentalagreement.cost[1].toFixed(2) + "<br>";
 				textformail += "Distance driven: " + rentalagreement.kmdriven.toFixed(2) + "km<br>";
 				textformail += "Distance costs: $" + rentalagreement.cost[0].toFixed(2) + "<br>";
 				textformail += "Total costs: $" + rentalagreement.sum.toFixed(2) + "<br>";
