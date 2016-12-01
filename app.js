@@ -81,12 +81,14 @@ app.post("/searchresults", function(req, res)
 						var cols = 8;		 				 
 						for (var r = 0; r < rows; r++) 
 						{
-							
+//							console.log(table);
+							console.log("required brand" + req.body.brand);
+							console.log("element" + r);
+							console.log("car brand read" + cardata[r].brand);
 							if (cardata[r].status == 'available')
 							{		
-								console.log(req.body.brand);
-								if (cardata[r].brand=="Toyota")
-								{
+								
+								if (req.body.brand=="all"){
 									table += '<tr>';
 									for (var c = 1; c <= cols; c++) 									
 									{
@@ -114,8 +116,7 @@ app.post("/searchresults", function(req, res)
 										
 									}
 								}
-								else if (cardata[r].brand=="Volkswagen")
-								{
+								if (cardata[r].brand==req.body.brand){
 									table += '<tr>';
 									for (var c = 1; c <= cols; c++) 									
 									{
@@ -142,17 +143,15 @@ app.post("/searchresults", function(req, res)
 										}
 										
 									}
-								}
-//								else 
-//								{
+								} 
+//								else if (req.body.brand ="all") {
 //									table += '<tr>';
 //									for (var c = 1; c <= cols; c++) 									
 //									{
 //										
 //										if (c == 1) {
 //											table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
-//										}
-//										if (c == 2) {
+//										} else if (c == 2) {
 //											table += '<td>'+ cardata[r].carclass+'</td>';
 //										} else if (c == 3) {
 //											table += '<td>'+ cardata[r].brand+'</td>';
@@ -173,6 +172,12 @@ app.post("/searchresults", function(req, res)
 //									}
 //								}
 								table += '</table>';
+								console.log("table" + table);
+								var empty = '<tr><th style ="text-align:"left">Picture</th><th>Class</th><th>Brand</th><th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr></table></table></table></table></table></table>';
+								if (table == empty)
+								{
+									table= '<tr><th style ="text-align:"left">Picture</th><th>Class</th><th>Brand</th><th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr><tr><td>Your Search returned 0 Results.<td></tr>';
+								}
 							}
 							
 						}
