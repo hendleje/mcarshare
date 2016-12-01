@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill'), Datamanagement = require('./routes/datamanagement');
+var express = require('express'), http = require('http'), path = require('path'), fs = require('fs'), Customer = require('./routes/customer'), Car = require('./routes/car'), Location = require('./routes/location'), Rentalagreement = require('./routes/rentalagreement'), Bill = require('./routes/bill');
 
 var nodemailer = require('nodemailer');
 
@@ -13,6 +13,8 @@ var transporter = nodemailer.createTransport('smtps://mcarshare4%40gmail.com:stu
 var app = express();
 var currentcar, currentuser, rentalagreement;
 var count = 0;
+
+var link = "http://localhost:3343/";
 
 // all environments
 app.set('port', process.env.PORT || 3343);
@@ -380,7 +382,7 @@ app.post("/tripdetails", function(req, res) {
 				
 				var textformail = "Hello " + currentuser.firstname + " " + currentuser.lastname + ",<br><br>";
 				textformail += "Please pay the bill of your last trip by clicking on this ";
-				textformail += '<a href = "http://localhost:3343/billpaid/' +bill.id +'"> Link</a><br><br>';
+				textformail += '<a href = "' + link + 'billpaid/' +bill.id +'"> Link</a><br><br>';
 				textformail += "Time of car check out: " + starttime + "<br>";
 				textformail += "Time of car return: " + endtime + "<br>";
 				textformail += "Time driven: " + rentalagreement.timedriven.toFixed(2) + "h<br>";
@@ -555,7 +557,7 @@ app.post("/registernewuser", function(req, res) {
 		to: '', // list of receivers
 		subject: 'Verification for your MCarShare account', // Subject line
 		text: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this ', // plaintext body
-		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this <a href = "http://localhost:3343/verification/' + id + '"> Link</a>.' // html body
+		html: 'Hello ' + req.body.firstName + " " + req.body.lastName + ', <br> To verify your account, please follow this <a href = "' + link + '/verification/' + id + '"> Link</a>.' // html body
 	};
 	
 	mailOptions.to = req.body.email;
