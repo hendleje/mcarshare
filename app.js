@@ -79,48 +79,44 @@ app.get("/searchresults", function(req, res)
 						table += '<th>Car Model</th><th>Distance</th><th>Price per km</th><th>Price per hr</th><th>Rent</th></tr>';
 						var rows = cardata.length;
 						var cols = 7;		 				 
-						for (var r = 0; r < rows; r++) {
-							table += '<tr>';
-							for (var c = 1; c <= cols; c++) {
-								if (c == 1) {
-									table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+						for (var r = 0; r < rows; r++) 
+						{
+							
+							if (cardata[r].status == 'available')
+							{
+								table += '<tr>';
+								for (var c = 1; c <= cols; c++) 
+								{
+									if (c == 1) {
+										table += '<td><img src="'+cardata[r].picture+'"<align="left"></td>';
+									}
+									if (c == 2) {
+										table += '<td>'+ cardata[r].carclass+'</td>';
+									} else if (c == 3) {
+										table += '<td>'+ cardata[r].model+'</td>';
+									} else if (c == 4) {
+										table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
+									} else if (c == 5) {
+										table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
+									} else if (c == 6) {
+										table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
+									} else if (c == 7) {
+										table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
+										table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
+										table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
+									}
+									
 								}
-								if (c == 2) {
-									table += '<td>'+ cardata[r].carclass+'</td>';
-								} else if (c == 3) {
-									table += '<td>'+ cardata[r].model+'</td>';
-								} else if (c == 4) {
-									table += '<td><font size="5" color="green">'+ cardata[r].distance+'</font></td>';
-								} else if (c == 5) {
-									table += '<td><font size="10" color="Black">$ '+ cardata[r].kmcost+'</font> / km</td>';
-								} else if (c == 6) {
-									table += '<td><font size="10" color="Black">$ '+ cardata[r].timecost+'</font> / 1h</td>';
-								} else if (c == 7) {
-									table += '<td><form id=car"' + cardata[r].id + '" action="cardetails" method = "post"><fieldset><input type="text"' ;
-									table += 'id="carid" name="carid" value="' + cardata[r].id + '" style="display: none";/>';
-									table+= '<input type="submit"  value="View details/ Reserve car"/><fieldset></form></td>';
-								}
+								table += '</table>';
 							}
-							table += '</table>';
+							
 						}
-						if (cardata[0].status == 'available') 
+						res.render("searchresults", 
 						{
-							res.render("searchresults", {
-								firstName : currentuser.firstname,
-								lastName : currentuser.lastname,
-			//					picture : cardata[0].picture,
-			//					carclass : cardata[0].carclass,
-			//					model : cardata[0].model,
-			//					distance : cardata[0].distance,
-			//					kmprice : cardata[0].kmcost,
-			//					hrprice : cardata[0].timecost
-								table
-							});
-						}
-						else 
-						{
-							res.render("searchresults");
-						}
+							firstName : currentuser.firstname,
+							lastName : currentuser.lastname,
+							table
+						});
 					})
 			}
 		});
@@ -169,27 +165,25 @@ app.get("/directiontocar", function(req, res) {
 		res.render("signin", {
 			info : 'Please sign in to view directions to car.'
 		});
-	} else {
+	} else 
+	{
 		fs.readFile(__dirname + '/public/locationdata.json', 'utf8', function(err,
 				data) {
 			if (err)
 				throw err;
-			var cardata = JSON.parse(data);
-			var i = req.body.carid -1;
-			// for (var i = 0; i < cardata.length; ++i) {
-			// if (cardata[i].id == idfromcarchosen) {
-			currentcar = new Car(cardata[i].id, cardata[i].plate, cardata[i].brand,
-					cardata[i].model, cardata[i].color, cardata[i].year,
-					cardata[i].category, cardata[i].status, cardata[i].kmcost,
-					cardata[i].timecost, cardata[i].creator,
-					cardata[i].picture, cardata[i].location,
-					cardata[i].description, cardata[i].carclass);
-		res.render("directiontocar", {
-			firstName : currentuser.firstname,
-			lastName : currentuser.lastname
+			var locationdata = JSON.parse(data);
+			var location = currentcar.location;
+			var latitude = locationdata[location].latitude;
+			var longitude = locationdata[location].longitude;
+		res.render("directiontocar", 
+		{
+			latitude,
+			longitude
 		});
+	});
 	}
 });
+
 
 app.get("/tripdetails", function(req, res) {
 	if (typeof currentuser == 'undefined') {
@@ -605,7 +599,7 @@ app.post("/directiontocar", function(req, res) {
 			if (currentuser.checkpreviousbill() == true) {
 				// Change car status to reserved
 				currentcar.changestatus("reserved");
-				
+				currentLocation = req.body.location;
 				// Get location of car to direct to car
 				fs.readFile(__dirname + '/public/locationdata.json', 'utf8',					
 						function(err, data) {
@@ -630,7 +624,8 @@ app.post("/directiontocar", function(req, res) {
 								latto : latcar,
 								longto : longcar,
 								firstName : currentuser.firstname,
-								lastName : currentuser.lastname
+								lastName : currentuser.lastname,
+								currentLocation
 							});
 						})
 			} else {

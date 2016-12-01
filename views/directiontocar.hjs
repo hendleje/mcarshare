@@ -64,13 +64,45 @@
 											    color: white;
 											}
 											</style>
+											<p id="demo"></p>
+											<script>
+											var x = document.getElementById("demo");
+											
+										    if (navigator.geolocation) {
+										        navigator.geolocation.getCurrentPosition(showPosition, showError);
+										    } else { 
+										        x.innerHTML = "Geolocation is not supported by this browser.";
+										    }
+											
+											function showPosition(position) {
+											    x.value = position.coords.latitude + 
+											    ",  " + position.coords.longitude;
+											}
+											
+											function showError(error) {
+											    switch(error.code) {
+											        case error.PERMISSION_DENIED:
+											            x.innerHTML = "User denied the request for Geolocation."
+											            break;
+											        case error.POSITION_UNAVAILABLE:
+											            x.innerHTML = "Location information is unavailable."
+											            break;
+											        case error.TIMEOUT:
+											            x.innerHTML = "The request to get user location timed out."
+											            break;
+											        case error.UNKNOWN_ERROR:
+											            x.innerHTML = "An unknown error occurred."
+											            break;
+											    }
+											}
+											</script>
 											<table id="cars">											  
 												   <tr>
 												    <td><iframe id="mapframe"
   width="600"
   height="450"
   frameborder="0" style="border:0"
-  src=https://www.google.com/maps/embed/v1/directions?key=AIzaSyCi9zdagO0xdTQVueKZDLbV5IJTPEU4IbA&origin=47.574454,-52.735613&destination=47.5635916,-52.712543" allowfullscreen>
+  src=https://www.google.com/maps/embed/v1/directions?key=AIzaSyCi9zdagO0xdTQVueKZDLbV5IJTPEU4IbA&origin=47.574259,-52.735366&destination={{latto}},{{longto}} allowfullscreen>
 </iframe></td></td>
 												  </tr>
 												</table>
